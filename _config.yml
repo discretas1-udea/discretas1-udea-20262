@@ -17,7 +17,7 @@ title: Matemáticas Discretas 1
 tagline: Universidad de Antioquia - 2026-1
 description: Sitio web del curso de Matemáticas Discretas 1.
 author: Matemáticas Discretas UdeA
-baseurl: '/discretas1-udea-20261' # the subpath of your site, e.g. /blog
+baseurl: '/discretas1-udea-20262' # the subpath of your site, e.g. /blog
 url: 'https://discretas1-udea.github.io' # the base hostname & protocol for your site, e.g. http://example.com
 exclude: ["Gemfile", "Gemfile.lock", "LICENSE"]
 
@@ -29,7 +29,7 @@ heading_anchors: true
 permalink: pretty
 aux_links:
   Repositorio del Curso:
-    - 'https://github.com/discretas1-udea/discretas1-udea-20261'
+    - 'https://github.com/discretas1-udea/discretas1-udea-20262'
 footer_content:
 
 # Collections for website data
