@@ -139,7 +139,7 @@ A lo largo del curso usaremos tres notaciones equivalentes para representar un a
 
 | Forma | Representación | ¿Cuándo se usa? |
 |:---|:---:|:---|
-| **Estándar (barra)** | $\begin{array}{l} p \to q \\ p \\ \hline \therefore\ q \end{array}$ | Para demostraciones paso a paso. |
+| **Estándar (barra)** | $\dfrac{{p\rightarrow q}\atop{p}}{\therefore\ q}$ | Para demostraciones paso a paso. |
 | **Horizontal (secuente)** | $p\rightarrow q,\ p\ \vdash\ q$ | Para enunciar un problema de forma compacta. El símbolo $\vdash$ se lee *"se deduce"*. |
 | **Condicional (gran implicación)** | $\bigl[(p\rightarrow q)\land p\bigr]\rightarrow q$ | Para validar con **tabla de verdad**. |
 
@@ -390,15 +390,15 @@ Estas son las reglas que usaremos. En cada fracción, lo que está **arriba** de
 {% raw %}
 | Nombre | Regla | Idea intuitiva |
 | :--- | :---: | :--- |
-| **Modus Ponens** | $\begin{array}{l} p \to q \\ p \\ \hline \therefore\ q \end{array}$ | Si se da la causa, ocurre el efecto. |
-| **Modus Tollens** | $\begin{array}{l} p \to q \\ \neg q \\ \hline \therefore\ \neg p \end{array}$ | Si no veo el efecto, la causa no ocurrió. |
-| **Silogismo hipotético** (Transitividad) | $\begin{array}{l} p \to q \\ q \to r \\ \hline \therefore\ p \to r \end{array}$ | Si $p$ lleva a $q$ y $q$ lleva a $r$, entonces $p$ lleva a $r$. |
-| **Silogismo disyuntivo** (Eliminación) | $\begin{array}{l} p \lor q \\ \neg p \\ \hline \therefore\ q \end{array}$ | Si tengo dos opciones y descarto una, queda la otra. |
-| **Simplificación** | $\begin{array}{l} p \land q \\ \hline \therefore\ p \end{array}$ | Si tengo el todo, tengo cada parte. |
-| **Adición** | $\begin{array}{l} p \\ \hline \therefore\ p \lor q \end{array}$ | Si algo es verdad, "eso o cualquier cosa" también. |
-| **Conjunción** | $\begin{array}{l} p \\ q \\ \hline \therefore\ p \land q \end{array}$ | Puedo unir dos verdades independientes. |
-| **Prueba por casos** | $\begin{array}{l} p \lor q \\ p \to r \\ q \to r \\ \hline \therefore\ r \end{array}$ | Si mis dos opciones llevan al mismo sitio, ese sitio es seguro. |
-| **Resolución** | $\begin{array}{l} p \lor q \\ \neg p \lor r \\ \hline \therefore\ q \lor r \end{array}$ | Se cancela la variable que aparece afirmada y negada; queda el resto. |
+| **Modus Ponens** | $\dfrac{{p\rightarrow q}\atop{p}}{\therefore\ q}$ | Si se da la causa, ocurre el efecto. |
+| **Modus Tollens** | $\dfrac{{p\rightarrow q}\atop{\neg q}}{\therefore\ \neg p}$ | Si no veo el efecto, la causa no ocurrió. |
+| **Silogismo hipotético** (Transitividad) | $\dfrac{{p\rightarrow q}\atop{q\rightarrow r}}{\therefore\ p\rightarrow r}$ | Si $p$ lleva a $q$ y $q$ lleva a $r$, entonces $p$ lleva a $r$. |
+| **Silogismo disyuntivo** (Eliminación) | $\dfrac{{p\lor q}\atop{\neg p}}{\therefore\ q}$ | Si tengo dos opciones y descarto una, queda la otra. |
+| **Simplificación** | $\dfrac{p\land q}{\therefore\ p}$ | Si tengo el todo, tengo cada parte. |
+| **Adición** | $\dfrac{p}{\therefore\ p\lor q}$ | Si algo es verdad, "eso o cualquier cosa" también. |
+| **Conjunción** | $\dfrac{{p}\atop{q}}{\therefore\ p\land q}$ | Puedo unir dos verdades independientes. |
+| **Prueba por casos** | $\dfrac{{p\lor q}\atop{p\rightarrow r,\ q\rightarrow r}}{\therefore\ r}$ | Si mis dos opciones llevan al mismo sitio, ese sitio es seguro. |
+| **Resolución** | $\dfrac{{\neg p\lor r}\atop{p\lor q}}{\therefore\ q\lor r}$ | Se cancela la variable que aparece afirmada y negada; queda el resto. |
 {% endraw %}
 
 
