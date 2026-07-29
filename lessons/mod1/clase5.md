@@ -137,11 +137,13 @@ Ambos tienen exactamente la forma $p\rightarrow q$; $p$; por lo tanto $q$, y amb
 
 A lo largo del curso usaremos tres notaciones equivalentes para representar un argumento. Conviene reconocer las tres, porque las usaremos según el contexto (demostración manual, enunciado compacto o validación por tabla).
 
+{% raw %}
 | Forma | Representación | ¿Cuándo se usa? |
 |:---|:---:|:---|
 | **Estándar (barra)** | $\dfrac{{p\rightarrow q}\atop{p}}{\therefore\ q}$ | Para demostraciones paso a paso. |
 | **Horizontal (secuente)** | $p\rightarrow q,\ p\ \vdash\ q$ | Para enunciar un problema de forma compacta. El símbolo $\vdash$ se lee *"se deduce"*. |
 | **Condicional (gran implicación)** | $\bigl[(p\rightarrow q)\land p\bigr]\rightarrow q$ | Para validar con **tabla de verdad**. |
+{% endraw %}
 
 La forma condicional es clave: convierte todo el argumento en **una sola proposición**. La conjunción de todas las premisas se pone como antecedente, y la conclusión como consecuente:
 
