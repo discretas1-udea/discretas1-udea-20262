@@ -7,215 +7,86 @@ math: mathjax
 ---
 
 ![Built with AI](https://img.shields.io/badge/Built%20with-AI-blue.svg)
-# Clase 05 – Validez e Inferencia: Tablas (Modelos) vs Reglas (Derivación)
+
+# 🐛 El Bug de la Polilla — Cazando Errores con Lógica
+{: .no_toc }
+### Validez de Argumentos: Tablas de Verdad, Silogismo y Reglas de Inferencia (Enfoque Axiomático)
 {: .no_toc }
 
-En la clase anterior aprendimos a simplificar expresiones usando axiomas de equivalencia ($A \equiv B$). Hoy daremos un paso más allá: no solo queremos saber si dos cosas son iguales, queremos saber si **una conclusión se sigue necesariamente de unas premisas**.
-
-Entramos al corazón de la lógica matemática: la **Argumentación**.
+*Notas de clase — Matemáticas Discretas 1 · Módulo 1: Lógica Proposicional*
+*Universidad de Antioquia · Ingeniería de Sistemas*
 
 ---
 
-## Tabla de contenidos
+## Cerrando el caso anterior
+
+En la sesión pasada dejamos a Sherlock Holmes con una ecuación en la mano —$\neg(L\land F)\rightarrow\neg R$— pero sin forma de decidir entre dos testimonios que se contradecían. *"Eso no es álgebra de proposiciones"*, concluyó, *"es validez de argumentos."*
+
+Las herramientas de esta sesión le habrían dado el cierre en pocas líneas. Con la declaración del Sr. Finch confirmando que sí tuvo acceso a la llave **y** se ausentó del salón ($L\land F$), y aplicando un solo paso de razonamiento —el que en esta clase llamaremos *Modus Tollens*— Holmes descarta a Whitmore y señala a Finch sin margen de duda. El caso queda cerrado.
+
+Pero lo que hizo Holmes por *intuición entrenada*, nosotros vamos a hacerlo por *método*. Y para presentar ese método, conviene mirar a alguien que convirtió la cacería de una pista escurridiza en una disciplina de ingeniería.
+
+## Antes de comenzar — lo que ya debería saber
+
+Este documento aplica directamente las herramientas de las sesiones anteriores. Antes de continuar, verifique que puede hacer lo siguiente:
+
+- Construir e interpretar la **tabla de verdad** de una expresión con cualquier número de variables.
+- Clasificar una proposición como **tautología**, **contradicción** o **contingencia**.
+- Aplicar la **Implicación** ($p\rightarrow q\equiv\neg p\lor q$), las **Leyes de De Morgan** y el **Contrarrecíproco** ($p\rightarrow q\equiv\neg q\rightarrow\neg p$) — se usan de forma directa en las demostraciones de esta sesión.
+
+Si alguno de estos puntos no le resulta claro, repáselo en las sesiones anteriores ([Clase 5](clase5.md) y previas) antes de continuar. Este documento no depende de conexión a internet para poder estudiarlo — todo lo necesario está aquí.
+
+---
+
+## Contexto: Grace Hopper y la primera "polilla"
+
+<img src="{{ '/assets/images/lessons/mod1/clase5/grace-hopper.jpg' | relative_url }}" alt="Grace Hopper, contralmirante de la Marina de EE. UU. y pionera de la computación" width="260" align="right" style="margin-left: 1rem;">
+
+En 1947, un equipo de la Universidad de Harvard trabajaba en el **Mark II**, una computadora electromecánica gigantesca hecha de relés y cables. En algún momento la máquina empezó a arrojar errores consistentes. Tras revisar el hardware pieza por pieza, el equipo encontró la causa entre los contactos del **Relé #70, Panel F**: una polilla atrapada. La retiraron, la pegaron con cinta en la bitácora del laboratorio y anotaron al lado:
+
+> *"First actual case of bug being found."*
+> (Primer caso real de un *bug* encontrado.)
+
+<img src="{{ '/assets/images/lessons/mod1/clase5/first-bug.jpg' | relative_url }}" alt="Página de la bitácora del Mark II de 1947 con la polilla pegada y la anotación 'First actual case of bug being found'" width="420">
+
+Entre quienes trabajaban en ese equipo estaba **Grace Hopper**, matemática y luego contralmirante de la Marina de los Estados Unidos, una de las mentes más influyentes de la computación temprana: fue pionera de los **compiladores** (los programas que traducen código a lenguaje de máquina) y del lenguaje **COBOL**, y ayudó a popularizar los términos *bug* y *debugging* que usted usará el resto de su carrera.
+
+> **Nota histórica honesta.** La anécdota de la polilla es real y esa bitácora se conserva hoy en el Smithsonian. Sin embargo, el término *bug* ("bicho", en el sentido de fallo técnico) ya se usaba antes en ingeniería —se le atribuye incluso a Thomas Edison—, y hay cierto debate sobre quién exactamente halló la polilla ese día. Lo tomamos como lo que es: una buena historia, no un dato absoluto. Lo que sí es indiscutible es el método.
+{: .note }
+
+Lo importante para nosotros no es la polilla. Es *cómo* se encontró: no adivinando, sino **aislando la causa de forma sistemática**, descartando lo que no podía ser hasta que solo quedó una posibilidad. Ese es exactamente el razonamiento que esta clase convierte en matemática.
+
+---
+
+## El caso — un bug que nadie logra reproducir
+
+Un equipo pequeño mantiene una aplicación en producción. Desde hace días, un error aparece de forma intermitente y nadie logra ponerse de acuerdo sobre su causa. En la reunión de depuración, cada integrante aporta una observación que ha confirmado revisando los registros (*logs*) del sistema:
+
+- **Ana:** *"Si el error aparece, entonces el servicio de pagos registró un tiempo de espera agotado (timeout)."*
+- **Beto:** *"En los logs no hay ningún timeout del servicio de pagos."*
+- **Carla:** *"O bien falló el servicio de pagos, o bien falló la caché — el monitoreo confirma que uno de los dos falló."*
+- **Diego:** *"Si falló la caché, entonces el tiempo de respuesta se disparó por encima de un segundo."*
+
+Cada afirmación, por separado, es un hecho verificado. La pregunta del equipo es: **con estos hechos, ¿qué podemos concluir con certeza sobre la causa?** ¿Se puede *demostrar* dónde está el problema, o cada quien está adivinando?
+
+Al final de esta sesión volveremos a esta reunión y cerraremos el caso — no por votación ni por corazonada, sino con una deducción que cualquiera del equipo pueda verificar paso a paso.
+
+## Tabla de Contenidos
 {: .no_toc .text-delta }
+
 1. TOC
 {:toc}
 
 ---
 
-## Repaso: Equivalencia Lógica y El Camino hacia la Inferencia
+# Parte I — ¿Qué es un Argumento y cuándo es Válido?
 
-Antes de adentrarnos en el concepto de **Validez** (¿es correcto mi razonamiento?), es fundamental asegurar que dominamos el concepto de **Equivalencia** (¿dicen lo mismo estas dos frases?).
+## I.1 Argumentos: premisas y conclusión
 
-A lo largo del curso, hemos evolucionado desde una perspectiva informal de las proposiciones hacia un enfoque formal apoyado en el **Álgebra Proposicional**. Este cambio nos ha permitido dejar de depender de la intuición lingüística para confiar en reglas matemáticas precisas.
-
-### ¿Qué significa realmente $A \equiv B$?
-
-Diremos que dos expresiones lógicas $A(p,q,\dots)$ y $B(p,q,\dots)$ son **lógicamente equivalentes** ($A \equiv B$) si, y solo si:
-> **Al evaluarlas para TODAS las posibles combinaciones de verdad, producen exactamente el mismo resultado.**
-
-En términos prácticos: $A$ y $B$ son "sinónimos matemáticos". Puedo reemplazar uno por otro en cualquier fórmula sin alterar su valor de verdad.
-
-Recordemos las dos herramientas que tenemos para verificar esto:
-1.  **Enfoque Semántico (Tablas de Verdad):** Fuerza bruta. Verificamos fila por fila. Es infalible pero lento.
-2.  **Enfoque Sintáctico (Axiomático):** Elegancia matemática. Transformamos la expresión usando leyes permitidas hasta que coincida con la otra.
-  
-### Inventario Rápido de Leyes
-
-Para los ejercicios de demostración que vendrán, mantenga esta tabla a la mano. Estas son sus "herramientas de construcción":
-
-| Nombre | Forma $\land$ / $\to$ | Forma $\lor$ |
-| :--- | :--- | :--- |
-| **Conmutativa** | $p \land q \equiv q \land p$ | $p \lor q \equiv q \lor p$ |
-| **Asociativa** | $(p \land q) \land r \equiv p \land (q \land r)$ | $(p \lor q) \lor r \equiv p \lor (q \lor r)$ |
-| **Distributiva** | $p \land (q \lor r) \equiv (p \land q) \lor (p \land r)$ | $p \lor (q \land r) \equiv (p \land q) \land (p \land r)$ |
-| **De Morgan** | $\neg(p \land q) \equiv \neg p \lor \neg q$ | $\neg(p \lor q) \equiv \neg p \land \neg q$ |
-| **Identidad** | $p \land V \equiv p$ | $p \lor F \equiv p$ |
-| **Dominación** | $p \land F \equiv F$ | $p \lor V \equiv V$ |
-| **Absorción** | $p \land (p \lor q) \equiv p$ | $p \lor (p \land q) \equiv p$ |
-| **Complemento** | $p \land \neg p \equiv F$ | $p \lor \neg p \equiv V$ |
-| **Doble Negación** | $\neg(\neg p) \equiv p$ | — |
-| **Implicación** | $p \to q \equiv \neg p \lor q$ | — |
-| **Contrapositiva** | $p \to q \equiv \neg q \to \neg p$ | *(Muy útil)* |
-| **Equivalencia** | $p \leftrightarrow q \equiv (p \to q) \land (q \to p)$ | — |
-
-#### Ejemplo de repaso
-{: .no_toc }
-
-Vamos a calentar motores demostrando una propiedad clásica de la lógica: **La contrapositiva del bicondicional**.
-Demuestre que:
-
-$$p \leftrightarrow q \equiv \neg p \leftrightarrow \neg q$$
-
-**Solución**: A continuación se muestra la demostración al aplicar ambos metodos.
-
-* **Metodo basado en tablas de verdad**: A continuación se muestra la tabla de verdad evaluada para esta expresión:
- 
-  | $p$ | $q$ | $\neg p$ | $\neg q$ | **$p \leftrightarrow q$** | **$\neg p \leftrightarrow \neg q$** |  **$p \leftrightarrow q \equiv \neg p \leftrightarrow \neg q$** | ¿Iguales? |
-  | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
-  | 0 | 0 | 1 | 1 | **1** | **1** | **1** | ✅ |
-  | 0 | 1 | 1 | 0 | **0** | **0** | **1** | ✅ |
-  | 1 | 0 | 0 | 1 | **0** | **0** | **1** | ✅ |
-  | 1 | 1 | 0 | 0 | **1** | **1** | **1** | ✅ |
-
-  Como la proposición $(p \leftrightarrow q) \leftrightarrow (\neg p \leftrightarrow \neg q)$ resulta ser una **tautología**, es válido afirmar que:
-
-  $$
-  \therefore\;\; p \leftrightarrow q \equiv \neg p \leftrightarrow \neg q
-  $$
-
-* **Metodo axiomático**: Partiendo del lado derecho de la expresión ($\neg p \leftrightarrow \neg q$), aplicamos las leyes del inventario para llegar al lado izquierdo:
-  
-  Partimos del lado derecho ($\neg p \leftrightarrow \neg q$) e intentaremos transformarlo paso a paso para llegar al lado izquierdo ($p \leftrightarrow q$).
-
-  | Paso | Expresión | Justificación |
-  | :---: | :--- | :--- |
-  | **1** | $\neg p \leftrightarrow \neg q$ | Expresión original (lado derecho) |
-  | **2** | $(\neg p \to \neg q) \land (\neg q \to \neg p)$ | **Definición de Bicondicional** ($A \leftrightarrow B \equiv (A \to B) \land (B \to A)$) |
-  | **3** | $(\neg(\neg p) \lor \neg q) \land (\neg(\neg q) \lor \neg p)$ | **Definición de Condicional** ($A \to B \equiv \neg A \lor B$) |
-  | **4** | $(p \lor \neg q) \land (q \lor \neg p)$ | **Doble Negación** |
-  | **5** | $(\neg q \lor p) \land (\neg p \lor q)$ | **Conmutativa** (Ordenamos para ver el condicional) |
-  | **6** | $(q \to p) \land (p \to q)$ | **Definición de Condicional** (Inversa: $\neg A \lor B \equiv A \to B$) |
-  | **7** | $(p \to q) \land (q \to p)$ | **Conmutativa** (del operador $\land$) |
-  | **8** | $p \leftrightarrow q$ | **Definición de Bicondicional** |
-
-  Por lo tanto,
-
-  $$
-  \therefore\;\; p \leftrightarrow q \equiv \neg p \leftrightarrow \neg q
-  $$
-
-  > **Reflexión:** Note que en el paso 6 recuperamos dos condicionales. El hecho de que $(q \to p) \land (p \to q)$ sea lo mismo que $p \leftrightarrow q$ nos muestra la simetría perfecta de esta estructura.
-
-
-## El proceso deductivo
-
-### Contextualización: De la Opinión a la Demostración
-
-Argumentar es una actividad cotidiana. Lo hacemos constantemente al discutir sobre política, religión o fútbol, o cuando intentamos convencer a alguien de nuestro punto de vista. En esos escenarios informales, solemos mezclar hechos con emociones, intuiciones y opiniones.
-
-Sin embargo, en el ámbito académico y científico, "argumentar" tiene un significado mucho más estricto. Seguramente, en el pasado usted ha realizado exámenes de comprensión lectora donde, a partir de un texto, debe responder preguntas lógicas para demostrar que entendió lo leído.
-
-Analicemos esto con el siguiente relato deductivo:
-
-{: .note }
-> **El Caso del Zafiro Desaparecido**
->
-> El inspector Lestrade irrumpió en la sala, visiblemente frustrado.
-> — "Holmes, es imposible. El **Zafiro de Sussex** ha desaparecido de la caja fuerte, pero no hay signos de fuerza bruta. Tenemos tres sospechosos, pero ninguna prueba."
->
-> Sherlock Holmes, encendiendo su pipa, respondió con calma:
-> — "Lestrade, los hechos hablan por sí solos si se escuchan con lógica. Repasemos lo que sabemos:"
->
-> 1. "Sabemos que si el ladrón hubiera forzado la ventana, entonces habría huellas de barro en la alfombra, pues anoche llovió a cántaros."
-> 2. "Sin embargo, he revisado la alfombra con mi lupa y no hay ni una sola mancha de barro."
-> 3. "Ahora bien, por la naturaleza de la caja fuerte, sabemos que o bien el ladrón forzó la ventana o bien tenía la llave maestra."
-> 4. "Y finalmente, un hecho doloroso pero cierto: si el ladrón tenía la llave maestra, entonces el mayordomo es cómplice, pues solo él custodia esa llave."
-
-Ante este escenario, una pregunta natural sería: **¿Quién es el culpable y por qué?**
-
-Nuestra intuición nos grita la respuesta rápidamente ("¡El mayordomo!"). Pero, **¿cómo podemos estar seguros al 100%?** ¿Cómo podemos garantizar que nuestra conclusión no es una corazonada, sino una verdad ineludible?
-
-En esta sección, conectaremos esta narrativa con la **lógica formal**. Veremos cómo transformar estas pistas (premisas) en fórmulas matemáticas y cómo el **proceso deductivo** nos permite "calcular" al culpable sin margen de error, utilizando las reglas de inferencia.
-
-### Sobre la argumentación
-
-**Argumentar** es el proceso de presentar una secuencia de enunciados, denominados **premisas** con el objetivo de demostrar la veracidad de una afirmación final, llamada **conclusión**. 
-
-Retornando a nuestro **El Caso del Zafiro Desaparecido**, las premisas, escritas en un tono mas formal con el fin de hacer mas facil la visualización de las proposiciones (para su posterior traducción a lenguaje simbolico) que hacen parte de la historia:
-1. "Si el ladrón hubiera forzado la ventana, entonces habría huellas de barro en la alfombra."
-2. "No hay manchas de barro en la alfombra."
-3. "El ladron forzo la ventana o bien tenía la llave maestra."
-4. "Si el ladrón tenía la llave maestra, entonces el mayordomo es cómplice."
-
-Por otro lado, para responder a la pregunta **¿quién es el culpable?**, la afirmación que se pretende justificar a partir de estas premisas es:
-
-> **"El mayordomo es cómplice."**
-
-Esta afirmación puede verse como una **proposición candidata a conclusión**, cuya veracidad no se asumirá de entrada, sino que deberá derivarse lógicamente a partir de las premisas mediante un proceso deductivo.
-
-Antes de proceder a trabajar la historia dentro del contexto le la logica proposicional debemos traducir las proposiciones y la conclusión anterior a lenguaje formal. Para ello iniciamos definiendo las variables logicas asociadas a las proposiciones atomicas:
-* **$p$**: El ladrón forzó la ventana.
-* **$q$**: Hay huellas de barro en la alfombra.
-* **$r$**: El ladrón tenia llave maestra.
-* **$s$**: El mayordomo es complice.
-
-Ahora, expresando las premisas y la conclusion en lenguaje formal tenemos:
-* **Premisas**:
-  1. "Si el ladrón hubiera forzado la ventana, entonces habría huellas de barro en la alfombra."
-     
-     $$
-     p \to q
-     $$
-  2. "No hay manchas de barro en la alfombra."
-     
-     
-     $$
-     \neg q
-     $$
-
-  3. "El ladron forzo la ventana o bien tenía la llave maestra."
-     
-     $$
-     p \lor r
-     $$
-
-  4. "Si el ladrón tenía la llave maestra, entonces el mayordomo es cómplice."
-     
-     $$
-     r \to s
-     $$
-     
-
-* **Conclusión**:
-  
-  > "El mayordomo es cómplice."
-  
-  $$
-  s
-  $$
-
-En, resumen nuestra historia **El Caso del Zafiro Desaparecido** expresada en lenguaje formal, queda de la siguiente manera:
+En lógica proposicional, un **argumento** es una secuencia de proposiciones. Todas, excepto la última, se llaman **premisas**; la última se llama **conclusión**. Lo escribimos poniendo las premisas sobre una línea y la conclusión debajo:
 
 $$
-\begin{array}{l}
-p \rightarrow q \\
-\neg q \\
-p \lor r \\
-r \rightarrow s \\
-\hline
-\therefore\ s
-\end{array}
-$$
-
-Si observamos lo anterior, desde la lógica proposicional, un argumento tiene una estructura lógica definida por:
-* **Premisas**: $P_1,P_2,...,P_n$, que representan los hechos, leyes o suposiciones iniciales.
-* **Conclusión**: $(Q)$, que es la afirmación que se pretende derivar a partir de las premisas.
-
-De manera general, cualquier argumento puede representarse como:
-
-$$
-\begin{array}{l}
+\begin{array}{c}
 P_1 \\
 P_2 \\
 \vdots \\
@@ -225,677 +96,677 @@ P_n \\
 \end{array}
 $$
 
-Una vez que el argumento ha sido planteado, el siguiente paso es determinar si este es **válido o no**. Esto se logra mediante un proceso de inferencia lógica, el cual permite establecer si la conclusión se deduce necesariamente de las premisas. En el caso de nuestra historia, ya hemos identificado los indicios y la conclusión esperada; sin embargo, aún no hemos explicado el **porqué**. Antes de demostrarlo, haremos una aclaración sumamente importante en la siguiente sección.
+Las premisas $P_1,P_2,\dots,P_n$ son los hechos o suposiciones de partida; la conclusión $Q$ es lo que se pretende deducir de ellos. La barra horizontal se lee *"por lo tanto"* ($\therefore$).
 
-### Representación de Argumentos
+La **forma** del argumento es su estructura lógica: el esqueleto que conecta las premisas con la conclusión, independientemente de sobre qué traten. Como veremos enseguida, la validez es una propiedad de esa forma, no del contenido.
 
-Una vez que hemos identificado las premisas y la conclusión en lenguaje natural, es fundamental organizarlas formalmente para evitar ambigüedades. En la lógica matemática y las ciencias de la computación, utilizamos tres notaciones estándar para representar argumentos.
+## I.2 Verdad no es lo mismo que Validez
 
-Es importante que se familiarice con ellas, ya que las usaremos indistintamente a lo largo del curso según el contexto (demostración manual, enunciado de examen o validación algorítmica).
+En el lenguaje cotidiano usamos *verdadero* y *válido* casi como sinónimos. En lógica son cosas distintas, y confundirlas es una de las principales fuentes de error al razonar.
 
-#### 1. Forma Estándar (Vertical)
-{: .no_toc }
+- La **verdad** es una propiedad de una **proposición**. Depende del contexto: una proposición es verdadera si lo que afirma coincide con los hechos. *"Medellín está en Colombia"* es verdadera; *"Medellín está en Brasil"* es falsa.
+- La **validez** es una propiedad de un **argumento**. Depende solo de su **forma**, no de si sus proposiciones son verdaderas en el mundo real.
 
-Es la notación clásica utilizada para realizar **demostraciones paso a paso**. Se listan las premisas numeradas una debajo de otra, se traza una línea horizontal (que representa la inferencia) y se escribe la conclusión al final.
+> Un argumento es **válido** si, y solo si, es imposible que su conclusión sea falsa cuando todas sus premisas son verdaderas. Es decir: siempre que las premisas se cumplan, la conclusión está obligada a cumplirse.
+{: .important }
 
-**Estructura:**
-
-$$
-\begin{array}{ll}
-P_1 \\
-P_2 \\
-\vdots \\
-P_n \\
-\hline
-\therefore & Q
-\end{array}
-$$
-
-* **$P_1, P_2, \dots, P_n$:** Son las premisas (hipótesis).
-* **Línea horizontal:** Delimita el fin de las premisas y el inicio de la deducción.
-* **$\therefore$**: Símbolo matemático que se lee *"Por lo tanto"*.
-* **$Q$:** Es la conclusión.
-
-#### 2. Forma Horizontal (Notación de Secuente)
-{: .no_toc }
-
-Esta notación es muy compacta y se utiliza frecuentemente en libros de texto o para enunciar problemas donde el espacio es limitado. Utiliza el símbolo **$\vdash$** (llamado *deductor* o *turnstile*) para separar el conjunto de premisas de la conclusión.
-
-**Estructura:**
-
-$$
-P_1, P_2, \dots, P_n \vdash Q
-$$
-
-* **Lectura:** *"Del conjunto de premisas $P_1$ hasta $P_n$ se deduce (es válido inferir) $Q$".*
-
-#### 3. Forma Condicional (La "Gran Implicación")
-{: .no_toc }
-
-Esta forma es crucial para verificar la validez mediante **Tablas de Verdad** o métodos computacionales. Convertimos todo el argumento en una única fórmula lógica condicional.
-
-**Estructura:**
-
-$$
-(P_1 \land P_2 \land \dots \land P_n) \to Q
-$$
-
-* **Interpretación:** *"Si todas las premisas son verdaderas simultáneamente (conjunción), entonces la conclusión debe ser verdadera".*
-* **Criterio de Validez:** Para que el argumento sea válido, esta fórmula debe ser una **Tautología** (siempre verdadera).
-
-#### Ejemplo Comparativo
-{: .no_toc }
-
-La siguiente tabla retoma nuevamente el argumento previamente obtenido para *El Caso del Zafiro Desaparecido* para el caso estandar y lo compara con las otras .
-
-| Formato | Representación | Uso Principal |
-| :--- | :--- | :--- |
-| **Estándar** | $\begin{array}{l} p \rightarrow q \\\\ \neg q \\\\ p \lor r \\\\ r \rightarrow s \\\\ \hline \therefore\ s \end{array}$ | Ideal para aplicar reglas de inferencia paso a paso. |
-| **Horizontal** | $p \rightarrow q,\ \neg q,\ p \lor r,\ r \rightarrow s \ \vdash\ s$ | Ideal para enunciados compactos. |
-| **Condicional** | $\bigl[(p \rightarrow q)\land(\neg q)\land(p \lor r)\land(r \rightarrow s)\bigr] \to s$ | Ideal para validación por **Tabla de Verdad**. |
-
-### Verdad vs validez (sin confundir conceptos)
-
-En el lenguaje cotidiano, solemos usar las palabras *verdadero* y *válido* como si fueran sinónimos. Sin embargo, en **lógica** representan conceptos distintos y no deben confundirse.
-
-#### Sobre la verdad
-
-El concepto de **verdad** se aplica a una **proposición** (un enunciado declarativo) y depende del **contexto** o de la **interpretación** que estemos usando. En particular, una proposición puede ser **verdadera** o **falsa** según si lo que afirma coincide con los hechos (o con el modelo) que estamos tomando como referencia.
-
-Por ejemplo, usando conocimiento básico de geografía (donde \(V\) = verdadero y \(F\) = falso):
-
-| Proposición | Representación | Valor de verdad | Justificación |
-|---|---:|:---:|---|
-| Medellín está en Colombia | $P_1$ | $V$ | Coincide con la realidad geográfica. |
-| Medellín está en Brasil   | $P_2$ | $F$ | No coincide con la realidad. |
-
-> En otras palabras, la **verdad** está relacionada con el **contenido** del enunciado respondiendo, dentro de un contexto, a la pregunta  
-**¿Coincide lo que afirma la proposición con los hechos (o el modelo) considerado?**
-
-#### Sobre la validez
-
-A diferencia de la **verdad**, que está relacionada con las proposiciones, la **validez** tiene que ver con los argumentos. Más exactamente, la **validez** es una propiedad de los argumentos que depende exclusivamente de su forma lógica y no de su contenido específico (contexto).
-
-
-Previamente habiamos dicho que desde el punto de vista de la logica, un argumento esta compuesto por premisas y conclusión. En lo que respecta a la validez como propiedad, un argumento se considera valido si, y solo si, es imposible que su conclusión sea falsa dado que todas sus premisas sean verdaderas. 
-
-**Ejemplos**
-
-Los siguientes ejemplos buscan aclarar el concepto de **validez**.
-
-1. En el argumento mostrado a continuación, la **forma** es válida (Modus Ponens). Además, en el contexto cotidiano, sus premisas y conclusión suelen ser verdaderas.
-
-   $$
-   \begin{array}{l}
-   \text{Si llueve, la calle se moja.}\\
-   \text{Llueve.}\\ \hline
-   \therefore\ \text{La calle se moja.}
-   \end{array}
-   $$
-
-   Del argumento anterior, se puede deducir a partir de los hechos que nos dan que cuando hay lluvia la calle se moja.
-
-2. En el siguiente argumento notese que teniendo en cuenta el contexto (nuestro conocimiento real sobre la luna y los ratones), las premisas son falsas. Sin embargo, la validez no exige que las premisas sean reales, sino que el argumento esta bien construido (tiene una estructura correca) lo cual se cumple en el ejemplo:
-  
-   $$
-   \begin{array}{l}
-   \text{Si la Luna es de queso, entonces hay ratones astronautas.}\\
-   \text{La Luna es de queso.}\\ \hline
-   \therefore\ \text{Hay ratones astronautas.}
-   \end{array}
-   $$
-  
-   Si aceptamos que las premisas son ciertas, vemos que *la forma* en que se infiere a la conclusión es correcta por lo tanto el argumento es **valido** aunque desde la realidad, lo que aqui se dice sea un disparate.
-
-   {: .tip }
-   > **Validez** no significa que lo que dices sea verdad en la vida real. Significa que, si aceptamos las premisas (aunque sean locas), la conclusión es inevitable.
-
-3. El siguiente argumento es **invalido** y es una tipo de falacia conocida **afirmar el consecuente**.
-  
-   $$
-   \begin{array}{l}
-   \text{Si estudio, apruebo.}\\
-   \text{Apruebo.}\\ \hline
-   \therefore\ \text{Estudio.}
-   \end{array}
-   $$
-
-   En este caso llegar a la coclusión de que *estudie* para lograr el resultado de *apruebar* no es clara; de hecho hay otras formas de haber *aprobado* sin haber *estudiado* (causa) que pueden ser tenidas en cuenta: hacer trampa, el examen estaba muy facil, etc. Note que la estructura del argumento da lugar a probar las otros posibles antecedentes que hagan que el consecuente sea falso, de modo que reducir la conclusión a solo *estudiar*, como se muestra en el ejemplo, no es valido.
-
-  {: .tip }
-  > La falacia de **afirmar el consecuente** consiste en ver el resultado y asumir erróneamente que solo hay una causa posible, ignorando que muchas otras cosas podrían haber provocado ese mismo resultado.
-  
-Según lo anterior, podemos concluir que:
-- **Validez** no es lo mismo que **verdad**
-- La lógica se ocupa principalmente de evaluar la **validez de los razonamientos**, no de verificar hechos.
-
-Para construir algumentos validos se utilizan **reglas de inferencia**, mediante estas, es como construimos el camino para llegar de manera logica a una concluión a partir de las premidas.
-
-## Métodos de validación de argumentos
-
-Recordemos que un **argumento** es un razonamiento compuesto por unas **premisas** y una **conclusión**, y que la relación entre ellas puede ser **válida** o **inválida**. Como vimos, la validez depende de la forma lógica del argumento, no del contenido.
-
-Esto abre preguntas naturales:
-- Si un argumento es "válido por su estructura", **¿cómo podemos verificar esa validez de manera formal?**
-- **¿Existe un procedimiento sistemático** (no solo intuición) para decidir si las premisas obligan a la conclusión?
-- Así como para la equivalencia lógica usamos métodos mecánicos (por ejemplo, tablas de verdad o transformaciones), **¿qué métodos existen para validar argumentos?**
-- Y cuando el argumento tiene muchas variables (y la tabla de verdad se vuelve enorme), **¿cómo razonamos paso a paso sin perdernos?**
-
-El objetivo de esta sección es responder estas preguntas de forma progresiva: primero veremos un método **semántico** (validación con tablas de verdad) y luego un método **sintáctico** (prueba formal), donde cada paso se justifica mediante **reglas de inferencia**.
-
-### Validación por fuerza bruta (enfoque basado en modelos o tablas de verdad)
-
-Hasta aquí ya sabemos **qué** es un argumento (premisas + conclusión) y **qué** significa que sea válido (no depende del contenido, sino de la forma). La pregunta ahora es:
-
-**¿Cómo determinamos formalmente si un argumento es válido o inválido?**
-
-La primera respuesta es un método directo, mecánico y sin ambigüedades: **las tablas de verdad**.  
-A este enfoque lo llamaremos **fuerza bruta**, porque revisa sistemáticamente *todos* los casos posibles.
-
-Recordemos la forma formal de un argumento esta dada por:
+El punto sutil es que la validez **no exige que las premisas sean verdaderas en la realidad**. Exige que la estructura sea correcta. Compare estos dos argumentos, que tienen **la misma forma**:
 
 $$
 \begin{array}{l}
-P_1 \\
-P_2 \\
-\vdots \\
-P_n \\
+\text{Si llueve, la calle se moja.} \\
+\text{Llueve.} \\
 \hline
-\therefore\ Q
+\therefore\ \text{La calle se moja.}
+\end{array}
+\qquad\qquad
+\begin{array}{l}
+\text{Si la Luna es de queso, hay ratones astronautas.} \\
+\text{La Luna es de queso.} \\
+\hline
+\therefore\ \text{Hay ratones astronautas.}
 \end{array}
 $$
 
-Teniendo en cuenta que *un argumento es válido si no existe ningún escenario donde las premisas sean verdaderas y la conclusión falsa*, podemos construir una tabla de verdad para la implicación asociada al argumento para evaluarlo mediante la siguiente expresión:
+Ambos tienen exactamente la forma $p\rightarrow q$; $p$; por lo tanto $q$, y ambos son **válidos**. En el segundo, las premisas son un disparate — pero eso no lo hace inválido. La validez solo garantiza que *si aceptáramos* las premisas, la conclusión sería inevitable.
 
-$$
-(P_1 \land P_2 \land \dots \land P_n) \to Q
-$$
+> **Validez** no significa que lo que dice el argumento sea verdad en la vida real. Significa que, si aceptamos las premisas (aunque sean absurdas), la conclusión se sigue por obligación. La lógica se ocupa de la **forma del razonamiento**, no de verificar hechos.
+{: .tip }
 
-Para determinar si un argumento es valido, una vez que la tabla ha sido construida para todos valores de entrada posibles, debemos restringir el analisis a los **renglones criticos**. Un reglon critico, es una fila de la tabla en la cual todas las premisas $P_1, P_2,\dots, P_n$ son verdaderas simultaneamende. La valides dependiende del valor de la conclusión para los renglones criticos de tal manera que el argumento es:
-* **Valido**: si para todos los valores de los renglones criticos la conclusión es verdadera.
-* **Invalido**: Si existe al menos un renglón crítico donde la conclusión sea falsa.
+## I.3 Tres formas de escribir el mismo argumento
 
-El problema de usar tabla de verdad para demostrar la validez (al igual que con las equivalencias) es la **escalabilidad** pues a mas variables proposicionales ($n$) mayor numero de filas ($2^n$) lo cual es impractico para mas de 5 variables en terminos de eficiencia.
+A lo largo del curso usaremos tres notaciones equivalentes para representar un argumento. Conviene reconocer las tres, porque las usaremos según el contexto (demostración manual, enunciado compacto o validación por tabla).
 
-{: .note }
-> En las tablas de verdad usaremos la codificación: **1 = Verdadero** y **0 = Falso**.
+| Forma | Representación | ¿Cuándo se usa? |
+|:---|:---:|:---|
+| **Estándar (barra)** | $\begin{array}{l} p \to q \\ p \\ \hline \therefore\ q \end{array}$ | Para demostraciones paso a paso. |
+| **Horizontal (secuente)** | $p\rightarrow q,\ p\ \vdash\ q$ | Para enunciar un problema de forma compacta. El símbolo $\vdash$ se lee *"se deduce"*. |
+| **Condicional (gran implicación)** | $\bigl[(p\rightarrow q)\land p\bigr]\rightarrow q$ | Para validar con **tabla de verdad**. |
 
+La forma condicional es clave: convierte todo el argumento en **una sola proposición**. La conjunción de todas las premisas se pone como antecedente, y la conclusión como consecuente:
 
-#### Ejemplo
-{: .no_toc }
+$$(P_1\land P_2\land\cdots\land P_n)\rightarrow Q$$
 
-Retomemos nuevamente al **Caso del Zafiro Desaparecido** cuyo argumento expresado en lenguaje formal era el siguiente:
+Y aquí está el puente con lo que ya sabe: **el argumento es válido si, y solo si, esta proposición es una tautología**. Validar un argumento se reduce a comprobar una tautología — algo que ya domina desde la Clase 3.
+
+## I.4 Identificar premisas y conclusión en lenguaje natural
+
+No siempre es evidente cuál es la conclusión de un argumento escrito en palabras. Ciertos adverbios y conectores actúan como señales:
+
+| Indican **premisa** | Indican **conclusión** |
+|:---|:---|
+| Puesto que, dado que, ya que | Por lo tanto, por consiguiente |
+| Como, porque, considerando | Se sigue que, se infiere que |
+| Si, siempre que, toda vez que | Luego, en consecuencia, se deduce que |
+
+Regla práctica: la conclusión suele ir después de un conector del tipo *"por lo tanto"*, y las premisas son todo lo demás que la sostiene.
+
+## I.5 Un ejemplo clásico: el argumento de Sócrates
+
+El ejemplo más antiguo y conocido de argumento válido:
 
 $$
 \begin{array}{l}
-p \rightarrow q \\
-\neg q \\
-p \lor r \\
-r \rightarrow s \\
+\text{Si Sócrates es hombre, entonces es mortal.} \\
+\text{Sócrates es hombre.} \\
 \hline
-\therefore\ s
+\therefore\ \text{Sócrates es mortal.}
 \end{array}
 $$
 
-Para evaluar la validez por fuerza bruta, seguimos los siguientes pasos:
-1. **Identificar las proposiciones atómicas del argumento**: En este caso que estas son $p, q, r$ y $s$.
-2. **Construir la tabla de verdad con todas las combinaciones posibles**: El numero de variables es $n = 4$ de modo combinaciones posible es $filas = 2^n = 2 ^ 4 = 16$:
-   
-    | # | $p$ | $q$ | $r$ | $s$ | $p \to q$ | $\neg q$ | $p \lor r$ | $r \to s$ | Premisas <br> $(p \to q)\land(\neg q)\land(p \lor r)\land(r \to s)$ | Conclusión <br> $s$ |
-    |---:|---:|---:|---:|---:|---:|---:|---:|---:|:---:|:---:|
-    | 1  | 0 | 0 | 0 | 0 |  |  |  |  |  |  |
-    | 2  | 0 | 0 | 0 | 1 |  |  |  |  |  |  |
-    | 3  | 0 | 0 | 1 | 0 |  |  |  |  |  |  |
-    | 4  | 0 | 0 | 1 | 1 |  |  |  |  |  |  |
-    | 5  | 0 | 1 | 0 | 0 |  |  |  |  |  |  |
-    | 6  | 0 | 1 | 0 | 1 |  |  |  |  |  |  |
-    | 7  | 0 | 1 | 1 | 0 |  |  |  |  |  |  |
-    | 8  | 0 | 1 | 1 | 1 |  |  |  |  |  |  |
-    | 9  | 1 | 0 | 0 | 0 |  |  |  |  |  |  |
-    | 10 | 1 | 0 | 0 | 1 |  |  |  |  |  |  |
-    | 11 | 1 | 0 | 1 | 0 |  |  |  |  |  |  |
-    | 12 | 1 | 0 | 1 | 1 |  |  |  |  |  |  |
-    | 13 | 1 | 1 | 0 | 0 |  |  |  |  |  |  |
-    | 14 | 1 | 1 | 0 | 1 |  |  |  |  |  |  |
-    | 15 | 1 | 1 | 1 | 0 |  |  |  |  |  |  |
-    | 16 | 1 | 1 | 1 | 1 |  |  |  |  |  |  |
-    
-    
-3. **Calcular el valor de cada premisa y de la conclusión en cada fila**:
-   
-    | # | $p$ | $q$ | $r$ | $s$ | $p \to q$ | $\neg q$ | $p \lor r$ | $r \to s$ | Premisas <br> $(p \to q)\land(\neg q)\land(p \lor r)\land(r \to s)$ | Conclusión <br> $s$ |
-    |---:|---:|---:|---:|---:|---:|---:|---:|---:|:---:|:---:|
-    | 1  | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 1 | 0 | 0 |
-    | 2  | 0 | 0 | 0 | 1 | 1 | 1 | 0 | 1 | 0 | 1 |
-    | 3  | 0 | 0 | 1 | 0 | 1 | 1 | 1 | 0 | 0 | 0 |
-    | **4**  | **0** | **0** | **1** | **1** | **1** | **1** | **1** | **1** | **1** | **1** |
-    | 5  | 0 | 1 | 0 | 0 | 1 | 0 | 0 | 1 | 0 | 0 |
-    | 6  | 0 | 1 | 0 | 1 | 1 | 0 | 0 | 1 | 0 | 1 |
-    | 7  | 0 | 1 | 1 | 0 | 1 | 0 | 1 | 0 | 0 | 0 |
-    | 8  | 0 | 1 | 1 | 1 | 1 | 0 | 1 | 1 | 0 | 1 |
-    | 9  | 1 | 0 | 0 | 0 | 0 | 1 | 1 | 1 | 0 | 0 |
-    | 10 | 1 | 0 | 0 | 1 | 0 | 1 | 1 | 1 | 0 | 1 |
-    | 11 | 1 | 0 | 1 | 0 | 0 | 1 | 1 | 0 | 0 | 0 |
-    | 12 | 1 | 0 | 1 | 1 | 0 | 1 | 1 | 1 | 0 | 1 |
-    | 13 | 1 | 1 | 0 | 0 | 1 | 0 | 1 | 1 | 0 | 0 |
-    | 14 | 1 | 1 | 0 | 1 | 1 | 0 | 1 | 1 | 0 | 1 |
-    | 15 | 1 | 1 | 1 | 0 | 1 | 0 | 1 | 0 | 0 | 0 |
-    | 16 | 1 | 1 | 1 | 1 | 1 | 0 | 1 | 1 | 0 | 1 |
+Definiendo $p$: *"Sócrates es un hombre"* y $q$: *"Sócrates es mortal"*, la forma es:
 
-4. **Inspeccionar los renglones críticos para determinar la validez del argumento**: En la tabla anterior, la única fila donde la columna **Premisas** vale **1** es la **fila 4** (es decir, todas las premisas son verdaderas simultáneamente). En esa misma fila, la conclusión también vale **1** (es decir, $s$ es verdadera).  
+$$p\rightarrow q,\quad p\quad\vdash\quad q$$
 
-   Por lo tanto, **no existe** un renglón crítico con premisas verdaderas y conclusión falsa, y el argumento es **válido**.  
-   
-   En términos del caso, Sherlock Holmes concluye que **“el mayordomo es cómplice”**.
-
-En conclusión, validar con tablas de verdad consiste en evaluar **todos** los escenarios posibles para verificar que **no existe** ninguno en el que las premisas se cumplan y la conclusión falle. Por eso decimos que este método **no apela a la intuición**, sino a un criterio **formal, mecánico y verificable**.
-
-### Validación mediante reglas de inferencia (enfoque axiomatico o sintactico)
-
-La validación con tablas de verdad es un método **infalible**: revisa todos los escenarios posibles y comprueba que no existan renglones críticos donde la conclusión falle. Sin embargo, su principal desventaja es la **escalabilidad**: con $n$ variables proposicionales, la tabla tiene $2^n$ filas.
-
-En otras palabras, el método semántico (basado en modelos) responde la pregunta:
-
-> "¿El argumento es válido en **todos** los escenarios posibles?"
-
-Debido al alto costo de emplear tablas de verdad, existe un método alternativo cuyo enfoque es el **sintáctico**. En este, en vez de evaluar el argumento en todos los modelos, construimos una **demostración** donde cada línea está justificada por una **regla válida**.
-
-De manera similar a como empleamos **leyes de equivalencia** para transformar (y simplificar) expresiones lógicas, para **validar argumentos** de manera eficiente empleamos **reglas de inferencia**.
-
-
-{: .def }
-> **Definición**: Una **regla de inferencia** es un esquema de razonamiento **válido** que nos permite pasar de unas premisas a una conclusión de forma segura.
-
-El uso de las **reglas de inferencia** (moldes) para *"construir un camino"* desde las Premisas hasta la Conclusión es conocido como **Prueba Formal** o **Demostración Deductiva**. Estas reglas no dicen *qué es verdadero en el mundo*, simplemente dicen qué pasos están **permitidos** para que una conclusión se siga **necesariamente** de lo anterior.
-
-A continuación, se presentan las **reglas de inferencia** que vamos a usar. Asuma que todo lo que está sobre la línea son verdades que usted ya posee, y lo que está debajo es lo que tiene permiso de escribir como nueva verdad.
-
-| Nombre | Regla (Esquema) | Descripción Intuitiva |
-| :--- | :---: | :--- |
-| **Modus Ponens (MP)** | $\begin{array}{l} p \to q \\\\ p \\\\ \hline \therefore\ q \end{array}$ | **Causa-Efecto:** Si se da la causa, ocurre el efecto. |
-| **Modus Tollens (MT)** | $\begin{array}{l} p \to q \\\\ \neg q \\\\ \hline \therefore\ \neg p \end{array}$ | **Descarte:** Si no veo el efecto, no pudo haber ocurrido la causa. |
-| **Silogismo Hipotético (SH)** | $\begin{array}{l} p \to q \\\\ q \to r \\\\ \hline \therefore\ p \to r \end{array}$ | **Cadena:** Si $p$ lleva a $q$ y $q$ lleva a $r$, entonces $p$ lleva a $r$. |
-| **Silogismo Disyuntivo (SD)** | $\begin{array}{l} p \lor q \\\\ \neg p \\\\ \hline \therefore\ q \end{array}$ | **Eliminación:** Si tengo dos opciones y descarto una, me toca la otra. |
-| **Simplificación (Simp)** | $\begin{array}{l} p \land q \\\\ \hline \therefore\ p \end{array}$ | **Extracción:** Si tengo todo, tengo una parte. |
-| **Adición (Ad)** | $\begin{array}{l} p \\\\ \hline \therefore\ p \lor q \end{array}$ | **Generalización:** Si algo es verdad, esa cosa "o cualquier otra" también lo es. |
-| **Conjunción (Conj)** | $\begin{array}{l} p \\\\ q \\\\ \hline \therefore\ p \land q \end{array}$ | **Fusión:** Puedo unir dos verdades independientes. |
-| **Resolución (Res)** | $\begin{array}{l} p \lor q \\\\ \neg p \lor r \\\\ \hline \therefore\ q \lor r \end{array}$ | **Eliminación de una opción:** una cláusula contiene $p$ y otra contiene $\neg p$; al combinarse, "se elimina" esa variable y quedan las alternativas restantes ($q \lor r$). |
-| **División por Casos** | $\begin{array}{l} p \lor q \\\\ p \to r \\\\ q \to r \\\\ \hline \therefore\ r \end{array}$ | **Todos los caminos llevan a Roma:** Si mis opciones son A o B, y ambas llevan al mismo resultado, el resultado es seguro. |
-
-Para validar un argumento mediante reglas de inferencia listadas anteriormente se sugiere aplicar los siguientes pasos:
-1. **Listar las Premisas**: Escriba numeradas todas las afirmaciones iniciales que le da el problema.
-2. **Identificar la Meta**: Tenga clara cuál es la proposición conclusión a la que debe llegar.
-3. **Reconocimiento de Patrones**: Busque entre sus premisas dos (o una) que encajen visualmente con alguna de las reglas de la tabla anterior.
-4. **Derivación**: Aplique la regla y escriba la nueva proposición resultante en un nuevo renglón, indicando qué regla y qué líneas usó (Ej: "Modus Ponens en 1 y 3").
-5. **Iteración**: Repita el proceso usando las nuevas líneas generadas hasta que obtenga la conclusión deseada (meta).
-
-#### Ejemplo
-{: .no_toc }
-
-Retomemos nuevamente al **Caso del Zafiro Desaparecido**:
-
-$$
-\begin{array}{l}
-p \rightarrow q \\
-\neg q \\
-p \lor r \\
-r \rightarrow s \\
-\hline
-\therefore\ s
-\end{array}
-$$
-
-La meta es derivar la conclusión $s$ (el mayordomo es cómplice) a partir de las premisas, justificando cada paso con una **regla de inferencia**.
-
-A continuación se realiza a cabo la deducción formal (derivación paso a paso):
-
-| # | Proposición | Justificación |
-|---:|---|---|
-| 1 | $p \to q$ | Premisa |
-| 2 | $\neg q$ | Premisa |
-| 3 | $p \lor r$ | Premisa |
-| 4 | $r \to s$ | Premisa |
-| 5 | $\neg p$ | **Modus Tollens (MT)** en 1 y 2 |
-| 6 | $r$ | **Silogismo Disyuntivo (SD)** en 3 y 5 |
-| 7 | $s$ | **Modus Ponens (MP)** en 4 y 6 |
-
-Hemos obtenido $s$ a partir de las premisas aplicando únicamente reglas de inferencia válidas.  
-Por tanto, el argumento es **válido**.
-
-{: .note }
-> Observe que esta demostración evita construir la tabla de verdad completa: en lugar de revisar $2^n$ escenarios, construimos una cadena corta de pasos justificados.
+Esta forma —afirmar el antecedente de un condicional para obtener el consecuente— es tan común y tan segura que tiene nombre propio: **Modus Ponens**. La veremos formalizada en la Parte III, junto con las demás reglas de inferencia.
 
 ---
 
-## Ejemplos de repaso
+# Parte II — Validación por Tablas de Verdad (Enfoque basado en Modelos)
 
-1. Dado el siguiente argumento:
-   
-    $$
-    \begin{array}{l}
-    p \rightarrow q \lor r \\
-    q \rightarrow p \land r \\
-    \hline
-    \therefore\ p \rightarrow r
-    \end{array}
-    $$
-    
-    Determine la validez empleando el metodo basado en modelos (tablas de verdad).
+El primer método para decidir si un argumento es válido es directo y mecánico: **construir la tabla de verdad** de su forma condicional y revisar todos los escenarios posibles. Lo llamamos *enfoque basado en modelos* porque examina, uno por uno, todos los "mundos posibles" (todas las combinaciones de valores de verdad).
 
-2. Empleando el enfoque axiomatico, demuestre que el siguiente argumendo es valido:
+> En las tablas de verdad de esta sesión usaremos la codificación **1 = Verdadero** y **0 = Falso**, igual que en las clases anteriores.
+{: .note }
 
-    $$
-    \bigl[p \land (p \to q) \land (s \lor r) \land (r \to \neg q)\bigr] \to (s \lor t)
-    $$   
+## II.1 El concepto clave: renglón crítico
 
-3. Demuestre que el siguiente argumento lógico es valido:
-   
-   $$
-   \begin{array}{l}
-   (\neg p \lor q) \to r \\
-   r \to (s \lor t) \\
-   \neg s \land \neg u \\
-   \neg u \to \neg t \\
-   \hline
-   \therefore\ p
-   \end{array}
-   $$
+No todas las filas de la tabla importan por igual. La validez se decide observando solo un tipo especial de fila:
 
-4. Dado el siguiente argumento:
+> Un **renglón crítico** es una fila en la que **todas las premisas son verdaderas** a la vez. El argumento es:
+> - **Válido** si en *todos* los renglones críticos la conclusión también es verdadera.
+> - **No válido** si existe *al menos un* renglón crítico donde la conclusión es falsa.
+{: .important }
 
-   > "Si la ley no fue aprobada, entonces la constitución del país queda sin modificaciones. Si la constitución del país queda sin modificaciones no se puede elegir nuevos diputados. O se eligen nuevos diputados o el informe del presidente del país se retrasará. El informe no se retrasó un mes. Por lo que la ley fue aprobada".
+Un solo renglón crítico con conclusión falsa basta para tumbar el argumento: es el contraejemplo que muestra que las premisas pueden cumplirse sin obligar a la conclusión.
 
-   Expresarlo en lenguaje formal y determinar su validez.
+## II.2 Procedimiento
 
-5. Dada la siguiente información que:
-   
-   > Milhouse estaba a punto de salir para la escuela en la mañana y descubrió que no tenia puestas sus gafas. Si se sabe que los siguientes enunciados son verdaderos:
-   > * Si Milhouse estaba leyendo el periódico en la cocina, entonces, las gafas estaban sobre la mesa de la cocina.
-   > * Si las gafas estaban sobre la mesa de la cocina, entonces los Milhouse los vio al desayunar.
-   > * Milhouse no ha visto las gafas en el desayuno.
-   > * Milhouse estaba leyendo el periódico en la sala o estaba leyendo el periódico en la cocina.
-   > * Si Milhouse estaba leyendo el periódico en la sala entonces, sus gafas estaban sobre la mesa del café.
+1. **Identifique** las premisas y la conclusión de la forma del argumento.
+2. **Construya** la tabla de verdad con una columna por cada premisa y una para la conclusión.
+3. **Localice** los renglones críticos (todas las premisas en 1) e inspeccione la conclusión en ellos.
 
-   A partir de la información anterior: ¿Dónde estaban los lentes de Milhouse?
-   
-**Solución**:
+## II.3 Ejemplo ilustrativo: un argumento no válido
 
-1. Recordemos el argumento sobre el cual debemos demostrar validez:
+Determine la validez del siguiente argumento:
 
-    $$
-    \begin{array}{l}
-    p \rightarrow q \lor \neg r \\
-    q \rightarrow p \land r \\
-    \hline
-    \therefore\ p \rightarrow r
-    \end{array}
-    $$
-   
-    **Solución empleando tablas de verdad**:
-   
-    | # | $p$ | $q$ | $r$ | $\neg r$ | $q \lor \neg r$ | $p \to (q \lor \neg r)$ | $p \land r$ | $q \to (p \land r)$ | Premisas <br> $(p \to (q \lor \neg r))\land(q \to (p \land r))$ | Conclusión <br> $p \to r$ |
-    |---:|---:|---:|---:|---:|---:|---:|---:|---:|:---:|:---:|
-    | **1** | **0** | **0** | **0** | **1** | **1** | **1** | **0** | **1** | **1** | **1** |
-    | **2** | **0** | **0** | **1** | **0** | **0** | **1** | **0** | **1** | **1** | **1** |
-    | 3 | 0 | 1 | 0 | 1 | 1 | 1 | 0 | 0 | 0 | 1 |
-    | 4 | 0 | 1 | 1 | 0 | 1 | 1 | 0 | 0 | 0 | 1 |
-    | **5** | **1** | **0** | **0** | **1** | **1** | **1** | **0** | **1** | **1** | **0** |
-    | 6 | 1 | 0 | 1 | 0 | 0 | 0 | 1 | 1 | 0 | 1 |
-    | 7 | 1 | 1 | 0 | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
-    | **8** | **1** | **1** | **1** | **0** | **1** | **1** | **1** | **1** | **1** | **1** |
-     
-     > **Conclusión**: el argumento es **inválido**, porque existe un renglón crítico para el cual las premisas arrojan una conclución cuyo valor es falso (fila 5).
+$$
+\begin{array}{c}
+p\rightarrow(q\lor\neg r) \\
+q\rightarrow(p\land r) \\
+\hline
+\therefore\ p\rightarrow r
+\end{array}
+$$
 
-2. Para resolver este ejercicio primero expresemos el argumento en notación estandar:
-   
-   $$
-   \begin{array}{l}
-   p\\
-   p \to q\\
-   s \lor r\\
-   r \to \neg q\\
-   \hline
-   \therefore\ s \lor t
-   \end{array}
-   $$
-   
-   A continuación se demuestra la validez del argumento mediante el uso de reglas de inferencia:
+**Premisas:** $p\rightarrow(q\lor\neg r)$ y $q\rightarrow(p\land r)$. **Conclusión:** $p\rightarrow r$.
 
-   | Paso | Proposición | Justificación |
-   | :---: | :--- | :--- |
-   | **1** | $p$ | Premisa |
-   | **2** | $p \to q$ | Premisa |
-   | **3** | $s \lor r$ | Premisa |
-   | **4** | $r \to \neg q$ | Premisa |
-   | **5** | **$q$** | **Modus Ponens** en 1 y 2. |
-   | **6** | **$\neg r$** | **Modus Tollens** en 4 y 5. |
-   | **7** | **$s$** | **Silogismo Disyuntivo** en 3 y 6. |
-   | **8** | **$s \lor t$** | **Adición** en 7. |
+| $p$ | $q$ | $r$ | $q\lor\neg r$ | $p\land r$ | $p\rightarrow(q\lor\neg r)$ | $q\rightarrow(p\land r)$ | $p\rightarrow r$ | ¿Crítico? |
+|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+| 0 | 0 | 0 | 1 | 0 | 1 | 1 | 1 | ✔ (concl. V) |
+| 0 | 0 | 1 | 0 | 0 | 1 | 1 | 1 | ✔ (concl. V) |
+| 0 | 1 | 0 | 1 | 0 | 1 | 0 | 1 | — |
+| 0 | 1 | 1 | 1 | 0 | 1 | 0 | 1 | — |
+| **1** | **0** | **0** | **1** | **0** | **1** | **1** | **0** | **✔ (concl. F)** |
+| 1 | 0 | 1 | 0 | 1 | 0 | 1 | 1 | — |
+| 1 | 1 | 0 | 1 | 0 | 1 | 0 | 0 | — |
+| 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | ✔ (concl. V) |
 
-3. Recordemos nuevamente el argumento a demostrar:
+En la fila $p=1,\ q=0,\ r=0$ las dos premisas valen 1 (es un renglón crítico) pero la conclusión $p\rightarrow r$ vale 0. Ese único contraejemplo es suficiente: **el argumento es no válido.**
 
-   $$
-   \begin{array}{l}
-   (\neg p \lor q) \to r \\
-   r \to (s \lor t) \\
-   \neg s \land \neg u \\
-   \neg u \to \neg t \\
-   \hline
-   \therefore\ p
-   \end{array}
-   $$
+> **No confunda "premisas falsas en la vida real" con "argumento no válido".** Que un argumento sea no válido *no* depende de que sus premisas sean falsas — depende de que exista un escenario (un renglón crítico) donde las premisas se cumplan pero la conclusión falle. La invalidez es un defecto de **forma**, detectable con la tabla, no una opinión sobre el contenido.
+{: .warning }
 
-   A continuación, se muestra el procedimiento de deducción logica paso a paso:
+## II.4 La falacia de afirmar el consecuente
 
-   | Paso | Proposición | Justificación |
-   | :---: | :--- | :--- |
-   | **1** | $(\neg p \lor q) \to r$ | Premisa |
-   | **2** | $r \to (s \lor t)$ | Premisa |
-   | **3** | $\neg s \land \neg u$ | Premisa |
-   | **4** | $\neg u \to \neg t$ | Premisa |
-   | **5** | **$\neg u$** | **Simplificación** en 3. |
-   | **6** | **$\neg t$** | **Modus Ponens** en 4 y 5. |
-   | **7** | **$\neg s$** | **Simplificación** en 3. |
-   | **8** | **$\neg s \land \neg t$** | **Conjunción** en 7 y 6. |
-   | **9** | **$\neg (s \lor t)$** | **Ley de De Morgan** en 8. |
-   | **10** | **$\neg r$** | **Modus Tollens** en 2 y 9. |
-   | **11** | **$\neg (\neg p \lor q)$** | **Modus Tollens** en 1 y 10. |   
-   | **12** | **$\neg( \neg p) \land \neg q$** | **Ley de De Morgan** en 11. |
-   | **13** | **$p \land \neg q$** | **Doble negación** en 12. |
-   | **14** | **$p$** | **Simplificación** en 13. |   
+Un error de razonamiento muy frecuente —y con nombre propio— es **afirmar el consecuente**. Tiene esta forma:
 
-4. Retomemos el enunciado del argumento del problema dado en lenguaje natural:
-   
-   > "Si la ley no fue aprobada, entonces la constitución del país queda sin modificaciones. Si la constitución del país queda sin modificaciones no se puede elegir nuevos diputados. O se eligen nuevos diputados o el informe del presidente del país se retrasará. El informe no se retrasó un mes. **<u>Por lo que</u>** la ley fue aprobada".
+$$
+\begin{array}{c}
+p\rightarrow q \\
+q \\
+\hline
+\therefore\ p
+\end{array}
+$$
 
-   Si observamos el enunciado, la secuencia de palabras **Por lo que** como un conector que une dos oraciones, donde la segunda es una consecuencia. De modo que este nos permite separar las premisas de la conclución:
-   * **Premisas**:
-     *  ***Si*** la ley ***<u>no</u>*** fue aprobada, ***entonces*** la constitución del país queda sin modificaciones.
-     *  ***Si*** la constitución del país queda sin modificaciones ***,*** ***<u>no</u>*** se puede elegir nuevos diputados.
-     *  ***O*** se eligen nuevos diputados ***o*** el informe del presidente del país se retrasará.
-     *  El informe ***<u>no</u>*** se retrasó un mes.
-   * **Conclusión**:
-     *  La ley fue aprobada.
-   
-   Una vez identificados los elementos del argumento, procedemos a identificar las proposiciones simples analizando cada uno de los enunciados anteriores (en los cuales se resaltaron los conectores)
-   * **Proposiciones simples**:
-     *  **$l$**: La ley fue aprobada.
-     *  **$c$**: La constitución del país quedará sin modificaciones.
-     *  **$p$**: Se pueden elegir nuevos diputados.
-     *  **$i$**: El informe del presidente se retrasará un mes.
-   
-   Ahora, al traducir las premisas y la conclusión del lenguaje natural, al lenguaje formal tenemos:
+Parece razonable ("si estudio, apruebo; aprobé; luego estudié"), pero es **no válida**. La tabla lo revela:
 
-   $$
-   \begin{array}{l}
-   \neg l \to c \\
-   c \to \neg d \\
-   d \lor i \\
-   \neg i \\
-   \hline
-   \therefore\ l
-   \end{array}
-   $$
-   
-   A continuación, muestra el proceso deductivo para comprobar la validez del argumento:
+| $p$ | $q$ | $p\rightarrow q$ | $q$ | $p$ (concl.) | ¿Crítico? |
+|:-:|:-:|:-:|:-:|:-:|:-:|
+| 0 | 0 | 1 | 0 | 0 | — |
+| **0** | **1** | **1** | **1** | **0** | **✔ (concl. F)** |
+| 1 | 0 | 0 | 0 | 1 | — |
+| 1 | 1 | 1 | 1 | 1 | ✔ (concl. V) |
 
-   | Paso | Proposición | Justificación |
-   | :---: | :--- | :--- |
-   | **1** | $\neg l \to c$ | Premisa |
-   | **2** | $c \to \neg d$ | Premisa |
-   | **3** | $d \lor i$ | Premisa |
-   | **4** | $\neg i$ | Premisa |
-   | **5** | **$d$** | **Silogismo Disyuntivo** en 3 y 4. |
-   | **6** | **$\neg c$** | **Modus Tollens** en 2 y 5. |
-   | **7** | **$\neg (\neg l)$** | **Modus Tollens** en 1 y 6. |
-   | **8** | **$l$** | **Doble Negación** en 7. |
+En la fila $p=0,\ q=1$ ambas premisas son verdaderas pero la conclusión es falsa. Intuitivamente: uno pudo aprobar por muchas otras causas (el examen estaba fácil, hizo trampa, tuvo suerte). Ver el resultado ($q$) no permite deducir una única causa ($p$).
 
-5. Retomemos nuevamente las premisas del enunciado:
-   * ***Si*** Milhouse estaba leyendo el periódico en la cocina, ***entonces***, las gafas estaban sobre la mesa de la cocina.
-   * ***Si*** las gafas estaban sobre la mesa de la cocina, ***entonces*** los Milhouse los vio al desayunar.
-   * Milhouse ***<u>no</u>*** ha visto las gafas en el desayuno.
-   * Milhouse estaba leyendo el periódico en la sala ***o*** estaba leyendo el periódico en la cocina.
-   * ***Si*** Milhouse estaba leyendo el periódico en la sala ***entonces***, sus gafas estaban sobre la mesa de café.
-   
-   A partir de las premisas anteriores podemos obtener las **proposiciones simples** las cuales definimos a continuación:
-   * **$RK$**: Milhouse estaba leyendo el periódico en la cocina.
-   * **$GK$**: Las gafas de Milhouse estaban sobre la mesa de la cocina.
-   * **$SB$**: Milhouse vio las gafas en el desayuno
-   * **$LR$**: Milhouse estaba leyendo el periódico en la sala.
-   * **$GC$**: Las gafas de Milhouse estaban sobre la mesa de café.
-   
-   El argumento en lenguaje formal queda de la siguiente manera:
+> **Antes de continuar, pregúntese:** ¿en qué se diferencia la forma válida (Modus Ponens: $p\rightarrow q,\ p\vdash q$) de esta falacia ($p\rightarrow q,\ q\vdash p$)?
+>
+> <details markdown="1"><summary>Ver respuesta</summary>
+>
+> En Modus Ponens se afirma el **antecedente** ($p$) para obtener el consecuente ($q$) — y eso es válido. En la falacia se afirma el **consecuente** ($q$) para intentar recuperar el antecedente ($p$) — y eso no se puede: un mismo efecto puede tener muchas causas. La dirección de la flecha $\rightarrow$ solo garantiza el paso de causa a efecto, no de efecto a causa.
+>
+> </details>
+{: .tip }
 
-   $$
-   \begin{array}{l}
-   RK \to GK \\
-   GK \to SB \\
-   \neg SB \\
-   LR \lor RK \\
-   LR \to GC \\
-   \hline
-   \therefore\ ?
-   \end{array}
-   $$
+## II.5 El problema de este método: la escalabilidad
 
-   Donde la respuesta a la pregunta ¿Dónde estaban los lentes de Milhouse? teniendo en cuenta las premisas puede ser que las gafas esten sobre la mesa de la cocina ($GK$) o sobre la mesa de cafe ($GC$). A continuación se muestra la deducción realizada:
+Las tablas de verdad son **infalibles**: revisan todos los escenarios. Pero tienen un defecto práctico grave. Con $n$ variables proposicionales, la tabla tiene $2^n$ filas:
 
-   | Paso | Proposición | Justificación |
-   | :---: | :--- | :--- |
-   | **1** | $RK \to GK$ | Premisa |
-   | **2** | $GK \to SB$ | Premisa |
-   | **3** | $\neg SB$ | Premisa |
-   | **4** | $LR \lor RK$ | Premisa |
-   | **5** | $LR \to GC$ | Premisa |
-   | **6** | **$\neg GK$** | **Modus Tollens** en 2 y 3. |
-   | **7** | **$\neg RK$** | **Modus Tollens** en 1 y 6. |
-   | **8** | **$LR$** | **Silogismo Disyuntivo** en 4 y 7. |
-   | **9** | **$GC$** | **Modus Ponens** en 5 y 8. |
-    
-   De modo que la respuesta a la pregunta era que las gafas de Millhouse estaban sobre la mesa de café.
+| Variables ($n$) | Filas ($2^n$) |
+|:-:|:-:|
+| 3 | 8 |
+| 5 | 32 |
+| 10 | 1 024 |
+| 20 | 1 048 576 |
+
+Para más de 5 o 6 variables, construir la tabla completa a mano es impráctico. Necesitamos un método que no dependa de revisar todos los mundos posibles, sino que **construya una cadena corta de pasos justificados**. Ese es el enfoque axiomático de la Parte III — pero antes, veamos un ejemplo que resuelve el *mismo* argumento por *ambos* métodos, para comparar.
+
+---
+
+# 📘 Ejercicio resuelto — El mismo argumento, dos métodos
+
+Este ejercicio resuelve un mismo argumento de dos formas distintas. El objetivo es que vea, con sus propios ojos, que el enfoque por tablas y el enfoque axiomático llegan **a la misma conclusión** — y por qué el segundo es preferible cuando hay muchas variables.
+
+**Argumento (forma condicional):**
+
+$$\bigl[\,p\land(p\rightarrow q)\land(s\lor r)\land(r\rightarrow\neg q)\,\bigr]\rightarrow(s\lor t)$$
+
+En forma estándar, con sus cuatro premisas:
+
+$$
+\begin{array}{rl}
+p & \text{(a)} \\
+p\rightarrow q & \text{(b)} \\
+s\lor r & \text{(c)} \\
+r\rightarrow\neg q & \text{(d)} \\
+\hline
+\therefore\ s\lor t &
+\end{array}
+$$
+
+## Método 1 — Tabla de verdad (fuerza bruta)
+
+Hay $n=5$ variables ($p,q,r,s,t$), así que la tabla completa tiene $2^5=32$ filas. En vez de reproducirla entera, aplicamos lo que ya sabemos: solo importan los **renglones críticos** (donde las cuatro premisas valen 1 simultáneamente).
+
+Analizando las premisas: para que $p$ (a) y $p\rightarrow q$ (b) sean ambas verdaderas, se necesita $p=1$ y $q=1$. Con $q=1$, la premisa (d) $r\rightarrow\neg q$ se vuelve $r\rightarrow 0$, que solo es verdadera si $r=0$. Con $r=0$, la premisa (c) $s\lor r$ obliga a $s=1$. La variable $t$ queda libre.
+
+Esto deja exactamente **dos renglones críticos**:
+
+| $p$ | $q$ | $r$ | $s$ | $t$ | Premisas (a·b·c·d) | Conclusión $s\lor t$ |
+|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+| 1 | 1 | 0 | 1 | 0 | **1** | **1** |
+| 1 | 1 | 0 | 1 | 1 | **1** | **1** |
+
+En los dos renglones críticos la conclusión $s\lor t$ es verdadera (porque $s=1$ en ambos). No existe ningún renglón crítico con conclusión falsa: **el argumento es válido.**
+
+## Método 2 — Enfoque axiomático (reglas de inferencia)
+
+En lugar de revisar 32 filas, construimos una cadena de deducciones. Cada línea se justifica por una **regla de inferencia** o una **ley de equivalencia** (las de la Clase 5), citando de qué líneas anteriores proviene. Estas reglas se presentan formalmente en la Parte III; aquí las usamos por adelantado para mostrar el contraste.
+
+**Paso 1 — Obtener $q$.** De la premisa $p$ (a) y $p\rightarrow q$ (b), por Modus Ponens.
+
+**Paso 2 — Reescribir la premisa (d) para poder encadenarla.** La premisa $r\rightarrow\neg q$ tiene $r$ en el antecedente, pero lo que ya tenemos es $q$. Aplicamos Contrarrecíproco para "darle la vuelta" y luego Doble Negación para limpiarla, dejándola como $q\rightarrow\neg r$.
+
+**Paso 3 — Obtener $\neg r$.** Ahora sí: de $q$ (línea 3) y $q\rightarrow\neg r$ (línea 6), por Modus Ponens.
+
+**Paso 4 — Cerrar.** Con $\neg r$ y la premisa $s\lor r$ (c), por Eliminación (silogismo disyuntivo) obtenemos $s$; y de $s$, por Adición, se sigue $s\lor t$.
+
+| # | Afirmación | Razón |
+|:---:|:---:|:---|
+| 1 | $p$ | Premisa (a) |
+| 2 | $p\rightarrow q$ | Premisa (b) |
+| 3 | $q$ | Modus Ponens en 1 y 2 |
+| 4 | $r\rightarrow\neg q$ | Premisa (d) |
+| 5 | $\neg(\neg q)\rightarrow\neg r$ | Contrarrecíproco en 4 |
+| 6 | $q\rightarrow\neg r$ | Doble negación en 5 |
+| 7 | $\neg r$ | Modus Ponens en 3 y 6 |
+| 8 | $s\lor r$ | Premisa (c) |
+| 9 | $s$ | Eliminación (silogismo disyuntivo) en 7 y 8 |
+| 10 | $s\lor t$ | Adición en 9 |
+
+Por lo tanto se obtiene $s\lor t$ — **el argumento es válido.**
+
+> **Compare el costo de ambos métodos.** Con 5 variables, la tabla exigió razonar sobre $2^5=32$ filas (aunque el atajo de los renglones críticos nos ahorró escribirlas todas). El enfoque axiomático llegó a la misma conclusión en 10 líneas cortas, sin importar cuántas variables hubiera. Con 10 variables, la tabla tendría 1 024 filas; la demostración axiomática seguiría teniendo un puñado de pasos. **Esa es la razón de ser del enfoque axiomático.**
+{: .tip }
+
+---
+
+# Parte III — Silogismo y Reglas de Inferencia (Enfoque Axiomático)
+
+## III.1 El silogismo
+
+Un **silogismo** es un argumento que consiste en **dos premisas y una conclusión**. La primera premisa se llama **premisa mayor** y la segunda, **premisa menor**.
+
+La forma de silogismo más famosa es el **Modus Ponens**, el mismo del argumento de Sócrates:
+
+$$
+\begin{array}{l}
+\text{Si tiene contraseña vigente, puede iniciar sesión.} \\
+\text{Tiene contraseña vigente.} \\
+\hline
+\therefore\ \text{Puede iniciar sesión.}
+\end{array}
+$$
+
+Simbólicamente, con $p$: *"tiene contraseña vigente"* y $q$: *"puede iniciar sesión"*:
+
+$$p\rightarrow q,\quad p\quad\vdash\quad q$$
+
+## III.2 ¿Qué es una regla de inferencia?
+
+Vimos que validar con tablas es infalible pero costoso. La alternativa es el **enfoque axiomático** (o *sintáctico*): en lugar de evaluar el argumento en todos los modelos, construimos una **demostración** —una cadena de pasos— donde cada línea está justificada por una regla que ya sabemos válida.
+
+> Una **regla de inferencia** es una forma de argumento que ya se demostró válida. La usamos como una "pieza de construcción" segura: cada vez que en una demostración aparezcan las premisas de una regla, tenemos permiso de escribir su conclusión como una nueva verdad.
+{: .important }
+
+Piénselo como el enfoque axiomático de la Clase 5, pero un nivel más arriba: allá transformábamos *una* expresión en otra equivalente (con leyes de equivalencia); aquí **derivamos** una conclusión nueva a partir de varias premisas (con reglas de inferencia).
+
+## III.3 Tabla de reglas de inferencia
+
+Estas son las reglas que usaremos. En cada fracción, lo que está **arriba** de la barra son las premisas (verdades que ya posee) y lo que está **debajo** es la conclusión (lo que tiene permiso de escribir).
+
+{% raw %}
+| Nombre | Regla | Idea intuitiva |
+| :--- | :---: | :--- |
+| **Modus Ponens** | $\begin{array}{l} p \to q \\ p \\ \hline \therefore\ q \end{array}$ | Si se da la causa, ocurre el efecto. |
+| **Modus Tollens** | $\begin{array}{l} p \to q \\ \neg q \\ \hline \therefore\ \neg p \end{array}$ | Si no veo el efecto, la causa no ocurrió. |
+| **Silogismo hipotético** (Transitividad) | $\begin{array}{l} p \to q \\ q \to r \\ \hline \therefore\ p \to r \end{array}$ | Si $p$ lleva a $q$ y $q$ lleva a $r$, entonces $p$ lleva a $r$. |
+| **Silogismo disyuntivo** (Eliminación) | $\begin{array}{l} p \lor q \\ \neg p \\ \hline \therefore\ q \end{array}$ | Si tengo dos opciones y descarto una, queda la otra. |
+| **Simplificación** | $\begin{array}{l} p \land q \\ \hline \therefore\ p \end{array}$ | Si tengo el todo, tengo cada parte. |
+| **Adición** | $\begin{array}{l} p \\ \hline \therefore\ p \lor q \end{array}$ | Si algo es verdad, "eso o cualquier cosa" también. |
+| **Conjunción** | $\begin{array}{l} p \\ q \\ \hline \therefore\ p \land q \end{array}$ | Puedo unir dos verdades independientes. |
+| **Prueba por casos** | $\begin{array}{l} p \lor q \\ p \to r \\ q \to r \\ \hline \therefore\ r \end{array}$ | Si mis dos opciones llevan al mismo sitio, ese sitio es seguro. |
+| **Resolución** | $\begin{array}{l} p \lor q \\ \neg p \lor r \\ \hline \therefore\ q \lor r \end{array}$ | Se cancela la variable que aparece afirmada y negada; queda el resto. |
+{% endraw %}
+
+
+> **Modus Tollens no es la falacia de afirmar el consecuente.** Ambas parten de $p\rightarrow q$, pero Modus Tollens usa $\neg q$ (niega el efecto) para concluir $\neg p$ — y es **válida**. La falacia usa $q$ (afirma el efecto) para concluir $p$ — y es **inválida**. La diferencia está en si se niega o se afirma el consecuente.
+{: .warning }
+
+## III.4 El formato Afirmación–Razón para argumentos
+
+Igual que en la Clase 5, escribimos las demostraciones en una tabla de dos columnas: **Afirmación** (la proposición que se establece) y **Razón** (qué regla la justifica y de qué líneas proviene).
+
+> **Una diferencia importante frente a la Clase 5.** Allá, cada fila era una *transformación* de la expresión anterior en otra **equivalente** ($\equiv$): la primera fila y la última decían "lo mismo" con distinta forma. Aquí, cada fila es un *nuevo hecho deducido* de las líneas anteriores mediante una regla de inferencia. No transformamos una sola expresión: **construimos** hechos nuevos hasta alcanzar la conclusión. Las premisas se listan primero (razón: "Premisa"), y a partir de ahí cada paso cita las líneas de las que se obtuvo.
+{: .note }
+
+Para validar un argumento con este método:
+
+1. **Liste** las premisas, numeradas, con razón "Premisa".
+2. **Identifique la meta**: tenga clara cuál es la conclusión a la que debe llegar.
+3. **Busque patrones**: encuentre dos (o una) líneas que encajen con alguna regla de la tabla.
+4. **Derive**: escriba la conclusión de esa regla en una línea nueva, citando la regla y las líneas usadas.
+5. **Itere** hasta obtener la meta.
+
+---
+
+# 📘 Ejercicios resueltos — Enfoque axiomático
+
+Los tres ejercicios siguientes se resuelven íntegramente con reglas de inferencia y el formato Afirmación–Razón. Preste atención a cómo, en cada uno, la estrategia empieza por *identificar la meta* y luego buscar qué reglas acercan a ella.
+
+## Ejercicio 1
+
+Demuestre que el siguiente argumento es válido:
+
+$$
+\begin{array}{rl}
+p\rightarrow q & \text{(a)} \\
+r\lor s & \text{(b)} \\
+\neg s\rightarrow\neg t & \text{(c)} \\
+\neg q\lor s & \text{(d)} \\
+\neg s & \text{(e)} \\
+(\neg p\land r)\rightarrow u & \text{(f)} \\
+w\lor t & \text{(g)} \\
+\hline
+\therefore\ u\land r &
+\end{array}
+$$
+
+**Estrategia.** La meta es $u\land r$. Para $u$ necesitamos disparar la premisa (f), cuyo antecedente es $\neg p\land r$ — es decir, hay que conseguir $\neg p$ y $r$ por separado. Tenemos $\neg s$ (e) como palanca inicial: combinada con (d) da $\neg q$, y de ahí con (a) sale $\neg p$; combinada con (b) da $r$.
+
+**Paso 1 — Obtener $\neg q$.** De $\neg q\lor s$ (d) y $\neg s$ (e), por Eliminación.
+
+**Paso 2 — Obtener $\neg p$.** De $p\rightarrow q$ (a) y $\neg q$ (recién obtenido), por Modus Tollens.
+
+**Paso 3 — Obtener $r$.** De $r\lor s$ (b) y $\neg s$ (e), por Eliminación.
+
+**Paso 4 — Ensamblar y disparar (f).** Unimos $\neg p$ y $r$ por Conjunción, aplicamos (f) por Modus Ponens para obtener $u$, y unimos con $r$ para la meta.
+
+| # | Afirmación | Razón |
+|:---:|:---:|:---|
+| 1 | $p\rightarrow q$ | Premisa (a) |
+| 2 | $r\lor s$ | Premisa (b) |
+| 3 | $\neg s\rightarrow\neg t$ | Premisa (c) |
+| 4 | $\neg q\lor s$ | Premisa (d) |
+| 5 | $\neg s$ | Premisa (e) |
+| 6 | $(\neg p\land r)\rightarrow u$ | Premisa (f) |
+| 7 | $w\lor t$ | Premisa (g) |
+| 8 | $\neg q$ | Eliminación en 4 y 5 |
+| 9 | $\neg p$ | Modus Tollens en 1 y 8 |
+| 10 | $r$ | Eliminación en 2 y 5 |
+| 11 | $\neg p\land r$ | Conjunción en 9 y 10 |
+| 12 | $u$ | Modus Ponens en 6 y 11 |
+| 13 | $u\land r$ | Conjunción en 12 y 10 |
+
+Por lo tanto se obtiene $u\land r$ — **el argumento es válido.**
+
+> Note que las premisas (c) y (g) nunca se usaron. Esto es normal y perfectamente válido: un argumento puede contener premisas que no hacen falta para llegar a la conclusión. Lo que importa es que exista *un* camino desde las premisas hasta la meta, no que se usen todas.
+{: .note }
+
+## Ejercicio 2
+
+Demuestre que el siguiente argumento es válido:
+
+$$
+\begin{array}{rl}
+(\neg p\lor q)\rightarrow r & \text{(a)} \\
+s\lor\neg q & \text{(b)} \\
+\neg t & \text{(c)} \\
+p\rightarrow t & \text{(d)} \\
+(\neg p\land r)\rightarrow\neg s & \text{(e)} \\
+\hline
+\therefore\ \neg q &
+\end{array}
+$$
+
+**Estrategia.** La meta es $\neg q$. Si logramos $\neg s$, entonces con (b) por Eliminación sale $\neg q$. Para $\neg s$ hay que disparar (e), cuyo antecedente es $\neg p\land r$. Y $\neg p$ sale de (d) con $\neg t$; con $\neg p$ conseguimos también $r$ a través de (a).
+
+**Paso 1 — Obtener $\neg p$.** De $p\rightarrow t$ (d) y $\neg t$ (c), por Modus Tollens.
+
+**Paso 2 — Obtener $r$.** De $\neg p$ se sigue $\neg p\lor q$ por Adición; y con (a), por Modus Ponens, se obtiene $r$.
+
+**Paso 3 — Disparar (e).** Unimos $\neg p$ y $r$ por Conjunción y aplicamos (e) por Modus Ponens para obtener $\neg s$.
+
+**Paso 4 — Cerrar.** De $s\lor\neg q$ (b) y $\neg s$, por Eliminación, la meta $\neg q$.
+
+| # | Afirmación | Razón |
+|:---:|:---:|:---|
+| 1 | $(\neg p\lor q)\rightarrow r$ | Premisa (a) |
+| 2 | $s\lor\neg q$ | Premisa (b) |
+| 3 | $\neg t$ | Premisa (c) |
+| 4 | $p\rightarrow t$ | Premisa (d) |
+| 5 | $(\neg p\land r)\rightarrow\neg s$ | Premisa (e) |
+| 6 | $\neg p$ | Modus Tollens en 4 y 3 |
+| 7 | $\neg p\lor q$ | Adición en 6 |
+| 8 | $r$ | Modus Ponens en 1 y 7 |
+| 9 | $\neg p\land r$ | Conjunción en 6 y 8 |
+| 10 | $\neg s$ | Modus Ponens en 5 y 9 |
+| 11 | $\neg q$ | Eliminación en 2 y 10 |
+
+Por lo tanto se obtiene $\neg q$ — **el argumento es válido.**
+
+## Ejercicio 3 — De lenguaje natural a demostración
+
+Considere el siguiente argumento:
+
+> *"Si la ley no fue aprobada, entonces la constitución del país queda sin modificaciones. Si la constitución queda sin modificaciones, no se pueden elegir nuevos diputados. O se eligen nuevos diputados o el informe del presidente se retrasará. El informe no se retrasó. Por lo que la ley fue aprobada."*
+
+Verifique su validez mediante una prueba formal.
+
+**Paso 1 — Identificar premisas y conclusión.** El conector *"por lo que"* marca la conclusión (*"la ley fue aprobada"*); todo lo anterior son premisas.
+
+**Paso 2 — Definir proposiciones simples.**
+
+- $L$: la ley fue aprobada.
+- $C$: la constitución queda sin modificaciones.
+- $D$: se pueden elegir nuevos diputados.
+- $I$: el informe del presidente se retrasará.
+
+**Paso 3 — Traducir al lenguaje formal.**
+
+$$
+\begin{array}{rl}
+\neg L\rightarrow C & \text{(a)} \\
+C\rightarrow\neg D & \text{(b)} \\
+D\lor I & \text{(c)} \\
+\neg I & \text{(d)} \\
+\hline
+\therefore\ L &
+\end{array}
+$$
+
+**Paso 4 — Estrategia y demostración.** La meta es $L$. De (c) y (d) sale $D$; con (b) y $D$, por Modus Tollens, sale $\neg C$; con (a) y $\neg C$, otra vez Modus Tollens, sale $\neg(\neg L)$; y Doble Negación cierra en $L$.
+
+| # | Afirmación | Razón |
+|:---:|:---:|:---|
+| 1 | $\neg L\rightarrow C$ | Premisa (a) |
+| 2 | $C\rightarrow\neg D$ | Premisa (b) |
+| 3 | $D\lor I$ | Premisa (c) |
+| 4 | $\neg I$ | Premisa (d) |
+| 5 | $D$ | Eliminación en 3 y 4 |
+| 6 | $\neg C$ | Modus Tollens en 2 y 5 |
+| 7 | $\neg(\neg L)$ | Modus Tollens en 1 y 6 |
+| 8 | $L$ | Doble negación en 7 |
+
+Por lo tanto se obtiene $L$ — **el argumento es válido: la ley fue aprobada.**
+
+> **Antes de continuar, pregúntese:** en el paso 6, ¿por qué de $C\rightarrow\neg D$ y $D$ se concluye $\neg C$?
+>
+> <details markdown="1"><summary>Ver respuesta</summary>
+>
+> Es Modus Tollens. La premisa es $C\rightarrow\neg D$; su "efecto" es $\neg D$. Tener $D$ es tener $\neg(\neg D)$, es decir, la negación del efecto. Modus Tollens ($p\rightarrow q,\ \neg q\vdash\neg p$, con $p=C$ y $q=\neg D$) niega entonces la causa: $\neg C$.
+>
+> </details>
+{: .tip }
+
+---
+
+# 🐛 Bitácora de Depuración — Cerrando el caso del bug
+
+Volvamos a la reunión del equipo. Ana, Beto, Carla y Diego tienen cuatro observaciones confirmadas en los *logs*, pero nadie ha sabido combinarlas. Vamos a hacer lo que hizo Grace Hopper con la polilla: no adivinar, sino **aislar la causa** con un razonamiento que cualquiera pueda auditar.
+
+## Fase 1 — Formalizar los testimonios
+
+Primero traducimos cada observación a lenguaje formal. Definimos las proposiciones simples:
+
+- $E$: aparece el error.
+- $T$: el servicio de pagos registró un *timeout*.
+- $F_p$: falló el servicio de pagos.
+- $F_c$: falló la caché.
+- $R$: el tiempo de respuesta superó un segundo.
+
+Los cuatro testimonios, más un hecho técnico que el equipo da por sabido (*"un fallo del servicio de pagos siempre se registra como un timeout de pagos"*, es decir $F_p\rightarrow T$), quedan así:
+
+$$
+\begin{array}{rl}
+E\rightarrow T & \text{(a) — Ana} \\
+\neg T & \text{(b) — Beto} \\
+F_p\lor F_c & \text{(c) — Carla} \\
+F_c\rightarrow R & \text{(d) — Diego} \\
+F_p\rightarrow T & \text{(e) — hecho técnico}
+\end{array}
+$$
+
+La meta no la fija nadie de antemano: es *descubrir* qué falló. Vamos a dejar que las reglas nos lleven.
+
+## Fase 2 — Deducir la causa
+
+**Paso 1 — Descartar el servicio de pagos.** Beto confirmó que no hubo *timeout* ($\neg T$). Pero un fallo de pagos siempre produce *timeout* (e). Por Modus Tollens, si no hubo *timeout*, no pudo fallar el servicio de pagos: $\neg F_p$. *(Este es exactamente el movimiento de Holmes descartando a un sospechoso, y el de Hopper descartando un relé sano.)*
+
+**Paso 2 — Señalar al culpable.** Carla confirmó que uno de los dos falló: $F_p\lor F_c$. Ya descartamos $F_p$. Por Eliminación, solo queda una posibilidad: $F_c$ — **falló la caché**.
+
+**Paso 3 — Predecir un síntoma verificable.** Si falló la caché, Diego nos dice que el tiempo de respuesta se disparó (d). Por Modus Ponens: $R$. Esto es una **predicción comprobable**: el equipo puede ir a los *logs* de rendimiento y confirmar que, en efecto, hubo respuestas por encima de un segundo — lo que valida toda la cadena.
+
+| # | Afirmación | Razón |
+|:---:|:---:|:---|
+| 1 | $E\rightarrow T$ | Premisa (a) |
+| 2 | $\neg T$ | Premisa (b) |
+| 3 | $F_p\lor F_c$ | Premisa (c) |
+| 4 | $F_c\rightarrow R$ | Premisa (d) |
+| 5 | $F_p\rightarrow T$ | Premisa (e) |
+| 6 | $\neg F_p$ | Modus Tollens en 5 y 2 |
+| 7 | $F_c$ | Eliminación en 3 y 6 |
+| 8 | $R$ | Modus Ponens en 4 y 7 |
+
+Por lo tanto se obtiene $F_c\land R$ — **falló la caché, y el tiempo de respuesta se disparó.**
+
+## El veredicto
+
+El equipo no votó ni siguió una corazonada. Partiendo de cuatro observaciones que cada quien tenía por separado, tres pasos de razonamiento formal señalaron la caché como causa y predijeron un síntoma que se puede verificar. La discusión de días se resolvió en ocho líneas que **cualquiera del equipo puede revisar y confirmar** — que es, al final, de lo que se trata una buena depuración.
+
+Observe también que la premisa de Ana ($E\rightarrow T$) no se usó en la cadena. Como en el Ejercicio 1, sobraba información: no toda pista es necesaria, y parte del oficio es distinguir la que sostiene la conclusión de la que solo acompaña.
+
+---
+
+# Ejercicios propuestos
+
+Resuelva cada ejercicio a mano antes de consultar el solucionario (al final del documento). Para los que piden validación, indique siempre el método usado y justifique cada paso.
+
+**Validación por tablas de verdad**
+
+**P1.** Determine, con una tabla de verdad, si el siguiente argumento es válido: $\ p\rightarrow q,\ \ q\rightarrow r\ \vdash\ p\rightarrow r$.
+
+**P2.** Determine, con una tabla de verdad, si es válido: $\ p\lor q,\ \ \neg p\ \vdash\ q$.
+
+**P3.** Determine, con una tabla de verdad, si el siguiente argumento es válido o corresponde a una falacia. Si es falacia, señale el renglón crítico que lo demuestra: $\ p\rightarrow q,\ \ \neg p\ \vdash\ \neg q$.
+
+**Validación por enfoque axiomático (reglas de inferencia)**
+
+**P4.** Demuestre que es válido: $\ p\rightarrow q,\ \ q\rightarrow r,\ \ p\ \vdash\ r$.
+
+**P5.** Demuestre que es válido: $\ p\lor q,\ \ \neg p,\ \ q\rightarrow r\ \vdash\ r$.
+
+**P6.** Demuestre que es válido: $\ p\rightarrow q,\ \ r\rightarrow s,\ \ p\lor r,\ \ \neg q\ \vdash\ s$.
+
+**P7.** Demuestre que es válido: $\ (p\land q)\rightarrow r,\ \ p,\ \ q\ \vdash\ r$.
+
+**P8.** Traduzca a lenguaje formal y demuestre la validez del siguiente argumento:
+
+> *"Si el despliegue fue exitoso, el sitio está en línea. El sitio no está en línea. O el despliegue fue exitoso o hubo un* rollback*. Si hubo* rollback*, se envió una alerta. Por lo tanto, se envió una alerta."*
+
+**P9.** Demuestre que es válido: $\ a\rightarrow b,\ \ b\rightarrow c,\ \ \neg c,\ \ a\lor d,\ \ d\rightarrow e\ \vdash\ e$.
+
+**P10.** El siguiente argumento *parece* válido pero no lo es. Identifique de qué falacia se trata y constrúyala como tabla de verdad para probar su invalidez: $\ p\rightarrow q,\ \ q\ \vdash\ p$.
+
+---
+
+## Cierre — El olfato, la lógica y una polilla
+
+Empezamos esta sesión con Grace Hopper y una polilla atrapada en un relé. Terminamos con un equipo que resolvió, en ocho líneas, un bug que llevaba días sin explicación. Entre ambos hay casi un siglo de distancia y la misma idea: **la deducción rigurosa no adivina, aísla**.
+
+Lo que Holmes hacía por intuición entrenada, lo que Hopper convirtió en método de laboratorio, y lo que este curso convierte en matemática, es exactamente la misma habilidad — y trasciende cualquier carrera. Un médico que descarta diagnósticos, una abogada que arma un caso, un ingeniero que caza un error en producción: todos están haciendo, con más o menos formalidad, lo mismo que usted acaba de aprender a escribir en una tabla de Afirmación–Razón.
+
+Hopper no fue solo la persona junto a la primera "polilla". Fue una de las mentes que hizo posible que hoy usted programe en lenguajes legibles en vez de en ceros y unos. Que una de las fundadoras de la disciplina en la que se está formando haya sido una matemática con un olfato extraordinario para los errores no es un dato decorativo: es un recordatorio de quiénes construyeron este campo, y de que el rigor lógico —no la corazonada— es lo que lo sostiene.
+
+> **Hacia la próxima sesión.** Hasta ahora todos nuestros argumentos han tratado sobre proposiciones completas ($p$, $q$, "llueve", "falló la caché"). Pero muchos razonamientos reales hablan de *"todos"* y *"algunos"*: *"todo usuario autenticado tiene permisos"*, *"existe al menos un registro corrupto"*. Para formalizar eso, la lógica proposicional se queda corta — necesitaremos los **cuantificadores** de la lógica de predicados. Ahí es donde seguimos.
+{: .note }
 
 ---
 
 ## Resultados de aprendizaje
 
-Al finalizar esta clase, usted será capaz de:
-* Distinguir sin ambigüedades entre la verdad de una proposición y la validez de un argumento.
-* Formalizar argumentos en lenguaje natural traduciéndolos a notación lógica estándar.
-* Demostrar la validez de un argumento utilizando reglas de inferencia paso a paso.
-* Identificar cuándo utilizar un enfoque semántico (tablas de verdad) frente a un enfoque sintáctico (reglas de inferencia).
+Al finalizar este documento, usted debería ser capaz de:
 
----
+- Distinguir con precisión entre la **verdad** de una proposición y la **validez** de un argumento, reconociendo que un argumento válido puede tener premisas falsas.
+- Representar un mismo argumento en sus tres notaciones (estándar, horizontal con $\vdash$, y condicional).
+- Determinar la validez de un argumento mediante **tablas de verdad**, identificando renglones críticos.
+- Reconocer la **falacia de afirmar el consecuente** y explicar por qué es inválida.
+- Demostrar la validez de un argumento mediante el **enfoque axiomático**, aplicando reglas de inferencia en formato Afirmación–Razón.
+- Decidir cuándo conviene el enfoque por tablas (pocas variables) y cuándo el axiomático (muchas variables), justificando la elección por escalabilidad.
 
-## Ejercicios de autoevaluación (Retos)
+## Ficha de bolsillo
 
-Ponga a prueba sus habilidades de detective lógico. Intente resolverlos antes de desplegar las respuestas.
+**Verdad vs. validez**: la verdad es de las *proposiciones* (depende del contexto); la validez es de los *argumentos* (depende solo de la forma). Un argumento válido puede tener premisas falsas.
 
-### Reto 1: ¿Válido o Inválido? (Método de Tablas)
+**Criterio de validez**: un argumento es válido $\iff$ su forma condicional $(P_1\land\cdots\land P_n)\rightarrow Q$ es una **tautología** $\iff$ en todo **renglón crítico** (premisas todas en 1) la conclusión es 1.
+
+**Las 9 reglas de inferencia**:
+
+| Regla | De… | …se obtiene |
+|:---|:---:|:---:|
+| Modus Ponens | $p\rightarrow q,\ p$ | $q$ |
+| Modus Tollens | $p\rightarrow q,\ \neg q$ | $\neg p$ |
+| Silogismo hipotético | $p\rightarrow q,\ q\rightarrow r$ | $p\rightarrow r$ |
+| Silogismo disyuntivo (Eliminación) | $p\lor q,\ \neg p$ | $q$ |
+| Simplificación | $p\land q$ | $p$ |
+| Adición | $p$ | $p\lor q$ |
+| Conjunción | $p,\ q$ | $p\land q$ |
+| Prueba por casos | $p\lor q,\ p\rightarrow r,\ q\rightarrow r$ | $r$ |
+| Resolución | $\neg p\lor r,\ p\lor q$ | $q\lor r$ |
+
+**Dos falacias que NO son reglas** (parecen válidas, no lo son):
+- Afirmar el consecuente: $p\rightarrow q,\ q\ \not\vdash\ p$.
+- Negar el antecedente: $p\rightarrow q,\ \neg p\ \not\vdash\ \neg q$.
+
+**Estrategia de demostración**: (1) liste premisas, (2) fije la meta, (3) busque patrones de reglas, (4) derive citando líneas, (5) itere. Sobran premisas sin usar — es normal.
+
+## Referencias y material para profundizar
+
+### Notas del curso
 {: .no_toc }
 
-Analice el siguiente argumento pequeño. Construya su tabla de verdad, identifique las **filas críticas** y determine si es válido.
+- **Sitio de notas de clase de Matemáticas Discretas 1**: [discretas1-udea.github.io/discretas1-udea-20261](https://discretas1-udea.github.io/discretas1-udea-20261/). Sitio oficial del curso, actualmente **en construcción**. La página de esta sesión puede aún no estar actualizada allí.
 
-> **Argumento:**
-> 1. $p \to q$
-> 2. $q$
-> 3. $\therefore p$
-
-### Reto 2: Derivación Formal (Método de Reglas)
+### Libros de texto del curso
 {: .no_toc }
 
-Demuestre paso a paso que el siguiente argumento es válido llegando a la conclusión $t$.
+- **Rosen, K. H.** *Discrete Mathematics and Its Applications* (8ª ed.). McGraw-Hill. Capítulo 1: "The Foundations: Logic and Proofs", sección "Rules of Inference".
+- **Liben-Nowell, D.** *Connecting Discrete Mathematics and Computer Science*. Cambridge University Press.
 
-**Premisas:**
-1. $r \to s$
-2. $r \land q$
-3. $s \to t$
-
-**Conclusión a demostrar:** $\vdash t$
-
-### Reto 3: El misterio del servidor caído
+### Material web
 {: .no_toc }
 
-Traduzca y demuestre la validez del siguiente argumento técnico:
-* "Si el tráfico es alto ($A$), entonces el servidor se calienta ($C$)."
-* "El servidor no se calienta ($\neg C$) o se activa la alarma ($L$)."
-* "El tráfico es alto ($A$)."
-* **Conclusión:** ¿Se activa la alarma ($L$)?
+- **MIT OpenCourseWare — 6.042J, Mathematics for Computer Science**: [ocw.mit.edu/courses/6-042j-mathematics-for-computer-science-fall-2010](https://ocw.mit.edu/courses/6-042j-mathematics-for-computer-science-fall-2010/). En inglés.
+- **Grace Hopper y el primer *bug* (bitácora original)** — National Museum of American History (Smithsonian): [americanhistory.si.edu/collections/object/nmah_334663](https://americanhistory.si.edu/collections/object/nmah_334663). Fuente del contexto histórico de esta sesión.
 
----
+> Si el acceso a internet es limitado, no es necesario consultar estas fuentes para completar el curso — el contenido de este documento es suficiente.
+{: .note }
 
-## Sección de Respuestas
-{: .no_toc }
+## Solucionario — Ejercicios propuestos
 
 <details markdown="1">
-  <summary><b>Haga clic aquí para ver las soluciones y justificaciones</b></summary>
+<summary><b>Presione aquí para ver las respuestas</b></summary>
 <br>
 
-### Solución Reto 1: La Falacia de Afirmación del Consecuente
-{: .no_toc }
+**P1.** **Válido** (es la regla de Silogismo Hipotético). En la tabla, ningún renglón crítico tiene conclusión falsa.
 
-Construimos la tabla de verdad:
+**P2.** **Válido** (es la regla de Silogismo Disyuntivo / Eliminación). Ningún renglón crítico con conclusión falsa.
 
-| $p$ | $q$ | $p \to q$ (P1) | $q$ (P2) | $p$ (Concl) | Análisis |
-| :-: | :-: | :-: | :-: | :-: | :--- |
-| V | V | **V** | **V** | **V** | Fila Crítica (Todo OK) |
-| V | F | F | F | V | No es fila crítica |
-| F | V | **V** | **V** | **F** | **¡Fila Crítica con Conclusión Falsa!** |
-| F | F | V | F | F | No es fila crítica |
+**P3.** **No válido** — es la falacia de *negar el antecedente*. Renglón crítico que lo demuestra: $p=0,\ q=1$: ambas premisas ($p\rightarrow q=1$ y $\neg p=1$) son verdaderas, pero la conclusión $\neg q=0$ es falsa.
 
-**Veredicto:** El argumento es **INVÁLIDO**. Note la tercera fila: las premisas son verdaderas, pero la conclusión es falsa. Esto se conoce como la *Falacia de afirmación del consecuente*.
+**P4.** **Válido**. Una derivación posible: (1) $p\rightarrow q$ Prem.; (2) $q\rightarrow r$ Prem.; (3) $p$ Prem.; (4) $q$ Modus Ponens 1,3; (5) $r$ Modus Ponens 2,4.
 
-### Solución Reto 2: Derivación Formal
-{: .no_toc }
+**P5.** **Válido**. (1) $p\lor q$; (2) $\neg p$; (3) $q\rightarrow r$; (4) $q$ Eliminación 1,2; (5) $r$ Modus Ponens 3,4.
 
-| Paso | Proposición | Justificación |
-| :---: | :--- | :--- |
-| 1 | $r \to s$ | Premisa |
-| 2 | $r \land q$ | Premisa |
-| 3 | $s \to t$ | Premisa |
-| 4 | $r$ | **Simplificación** en 2 |
-| 5 | $s$ | **Modus Ponens** en 1 y 4 |
-| 6 | $t$ | **Modus Ponens** en 3 y 5 |
+**P6.** **Válido**. (1) $p\rightarrow q$; (2) $r\rightarrow s$; (3) $p\lor r$; (4) $\neg q$; (5) $\neg p$ Modus Tollens 1,4; (6) $r$ Eliminación 3,5; (7) $s$ Modus Ponens 2,6.
 
-### Solución Reto 3: El servidor caído
-{: .no_toc }
+**P7.** **Válido**. (1) $(p\land q)\rightarrow r$; (2) $p$; (3) $q$; (4) $p\land q$ Conjunción 2,3; (5) $r$ Modus Ponens 1,4.
 
-**Formalización:**
+**P8.** Proposiciones: $D$: el despliegue fue exitoso; $S$: el sitio está en línea; $R$: hubo *rollback*; $A$: se envió una alerta. Formal: $D\rightarrow S,\ \neg S,\ D\lor R,\ R\rightarrow A\ \vdash\ A$. Derivación: (1) $D\rightarrow S$; (2) $\neg S$; (3) $D\lor R$; (4) $R\rightarrow A$; (5) $\neg D$ Modus Tollens 1,2; (6) $R$ Eliminación 3,5; (7) $A$ Modus Ponens 4,6. **Válido.**
 
-1. $A \to C$
-2. $\neg C \lor L$
-3. $A$
+**P9.** **Válido**. (1) $a\rightarrow b$; (2) $b\rightarrow c$; (3) $\neg c$; (4) $a\lor d$; (5) $d\rightarrow e$; (6) $a\rightarrow c$ Silogismo Hipotético 1,2; (7) $\neg a$ Modus Tollens 6,3; (8) $d$ Eliminación 4,7; (9) $e$ Modus Ponens 5,8.
 
-**Conclusión:** $L$
+**P10.** Es la falacia de **afirmar el consecuente**. Tabla:
 
-**Demostración:**
+| $p$ | $q$ | $p\rightarrow q$ | $q$ | $p$ (concl.) |
+|:-:|:-:|:-:|:-:|:-:|
+| 0 | 0 | 1 | 0 | 0 |
+| **0** | **1** | **1** | **1** | **0** |
+| 1 | 0 | 0 | 0 | 1 |
+| 1 | 1 | 1 | 1 | 1 |
 
-| Paso | Proposición | Justificación |
-| :---: | :--- | :--- |
-| 1 | $A \to C$ | Premisa 1 |
-| 2 | $A$ | Premisa 3 |
-| 3 | $C$ | **Modus Ponens** en 1 y 2 |
-| 4 | $\neg(\neg C)$ | **Doble Negación** en 3 (Truco para ver el silogismo) |
-| 5 | $\neg C \lor L$ | Premisa 2 |
-| 6 | $L$ | **Silogismo Disyuntivo** en 5 y 4 |
+El renglón $p=0,\ q=1$ es crítico (ambas premisas en 1) con conclusión $p=0$ falsa. **No válido.**
 
 </details>
