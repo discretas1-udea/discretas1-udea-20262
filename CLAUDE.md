@@ -34,3 +34,9 @@ Top-level pages (`about.md`, `calendar.md`, `schedule.md`, `staff.md`, `announce
 - `baseurl` and the `aux_links` GitHub repo URL in `_config.yml` must match the current semester's repo name (e.g. `discretas1-udea-20262`) — these have historically been left pointing at the prior semester's repo after copying the template.
 - `tagline` (`_config.yml`) and the intro paragraph in `README.md` embed the semester string (e.g. "2026-1") as plain text, separate from the repo-name references above.
 - `liquid: strict_filters/error_mode: strict` is set — undefined Liquid variables/filters will hard-fail the build, not silently render blank.
+- `exclude:` in `_config.yml` lists `CLAUDE.md` — it's kept out of the built `_site/` output.
+- `callouts:` in `_config.yml` defines kramdown callout types in Spanish (`note`→"Nota", `tip`→"Consejo", `important`→"Importante", `warning`→"Advertencia"); used in lesson content via IAL syntax, e.g. `{: .note }` under a blockquote.
+
+## Assets
+
+Lesson-specific images live under `assets/images/lessons/mod{N}/clase{N}/` and are referenced from `lessons/` content with `{{ '/assets/images/...' | relative_url }}` (required because of `baseurl`).
