@@ -2,7 +2,9 @@
 layout: default
 title: Cuantificadores anidados
 parent: Lógica Cuantificacional
-nav_order: 3                   
+nav_order: 3       
+math: mathjax           
+has_children: true             
 ---
 
 ![Built with AI](https://img.shields.io/badge/Built%20with-AI-blue.svg)

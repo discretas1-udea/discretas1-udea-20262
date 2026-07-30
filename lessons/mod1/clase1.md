@@ -3,6 +3,7 @@ layout: default
 title: Clase 01 - Fundamentos de Lógica Proposicional
 parent: Lógica Proposicional
 nav_order: 1
+has_children: true
 ---
 
 ![Built with AI](https://img.shields.io/badge/Built%20with-AI-blue.svg)

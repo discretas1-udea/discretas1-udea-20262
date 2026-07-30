@@ -1,8 +1,10 @@
 ---
 layout: default
-title: Demostraciones y equivalencias en lógica cuantificacional
+title: Demostraciones en lógica cuantificacional
 parent: Lógica Cuantificacional
-nav_order: 4                   
+nav_order: 4  
+math: mathjax           
+has_children: true                  
 ---
 
 ![Built with AI](https://img.shields.io/badge/Built%20with-AI-blue.svg)
@@ -19,7 +21,7 @@ nav_order: 4
 
 ## Cerrando el caso anterior
 
-En Clase 9 el ingeniero del gallinero cerró su expediente: aprendimos a traducir y evaluar cuantificadores anidados, y a reconocer cuándo el orden de $\forall$ y $\exists$ cambia el significado de una fórmula. Con eso, el gallinero quedó completamente formalizado — pero el propio cierre de Clase 8 dejó una tarea pendiente y explícita: todo lo aprendido hasta ahora nos deja *traducir* y *evaluar* enunciados con cuantificadores, pero no nos ha dado todavía las herramientas para **demostrar** formalmente que un argumento cuantificado es válido — el mismo trabajo que ya hicimos con lógica proposicional en el Bug de la Polilla (Clase 5). Hoy cerramos esa brecha.
+En Clase 8 el ingeniero del gallinero cerró su expediente: aprendimos a traducir y evaluar cuantificadores anidados, y a reconocer cuándo el orden de $\forall$ y $\exists$ cambia el significado de una fórmula. Con eso, el gallinero quedó completamente formalizado — pero el propio cierre de Clase 8 dejó una tarea pendiente y explícita: todo lo aprendido hasta ahora nos deja *traducir* y *evaluar* enunciados con cuantificadores, pero no nos ha dado todavía las herramientas para **demostrar** formalmente que un argumento cuantificado es válido — el mismo trabajo que ya hicimos con lógica proposicional en el Bug de la Polilla (Clase 5). Hoy cerramos esa brecha.
 
 ## El caso — ¿probar 15 veces es lo mismo que demostrar siempre?
 
@@ -143,7 +145,7 @@ Estas reglas ya fueron derivadas y verificadas con tablas de verdad en Clase 5 �
 
 Estas equivalencias ya fueron demostradas por completo — con derivación formal y contraejemplos — en [Clase 8]({{ '/lessons/mod2/clase8/' | relative_url }}), Parte IV. Aquí solo la tabla de referencia; no se repite la demostración.
 
-> **Corrección aplicada.** La fila de distributividad de $\forall$ sobre $\lor$ en un solo sentido va en la dirección $\forall x\ P(x)\lor\forall x\ Q(x)\rightarrow\forall x\ (P(x)\lor Q(x))$ — la dirección inversa **no** es válida (mismo contraejemplo par/impar de la Parte IV.4 de Clase 9: dominio $\{1,2\}$ hace verdadero el antecedente $\forall x(par(x)\lor impar(x))$ pero falso el consecuente $\forall x\ par(x)\lor\forall x\ impar(x)$ ). Este error venía del PDF fuente de esta sesión — verificado que **Clase 9 no lo tiene**: esa página ya refuta correctamente, con $\not\equiv$ y contraejemplo, la versión de equivalencia plena, y nunca afirma una implicación de un solo sentido en la dirección inválida.
+> **Corrección aplicada.** La fila de distributividad de $\forall$ sobre $\lor$ en un solo sentido va en la dirección $\forall x\ P(x)\lor\forall x\ Q(x)\rightarrow\forall x\ (P(x)\lor Q(x))$ — la dirección inversa **no** es válida (mismo contraejemplo par/impar de la Parte IV.4 de Clase 8: dominio $\{1,2\}$ hace verdadero el antecedente $\forall x(par(x)\lor impar(x))$ pero falso el consecuente $\forall x\ par(x)\lor\forall x\ impar(x)$ ). Este error venía del PDF fuente de esta sesión — verificado que **Clase 8 no lo tiene**: esa página ya refuta correctamente, con $\not\equiv$ y contraejemplo, la versión de equivalencia plena, y nunca afirma una implicación de un solo sentido en la dirección inválida.
 {: .warning }
 
 | Nombre | Equivalencia |
@@ -581,7 +583,7 @@ Al finalizar este documento, usted debería ser capaz de:
 - **Clasificar** un enunciado cuantificado según las cuatro formas aristotélicas (A, E, I, O) y **formalizarlo** con el conectivo correcto para cada una.
 - **Distinguir** una demostración cuantificacional de una simple evaluación o traducción, reconociendo que se necesitan reglas adicionales (UI, UG, EI, EG) para conectar premisas universales con premisas particulares.
 - **Aplicar** Instanciación Universal, Generalización Universal, Instanciación Existencial y Generalización Existencial, respetando explícitamente la restricción de arbitrariedad de UG.
-- **Construir** demostraciones completas en formato Afirmación-Razón que combinen reglas proposicionales (Clase 6) con las cuatro reglas cuantificacionales de hoy.
+- **Construir** demostraciones completas en formato Afirmación-Razón que combinen reglas proposicionales (Clase 5) con las cuatro reglas cuantificacionales de hoy.
 - **Explicar**, con un ejemplo concreto, por qué un número finito de casos de prueba nunca justifica, por sí solo, una generalización universal.
 
 ## Ficha de bolsillo
@@ -600,10 +602,10 @@ Al finalizar este documento, usted debería ser capaz de:
 ### Notas del curso
 {: .no_toc }
 
-- **Sitio de notas de clase de Matemáticas Discretas 1**: [discretas1-udea.github.io/discretas1-udea-20261](https://discretas1-udea.github.io/discretas1-udea-20261/). Sitio oficial del curso, actualmente **en construcción**. La página de esta sesión puede aún no estar actualizada allí.
-- **[Clase 6](clase6.md)**: demostración en lógica proposicional, formato Afirmación-Razón, reglas de inferencia básicas.
-- **[Clase 7](clase7.md)**: universo, predicado, variable, cuantificadores básicos.
-- **[Clase 9](clase9.md)**: cuantificadores anidados y equivalencias cuantificacionales, con sus demostraciones completas.
+- **Sitio de notas de clase de Matemáticas Discretas 1**: [discretas1-udea.github.io/discretas1-udea-20262](https://discretas1-udea.github.io/discretas1-udea-20262/). Sitio oficial del curso, actualmente **en construcción**. La página de esta sesión puede aún no estar actualizada allí.
+- **[Clase 5]({{ '/lessons/mod1/clase5/' | relative_url }})**: demostración en lógica proposicional, formato Afirmación-Razón, reglas de inferencia básicas.
+- **[Clase 6]({{ '/lessons/mod2/clase6/' | relative_url }})**: universo, predicado, variable, cuantificadores básicos.
+- **[Clase 8]({{ '/lessons/mod2/clase8/' | relative_url }})**: cuantificadores anidados y equivalencias cuantificacionales, con sus demostraciones completas.
 
 ### Libros de texto del curso
 {: .no_toc }

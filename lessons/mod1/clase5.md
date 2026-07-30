@@ -4,6 +4,7 @@ title: Clase 05 - Validez e inferencia (tablas vs reglas)
 parent: Lógica Proposicional
 nav_order: 5
 math: mathjax
+has_children: true
 ---
 
 ![Built with AI](https://img.shields.io/badge/Built%20with-AI-blue.svg)

@@ -2,7 +2,9 @@
 layout: default
 title: Sobre los cuantificadores
 parent: Lógica Cuantificacional
-nav_order: 2                   
+nav_order: 2   
+math: mathjax           
+has_children: true                 
 ---
 
 

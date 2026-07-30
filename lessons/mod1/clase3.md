@@ -4,6 +4,7 @@ title: Clase 03 - Equivalencias y Álgebra de Proposiciones
 parent: Lógica Proposicional
 nav_order: 3
 math: mathjax
+has_children: true
 ---
 
 

@@ -2,7 +2,9 @@
 layout: default
 title: Introducción a la logica cuantificacional
 parent: Lógica Cuantificacional
-nav_order: 1                   
+nav_order: 1       
+math: mathjax           
+has_children: true 
 ---
 
 ![Built with AI](https://img.shields.io/badge/Built%20with-AI-blue.svg)

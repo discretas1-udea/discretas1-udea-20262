@@ -2,7 +2,8 @@
 layout: default
 title: Clase 02 - Operadores Lógicos y Tablas de Verdad
 parent: Lógica Proposicional
-nav_order: 2                   
+nav_order: 2              
+has_children: true     
 ---
 
 ![Built with AI](https://img.shields.io/badge/Built%20with-AI-blue.svg)

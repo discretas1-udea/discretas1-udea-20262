@@ -4,6 +4,7 @@ title: Clase 04 - Enfoque axiomático
 parent: Lógica Proposicional
 nav_order: 4
 math: mathjax
+has_children: true
 ---
 
 ![Built with AI](https://img.shields.io/badge/Built%20with-AI-blue.svg)
