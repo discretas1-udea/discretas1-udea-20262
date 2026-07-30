@@ -18,6 +18,7 @@ Los enunciados y soluciones se publican como material de apoyo.*
 |:--:|:--|
 | 2025-1 | [Enunciado]({{ '/assets/exams/discretas1_parcial1_2025-1.pdf' | relative_url }}){: .label .label-red target="_blank" } [Solución]({{ '/assets/exams/discretas1_parcial1_2025-1_sol.pdf' | relative_url }}){: .label target="_blank" } |
 | 2025-2 | [Enunciado]({{ '/assets/exams/discretas1_parcial1_2025-2.pdf' | relative_url }}){: .label .label-red target="_blank" } [Solución]({{ '/assets/exams/discretas1_parcial1_2025-2_sol.pdf' | relative_url }}){: .label target="_blank" } |
+| 2026-1 | [Enunciado]({{ '/assets/exams/discretas1_parcial1_2026-1.pdf' | relative_url }}){: .label .label-red target="_blank" } [Solución]({{ '/assets/exams/discretas1_parcial1_2026-1_sol.pdf' | relative_url }}){: .label target="_blank" } |
 
 **Material de apoyo**
 - [Formulas parcial 1]({{ '/assets/exams/formulas_parcial1.pdf' | relative_url }}){: .label .label-yellow target="_blank" }
@@ -30,6 +31,7 @@ Los enunciados y soluciones se publican como material de apoyo.*
 |:--:|:--|
 | 2025-1 | [Enunciado]({{ '/assets/exams/discretas1_parcial2_2025-1.pdf' | relative_url }}){: .label .label-red target="_blank" } [Solución]({{ '/assets/exams/discretas1_parcial2_2025-1_sol.pdf' | relative_url }}){: .label target="_blank" } |
 | 2025-2 | [Enunciado]({{ '/assets/exams/discretas1_parcial2_2025-2.pdf' | relative_url }}){: .label .label-red target="_blank" } [Solución]({{ '/assets/exams/discretas1_parcial2_2025-2_sol.pdf' | relative_url }}){: .label target="_blank" } |
+| 2026-1 | [Enunciado]({{ '/assets/exams/discretas1_parcial2_2026-1.pdf' | relative_url }}){: .label .label-red target="_blank" } [Solución]({{ '/assets/exams/discretas1_parcial2_2026-1_sol.pdf' | relative_url }}){: .label target="_blank" } |
 
 **Material de apoyo**
 - [Formulas parcial 2]({{ '/assets/exams/formulas_parcial2.pdf' | relative_url }}){: .label .label-yellow target="_blank" }
@@ -42,6 +44,7 @@ Los enunciados y soluciones se publican como material de apoyo.*
 |:--:|:--|
 | 2025-1 | [Enunciado]({{ '/assets/exams/discretas1_parcial3_2025-1.pdf' | relative_url }}){: .label .label-red target="_blank" } [Solución]({{ '/assets/exams/discretas1_parcial3_2025-1_sol.pdf' | relative_url }}){: .label target="_blank" } |
 | 2025-2 | [Enunciado]({{ '/assets/exams/discretas1_parcial3_2025-2.pdf' | relative_url }}){: .label .label-red target="_blank" } [Solución]({{ '/assets/exams/discretas1_parcial3_2025-2_sol.pdf' | relative_url }}){: .label target="_blank" } |
+| 2026-1 | [Enunciado]({{ '/assets/exams/discretas1_parcial3_2026-1.pdf' | relative_url }}){: .label .label-red target="_blank" } [Solución]({{ '/assets/exams/discretas1_parcial3_2026-1_sol.pdf' | relative_url }}){: .label target="_blank" } |
 
 **Material de apoyo**
 - [Formulas parcial 3]({{ '/assets/exams/formulas_parcial3.pdf' | relative_url }}){: .label .label-yellow target="_blank" }
