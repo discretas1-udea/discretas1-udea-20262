@@ -24,10 +24,9 @@ Content lives in Jekyll collections defined in `_config.yml`, each with a layout
 - `_modules/` (`week-01.md` … ) → `_layouts/module.html` — per-week class schedule entries (dates + topics), rendered into `calendar.md` by filtering on `module.slug`.
 - `_schedules/` (`weekly.md`) → `_layouts/schedule.html` — generic weekly time-grid (hours/days), rendered into `schedule.md` via `{% for schedule in site.schedules %}`.
 - `_announcements/` → `_layouts/announcement.html` — dated announcements, rendered on `announcements.md`.
-- `_staffers/` (`prof1.md`, `prof2.md`) → `_layouts/staffer.html` — instructor profiles, rendered on `staff.md`.
 - `lessons/` — actual class content, organized as `lessons/mod{N}/clase{N}.md` plus an `index.md` per module; not a Jekyll collection but a normal page tree with `permalink: '/:path/'` and layout forced to `default` (`has_children: false`) via the `scope: path: "lessons"` block in `defaults`. **Do not modify `lessons/` unless explicitly asked** — it's handled separately from config/date updates.
 
-Top-level pages (`about.md`, `calendar.md`, `schedule.md`, `staff.md`, `announcements.md`, `README.md`/index) are thin wrappers that loop over the collections above via Liquid (`{% for x in site.<collection> %}`) rather than containing content directly — to add course content, add/edit collection entries, not the top-level pages.
+Top-level pages (`about.md`, `calendar.md`, `schedule.md`, `announcements.md`, `README.md`/index) are thin wrappers that loop over the collections above via Liquid (`{% for x in site.<collection> %}`) rather than containing content directly — to add course content, add/edit collection entries, not the top-level pages.
 
 ## Config notes
 
