@@ -37,6 +37,7 @@ Top-level pages (`about.md`, `calendar.md`, `schedule.md`, `announcements.md`, `
 - `liquid: strict_filters/error_mode: strict` is set — undefined Liquid variables/filters will hard-fail the build, not silently render blank.
 - `exclude:` in `_config.yml` lists `CLAUDE.md` — it's kept out of the built `_site/` output.
 - `callouts:` in `_config.yml` defines kramdown callout types in Spanish (`note`→"Nota", `tip`→"Consejo", `important`→"Importante", `warning`→"Advertencia"); used in lesson content via IAL syntax, e.g. `{: .note }` under a blockquote. See "Rendering rules" below for how to convert GitHub-style `[!NOTE]` alerts into this syntax.
+- `math: mathjax` is already active site-wide via `_config.yml` — MathJax renders `$...$`/`$$...$$` automatically on every page. Do **not** add a manual MathJax `<script>` include to `_includes/head_custom.html` — that's advice for a vanilla Jekyll site with no math engine configured, and would load a conflicting second MathJax instance here. If math isn't rendering somewhere, the cause is a markup/escaping bug in that specific page (see "Rendering rules"), not a missing MathJax setup.
 
 ## Assets
 
@@ -44,7 +45,7 @@ Lesson-specific images live under `assets/images/lessons/mod{N}/clase{N}/` and a
 
 ## Rendering rules — Just the Docs / kramdown / Liquid
 
-Learned empirically while migrating and debugging lesson content (2026). These apply to every `.md` file under `lessons/`, including class notes and self-assessment (`*_autoevaluacion.md`) documents. Check each one before considering a migration or a newly generated lesson "done".
+Learned empirically while migrating and debugging lesson content (2026). These apply to every `.md` file under `lessons/`, including class notes, self-assessment (`*_autoevaluacion.md`), and workshop (`taller*.md`) documents. Check each one before considering a migration or a newly generated document "done".
 
 ### 1. GitHub-style alerts are not supported
 `> [!NOTE]`, `> [!TIP]`, `> [!WARNING]`, `> [!IMPORTANT]` (GitHub's alert syntax) render as a plain blockquote with the literal text "[!TYPE]" visible — Just the Docs doesn't recognize this syntax; it needs the `callouts:` IAL syntax noted above instead.
@@ -68,19 +69,50 @@ Without both, inner content (bold, LaTeX, inline code) either fails to render as
 Any `{{` in the text — including LaTeX with double braces, e.g. `\dfrac{{p\rightarrow q}\atop{p}}{q}` — can be parsed by Liquid as the start of a variable, breaking the build with "Liquid syntax error... was not properly terminated".
 - Fix: wrap the affected block (the whole table, not just the formula) in `{% raw %}` … `{% endraw %}`.
 - Exception: intentional Liquid usage (e.g. `{{ '/path/' | relative_url }}` for image or internal-link paths) must **not** be wrapped in raw — that's the correct mechanism, not a bug.
+- Raw HTML `<table>` blocks (see rule 4) generally don't need this — plain `\begin{array}` has no double braces — but keep the check in mind whenever `\dfrac{{...}}`-style notation is involved.
 
-### 4. `\hline` inside a Markdown table cell breaks the build
-`\hline` (from `\begin{array}`) inside a formula that lives in a table cell produces "Misplaced \hline" on the real built site — even though it can look fine on github.com or raw.githubusercontent.com, which use a different renderer entirely and are not a valid test.
-- Works: `\hline` inside a standalone `$$...$$` block, outside any table.
-- Breaks: `\hline` inside a table cell, in any form ($ or $$, with or without `\begin{array}`).
-- Safe alternative for table cells: `\dfrac{{premise1}\atop{premise2}}{\therefore\ conclusion}` (no `\hline`, no `\\`).
+### 4. `\hline` inside a table — root cause identified and solved
+`\hline` breaks specifically inside **kramdown's native Markdown pipe-table syntax** (`| cell | cell |`) — kramdown's pipe-table parser mangles the LaTeX before MathJax ever sees it ("Misplaced \hline" on the built site), regardless of `\dfrac` vs `\begin{array}`, single vs multi-line, or how clean the raw Markdown looks in GitHub.com or any other renderer (those use different engines entirely and are not a valid test).
+
+**Confirmed fix**: replace the Markdown pipe-table with a raw HTML `<table>`:
+```html
+<table>
+<thead>
+<tr><th>Nombre</th><th>Regla</th><th>Descripción</th></tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Modus Ponens</strong></td>
+<td>
+
+$$
+\begin{array}{l}
+p \to q \\
+p \\
+\hline
+\therefore\ q
+\end{array}
+$$
+
+</td>
+<td>Si se da la causa, ocurre el efecto.</td>
+</tr>
+</tbody>
+</table>
+```
+kramdown treats the whole `<table>...</table>` block as raw HTML passthrough and never applies its pipe-table parser, so `\hline` inside `\begin{array}{l}...\hline...\end{array}` reaches MathJax intact and renders correctly (confirmed working in production, 2026). Each math cell needs its LaTeX on its own blank-line-separated block within the `<td>` (same blank-line requirement as rule 2's `<details>`).
+
+- Use this whenever a table needs `\hline`-style inference rules, or any LaTeX with literal `\\` row breaks in a cell.
+- For tables WITHOUT that need, plain Markdown pipe-tables remain simpler — don't switch to HTML tables by default, only when `\hline`/`\\` inside a cell requires it.
+- Safe fallback that avoids the whole issue (still a valid choice when an HTML table feels heavier than needed): `\dfrac{{premise1}\atop{premise2}}{\therefore\ conclusion}` inside a normal Markdown pipe-table cell — no `\hline`, no `\\`, works natively. Avoid nesting `\atop` inside `\atop` for 3+ premises (it shrinks the innermost text via MathJax's script-level scaling); instead comma-join two premises on one line inside a single `\atop` level.
+- Do not trust an external tool's (ChatGPT/Gemini/etc.) generic claim about "Jekyll can't render X" at face value — verify against this repo's actual, tested config first. E.g. a suggestion to manually add a MathJax `<script>` to `_includes/head_custom.html` would be wrong here (see the `math: mathjax` note above) even though it's reasonable generic advice for a Jekyll site with no math engine configured.
 
 ### 5. Internal links: always via `relative_url`, never a raw file path
 - Images: covered above (`assets/images/lessons/mod{N}/clase{N}/`).
 - Links to other lessons: `[Clase N]({{ '/lessons/mod{N}/clase{N}/' | relative_url }})` — never `[Clase N](claseN.md)` (a file path, which doesn't resolve against the site's pretty permalinks).
 
 ### 6. Table of contents (TOC)
-Each lesson/self-assessment doc should have:
+Each lesson/self-assessment/workshop doc should have:
 ```
 ## Tabla de Contenidos
 {: .no_toc .text-delta }
@@ -90,7 +122,7 @@ Each lesson/self-assessment doc should have:
 
 ---
 ```
-placed right after the intro narrative, before the theory content starts (`# Parte I` or `## Calentamiento`, depending on the document type).
+placed right after the intro narrative, before the theory content starts (`# Parte I`, `## Calentamiento`, or `## Objetivo de aprendizaje`, depending on the document type).
 - The decorative H1 title (and its H3 subtitle, if any) get `{: .no_toc }` so they don't show up in the index.
 - Every `###` in the document gets `{: .no_toc }` — the auto-generated TOC is intentionally limited to `#`/`##` only.
 
@@ -99,7 +131,7 @@ placed right after the intro narrative, before the theory content starts (`# Par
 - The parent page still needs an explicit `has_children: true` in its front matter, or its children won't render nested in the sidebar — they disappear from the nav silently, with no error.
 - The `parent:` value must match the parent page's real `title:` **exactly**, character for character (case, accents, hyphens) — a mismatch produces no error, the child page just doesn't appear anywhere in the nav tree.
 
-### 8. Standard front matter for self-assessment pages
+### 8. Standard front matter for self-assessment and workshop pages
 ```yaml
 ---
 layout: default
@@ -108,9 +140,20 @@ parent: <EXACT title of the corresponding claseN.md>
 nav_order: 1
 ---
 ```
+For workshop pages (`Talleres de Repaso`), same pattern with `parent: Talleres de Repaso` and sequential `nav_order`.
 
 ### 9. Internal "Clase N" numbering — recurring failure mode to watch for
-Several previously generated lesson documents contain self-references and cross-references to "Clase N" that are off by one relative to the site's real numbering (e.g. a document that is really Clase 6 refers to itself as "Clase 7"). Before signing off on a migration or a new generation pass, grep the document for `Clase ` and `claseN.md` and check every number against the module's actual `nav_order` mapping.
+Several previously generated lesson documents contain self-references and cross-references to "Clase N" that are off by one relative to the site's real numbering (e.g. a document that is really Clase 6 refers to itself as "Clase 7"). Before signing off on a migration or a new generation pass, grep the document for `Clase ` and `claseN.md` and check every number against the module's actual `nav_order` mapping. Don't apply a blind uniform shift across a whole document without verifying — some documents mix correct and incorrect references in the same file.
 
 ### 10. Line endings (CRLF/LF)
 Files in this repo mix CRLF and LF depending on origin/authoring tool. When editing, preserve the existing file's line-ending style rather than normalizing it — normalizing produces noisy whole-file diffs in git for no functional benefit.
+
+### 11. Anexos / appendix sections in workshop docs
+Workshop (`taller*.md`) source files often ship with 3-4 generic appendix blocks (declarative sentence types, argumentative-passage indicators) inherited from a shared template, of which only one (the operators/rules formulary) is actually cross-referenced from the body. Before migrating, grep for `Anexo` across the whole file to check which appendix numbers are actually referenced in the body text — unreferenced ones are safe to drop on request. If only one appendix remains after trimming, rename the section header to singular ("Anexo completo") and drop the number from in-body references (just "el Anexo") rather than leaving a stale "Anexo 4" pointing at the only item.
+
+### 12. Never use a literal `|` for absolute value / cardinality inside math
+A bare `|` inside `$...$` or `$$...$$` — e.g. `|A|`, `|A \cap B|` — can be misread by kramdown as a Markdown table column separator, breaking the render into a garbled table even inside a callout or a plain paragraph (confirmed in production, 2026: a quoted `$\mathrm{Min}(|A|+|B|)$` inside a `{: .note }` callout rendered as a broken multi-column table instead of text). This is independent of the pipe-table issue in rule 4 — it can happen in a single inline formula with no table syntax anywhere nearby.
+
+- Always use `\lvert ... \rvert` for cardinality/absolute value: `\lvert A \rvert`, `\lvert A \cap B \rvert`.
+- If you're quoting a source verbatim that used a single stray `|` (e.g. documenting an error in a PDF's original notation), replace it with `\vert` instead of a literal `|` — `\vert` renders identically to `|` in MathJax but doesn't trip kramdown's table detection. Do this even when the quote is meant to show "what the original incorrectly said" — the visual result for the reader is the same, only the underlying character differs.
+- When migrating or generating new content, grep for a bare `|` inside `$...$`/`$$...$$` as a routine check, the same way you'd check for `\hline` or `{{`.

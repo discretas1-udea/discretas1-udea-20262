@@ -4,7 +4,6 @@ title: Clase 05 - Validez e inferencia (tablas vs reglas)
 parent: Lógica Proposicional
 nav_order: 5
 math: mathjax
-has_children: true
 ---
 
 ![Built with AI](https://img.shields.io/badge/Built%20with-AI-blue.svg)
@@ -390,19 +389,156 @@ Piénselo como el enfoque axiomático de la Clase 5, pero un nivel más arriba: 
 
 Estas son las reglas que usaremos. En cada fracción, lo que está **arriba** de la barra son las premisas (verdades que ya posee) y lo que está **debajo** es la conclusión (lo que tiene permiso de escribir).
 
-{% raw %}
-| Nombre | Regla | Idea intuitiva |
-| :--- | :---: | :--- |
-| **Modus Ponens** | $\dfrac{{p\rightarrow q}\atop{p}}{\therefore\ q}$ | Si se da la causa, ocurre el efecto. |
-| **Modus Tollens** | $\dfrac{{p\rightarrow q}\atop{\neg q}}{\therefore\ \neg p}$ | Si no veo el efecto, la causa no ocurrió. |
-| **Silogismo hipotético** (Transitividad) | $\dfrac{{p\rightarrow q}\atop{q\rightarrow r}}{\therefore\ p\rightarrow r}$ | Si $p$ lleva a $q$ y $q$ lleva a $r$, entonces $p$ lleva a $r$. |
-| **Silogismo disyuntivo** (Eliminación) | $\dfrac{{p\lor q}\atop{\neg p}}{\therefore\ q}$ | Si tengo dos opciones y descarto una, queda la otra. |
-| **Simplificación** | $\dfrac{p\land q}{\therefore\ p}$ | Si tengo el todo, tengo cada parte. |
-| **Adición** | $\dfrac{p}{\therefore\ p\lor q}$ | Si algo es verdad, "eso o cualquier cosa" también. |
-| **Conjunción** | $\dfrac{{p}\atop{q}}{\therefore\ p\land q}$ | Puedo unir dos verdades independientes. |
-| **Prueba por casos** | $\dfrac{{p\lor q}\atop{p\rightarrow r,\ q\rightarrow r}}{\therefore\ r}$ | Si mis dos opciones llevan al mismo sitio, ese sitio es seguro. |
-| **Resolución** | $\dfrac{{\neg p\lor r}\atop{p\lor q}}{\therefore\ q\lor r}$ | Se cancela la variable que aparece afirmada y negada; queda el resto. |
-{% endraw %}
+<table>
+<thead>
+<tr><th>Nombre</th><th>Regla</th><th>Idea intuitiva</th></tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Modus Ponens</strong></td>
+<td>
+
+$$
+\begin{array}{l}
+p \to q \\
+p \\
+\hline
+\therefore\ q
+\end{array}
+$$
+
+</td>
+<td>Si se da la causa, ocurre el efecto.</td>
+</tr>
+<tr>
+<td><strong>Modus Tollens</strong></td>
+<td>
+
+$$
+\begin{array}{l}
+p \to q \\
+\neg q \\
+\hline
+\therefore\ \neg p
+\end{array}
+$$
+
+</td>
+<td>Si no veo el efecto, la causa no ocurrió.</td>
+</tr>
+<tr>
+<td><strong>Silogismo hipotético</strong> (Transitividad)</td>
+<td>
+
+$$
+\begin{array}{l}
+p \to q \\
+q \to r \\
+\hline
+\therefore\ p \to r
+\end{array}
+$$
+
+</td>
+<td>Si $p$ lleva a $q$ y $q$ lleva a $r$, entonces $p$ lleva a $r$.</td>
+</tr>
+<tr>
+<td><strong>Silogismo disyuntivo</strong> (Eliminación)</td>
+<td>
+
+$$
+\begin{array}{l}
+p \lor q \\
+\neg p \\
+\hline
+\therefore\ q
+\end{array}
+$$
+
+</td>
+<td>Si tengo dos opciones y descarto una, queda la otra.</td>
+</tr>
+<tr>
+<td><strong>Simplificación</strong></td>
+<td>
+
+$$
+\begin{array}{l}
+p \land q \\
+\hline
+\therefore\ p
+\end{array}
+$$
+
+</td>
+<td>Si tengo el todo, tengo cada parte.</td>
+</tr>
+<tr>
+<td><strong>Adición</strong></td>
+<td>
+
+$$
+\begin{array}{l}
+p \\
+\hline
+\therefore\ p \lor q
+\end{array}
+$$
+
+</td>
+<td>Si algo es verdad, "eso o cualquier cosa" también.</td>
+</tr>
+<tr>
+<td><strong>Conjunción</strong></td>
+<td>
+
+$$
+\begin{array}{l}
+p \\
+q \\
+\hline
+\therefore\ p \land q
+\end{array}
+$$
+
+</td>
+<td>Puedo unir dos verdades independientes.</td>
+</tr>
+<tr>
+<td><strong>Prueba por casos</strong></td>
+<td>
+
+$$
+\begin{array}{l}
+p \lor q \\
+p \to r \\
+q \to r \\
+\hline
+\therefore\ r
+\end{array}
+$$
+
+</td>
+<td>Si mis dos opciones llevan al mismo sitio, ese sitio es seguro.</td>
+</tr>
+<tr>
+<td><strong>Resolución</strong></td>
+<td>
+
+$$
+\begin{array}{l}
+\neg p \lor r \\
+p \lor q \\
+\hline
+\therefore\ q \lor r
+\end{array}
+$$
+
+</td>
+<td>Se cancela la variable que aparece afirmada y negada; queda el resto.</td>
+</tr>
+</tbody>
+</table>
 
 
 > **Modus Tollens no es la falacia de afirmar el consecuente.** Ambas parten de $p\rightarrow q$, pero Modus Tollens usa $\neg q$ (niega el efecto) para concluir $\neg p$ — y es **válida**. La falacia usa $q$ (afirma el efecto) para concluir $p$ — y es **inválida**. La diferencia está en si se niega o se afirma el consecuente.
