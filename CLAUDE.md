@@ -148,6 +148,8 @@ Several previously generated lesson documents contain self-references and cross-
 ### 10. Line endings (CRLF/LF)
 Files in this repo mix CRLF and LF depending on origin/authoring tool. When editing, preserve the existing file's line-ending style rather than normalizing it — normalizing produces noisy whole-file diffs in git for no functional benefit.
 
+- On a machine with `core.autocrlf=true`, restoring a file with `git checkout -- <file>` rewrites an LF file as CRLF in the working tree. To revert a bad edit without changing line endings, rebuild from `git show HEAD:<file>` and write with `newline=''` (Python) instead.
+
 ### 11. Anexos / appendix sections in workshop docs
 Workshop (`taller*.md`) source files often ship with 3-4 generic appendix blocks (declarative sentence types, argumentative-passage indicators) inherited from a shared template, of which only one (the operators/rules formulary) is actually cross-referenced from the body. Before migrating, grep for `Anexo` across the whole file to check which appendix numbers are actually referenced in the body text — unreferenced ones are safe to drop on request. If only one appendix remains after trimming, rename the section header to singular ("Anexo completo") and drop the number from in-body references (just "el Anexo") rather than leaving a stale "Anexo 4" pointing at the only item.
 
@@ -157,3 +159,10 @@ A bare `|` inside `$...$` or `$$...$$` — e.g. `|A|`, `|A \cap B|` — can be m
 - Always use `\lvert ... \rvert` for cardinality/absolute value: `\lvert A \rvert`, `\lvert A \cap B \rvert`.
 - If you're quoting a source verbatim that used a single stray `|` (e.g. documenting an error in a PDF's original notation), replace it with `\vert` instead of a literal `|` — `\vert` renders identically to `|` in MathJax but doesn't trip kramdown's table detection. Do this even when the quote is meant to show "what the original incorrectly said" — the visual result for the reader is the same, only the underlying character differs.
 - When migrating or generating new content, grep for a bare `|` inside `$...$`/`$$...$$` as a routine check, the same way you'd check for `\hline` or `{{`.
+
+### 13. Never use `\{` / `\}` for set braces in inline math — use `\lbrace` / `\rbrace`
+kramdown only recognizes `$$...$$` as math; inline `$...$` is ordinary text to it, so it treats `\{` / `\}` as Markdown backslash-escapes and emits a bare `{` / `}`. MathJax then reads those as invisible grouping braces, and the set braces silently vanish from the rendered page — e.g. `$\{x \mid x \in A \lor x \in B\}$` renders as `x | x ∈ A ∨ x ∈ B` (confirmed in production, 2026, across `taller6`–`taller8` and several `mod1`/`mod2` lessons; all fixed).
+
+- Always write `\lbrace ... \rbrace`: `$\lbrace x \mid P(x)\rbrace $`, `$\mathcal{P}(\lbrace a, b\rbrace )$`. Keep a space after `\lbrace` when a letter follows (`\lbrace x`, not `\lbracex`).
+- When migrating or generating new content, grep for a literal `\{` or `\}` (`grep -rlF -e '\{' -e '\}' --include=*.md lessons resources`) as a routine check, alongside the `|`, `\hline` and `{{` checks.
+- For bulk replacements, don't use `sed`/`perl` with `\lbrace`/`\rbrace` in the replacement string — the shell/regex engine turns `\l` and `\r` into escapes (lowercase-next, carriage return) and corrupts the file. Use a Python script with plain `str.replace` and `newline=''` (preserves line endings).
