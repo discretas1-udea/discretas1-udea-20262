@@ -30,8 +30,8 @@ Al finalizar este taller, usted podrá describir conjuntos por extensión y por 
 |---|---|---|
 | $a \in A$ | Pertenencia | $a$ es un elemento del conjunto $A$ |
 | $a \notin A$ | No pertenencia | $a$ no es un elemento del conjunto $A$ |
-| $\{1, 2, 3\}$ | Notación por extensión | Se listan explícitamente los elementos |
-| $\{x \mid P(x)\}$ | Notación por comprensión | Conjunto de todos los $x$ que cumplen la propiedad $P(x)$ |
+| $\lbrace 1, 2, 3\rbrace $ | Notación por extensión | Se listan explícitamente los elementos |
+| $\lbrace x \mid P(x)\rbrace $ | Notación por comprensión | Conjunto de todos los $x$ que cumplen la propiedad $P(x)$ |
 | $\emptyset$ | Conjunto vacío | Conjunto sin elementos |
 
 ### Relaciones entre conjuntos (definición formal)
@@ -61,7 +61,7 @@ Al finalizar este taller, usted podrá describir conjuntos por extensión y por 
 
 | Notación | Nombre | Significado |
 |---|---|---|
-| $A \times B$ | Producto cartesiano | $\{(a,b) \mid a \in A \land b \in B\}$ |
+| $A \times B$ | Producto cartesiano | $\lbrace (a,b) \mid a \in A \land b \in B\rbrace $ |
 | $A^n$ | Potencia cartesiana | Producto cartesiano de $A$ consigo mismo $n$ veces: $A \times A \times \cdots \times A$ |
 | $\lvert A \times B \rvert$ | Cardinalidad del producto cartesiano | $\lvert A \times B \rvert = \lvert A \rvert \cdot \lvert B \rvert$ |
 
@@ -70,10 +70,10 @@ Al finalizar este taller, usted podrá describir conjuntos por extensión y por 
 
 | Operación | Símbolo | Notación algebraica alterna | Definición |
 |---|---|---|---|
-| Unión | $A \cup B$ | $A + B$ | $\{x \mid x \in A \lor x \in B\}$ |
-| Intersección | $A \cap B$ | $A \cdot B$ | $\{x \mid x \in A \land x \in B\}$ |
-| Diferencia | $A - B$ | — | $\{x \mid x \in A \land x \notin B\}$ |
-| Complemento | $\overline{A}$ | $A'$ | $\{x \mid x \notin A\}$, respecto a un universo $U$; también $A' = U - A$ |
+| Unión | $A \cup B$ | $A + B$ | $\lbrace x \mid x \in A \lor x \in B\rbrace $ |
+| Intersección | $A \cap B$ | $A \cdot B$ | $\lbrace x \mid x \in A \land x \in B\rbrace $ |
+| Diferencia | $A - B$ | — | $\lbrace x \mid x \in A \land x \notin B\rbrace $ |
+| Complemento | $\overline{A}$ | $A'$ | $\lbrace x \mid x \notin A\rbrace $, respecto a un universo $U$; también $A' = U - A$ |
 | Diferencia simétrica | $A \oplus B$ | — | $(A - B) \cup (B - A)$ |
 
 > La notación algebraica ($A+B$, $A \cdot B$, $A'$) es la que verá en la tabla de identidades a continuación — es la misma operación, solo otra forma de escribirla.
@@ -128,16 +128,16 @@ Al finalizar este taller, usted podrá describir conjuntos por extensión y por 
 
 **1.** Liste los miembros de estos conjuntos:
 
-- a. $\{x \mid x \text{ es un número real tal que } x^2 = 1\}$
-- b. $\{x \mid x \text{ es un entero positivo menor que } 12\}$
-- c. $\{x \mid x \text{ es el cuadrado de un entero y } x < 100\}$
-- d. $\{x \mid x \text{ es entero tal que } x^2 = 2\}$
+- a. $\lbrace x \mid x \text{ es un número real tal que } x^2 = 1\rbrace $
+- b. $\lbrace x \mid x \text{ es un entero positivo menor que } 12\rbrace $
+- c. $\lbrace x \mid x \text{ es el cuadrado de un entero y } x < 100\rbrace $
+- d. $\lbrace x \mid x \text{ es entero tal que } x^2 = 2\rbrace $
 
 **2.** Use la notación por comprensión para dar una descripción de cada uno de los siguientes conjuntos:
 
-- a. $\{0, 3, 6, 9, 12\}$
-- b. $\{-3, -2, -1, 0, 1, 2, 3\}$
-- c. $\{m, n, o, p\}$
+- a. $\lbrace 0, 3, 6, 9, 12\rbrace $
+- b. $\lbrace -3, -2, -1, 0, 1, 2, 3\rbrace $
+- c. $\lbrace m, n, o, p\rbrace $
 
 ### Bloque B — Subconjuntos e igualdad de conjuntos (3-4)
 {: .no_toc }
@@ -150,9 +150,9 @@ Al finalizar este taller, usted podrá describir conjuntos por extensión y por 
 
 **4.** Determine si cada uno de estos pares de conjuntos son iguales.
 
-- a. $\{1, 3, 3, 3, 5, 5, 5, 5, 5\}$, $\{5, 3, 1\}$
-- b. $\{\{1\}\}$, $\{1, \{1\}\}$
-- c. $\emptyset$, $\{\emptyset\}$
+- a. $\lbrace 1, 3, 3, 3, 5, 5, 5, 5, 5\rbrace $, $\lbrace 5, 3, 1\rbrace $
+- b. $\lbrace \lbrace 1\rbrace \rbrace $, $\lbrace 1, \lbrace 1\rbrace \rbrace $
+- c. $\emptyset$, $\lbrace \emptyset\rbrace $
 
 ### Bloque C — Cardinalidad, conjunto potencia y diagramas de Venn básicos (5-8)
 {: .no_toc }
@@ -161,37 +161,37 @@ Al finalizar este taller, usted podrá describir conjuntos por extensión y por 
 
 **6.** ¿Cuál es la cardinalidad de cada uno de estos conjuntos?
 
-- a. $\{a\}$
-- b. $\{\{a\}\}$
-- c. $\{a, \{a\}\}$
-- d. $\{a, \{a\}, \{a, \{a\}\}\}$
+- a. $\lbrace a\rbrace $
+- b. $\lbrace \lbrace a\rbrace \rbrace $
+- c. $\lbrace a, \lbrace a\rbrace \rbrace $
+- d. $\lbrace a, \lbrace a\rbrace , \lbrace a, \lbrace a\rbrace \rbrace \rbrace $
 - e. $\emptyset$
-- f. $\{\emptyset\}$
-- g. $\{\emptyset, \{\emptyset\}\}$
-- h. $\{\emptyset, \{\emptyset\}, \{\emptyset, \{\emptyset\}\}\}$
+- f. $\lbrace \emptyset\rbrace $
+- g. $\lbrace \emptyset, \lbrace \emptyset\rbrace \rbrace $
+- h. $\lbrace \emptyset, \lbrace \emptyset\rbrace , \lbrace \emptyset, \lbrace \emptyset\rbrace \rbrace \rbrace $
 
 **7.** ¿Cuántos elementos tiene cada uno de estos conjuntos donde $a$ y $b$ son elementos distintos?
 
-- a. $\mathcal{P}(\{a, b, \{a, b\}\})$
-- b. $\mathcal{P}(\{\emptyset, a, \{a\}, \{\{a\}\}\})$
+- a. $\mathcal{P}(\lbrace a, b, \lbrace a, b\rbrace \rbrace )$
+- b. $\mathcal{P}(\lbrace \emptyset, a, \lbrace a\rbrace , \lbrace \lbrace a\rbrace \rbrace \rbrace )$
 - c. $\mathcal{P}(\mathcal{P}(\emptyset))$
 
 **8.** Determine si cada uno de estos conjuntos es el conjunto potencia de un conjunto, donde $a$ y $b$ son elementos distintos.
 
 - a. $\emptyset$
-- b. $\{\emptyset, \{a\}\}$
-- c. $\{\emptyset, \{a\}, \{\emptyset, \{a\}\}\}$
-- d. $\{\emptyset, \{a\}, \{b\}, \{a, b\}\}$
+- b. $\lbrace \emptyset, \lbrace a\rbrace \rbrace $
+- c. $\lbrace \emptyset, \lbrace a\rbrace , \lbrace \emptyset, \lbrace a\rbrace \rbrace \rbrace $
+- d. $\lbrace \emptyset, \lbrace a\rbrace , \lbrace b\rbrace , \lbrace a, b\rbrace \rbrace $
 
 ### Bloque D — Producto cartesiano (9-12)
 {: .no_toc }
 
-**9.** Sea $A = \{a, b, c, d\}$ y $B = \{y, z\}$. Encuentre:
+**9.** Sea $A = \lbrace a, b, c, d\rbrace $ y $B = \lbrace y, z\rbrace $. Encuentre:
 
 - a. $A \times B$
 - b. $B \times A$
 
-**10.** Sea $A = \{a, b, c\}$, $B = \{x, y\}$ y $C = \{0, 1\}$. Encuentre:
+**10.** Sea $A = \lbrace a, b, c\rbrace $, $B = \lbrace x, y\rbrace $ y $C = \lbrace 0, 1\rbrace $. Encuentre:
 
 - a. $A \times B \times C$
 - b. $C \times B \times A$
@@ -200,13 +200,13 @@ Al finalizar este taller, usted podrá describir conjuntos por extensión y por 
 
 **11.** Encuentre $A^2$ si:
 
-- a. $A = \{0, 1, 3\}$
-- b. $A = \{1, 2, a, b\}$
+- a. $A = \lbrace 0, 1, 3\rbrace $
+- b. $A = \lbrace 1, 2, a, b\rbrace $
 
 **12.** Encuentre $A^3$ si:
 
-- a. $A = \{a\}$
-- b. $A = \{0, a\}$
+- a. $A = \lbrace a\rbrace $
+- b. $A = \lbrace 0, a\rbrace $
 
 ### Bloque E — Operaciones entre conjuntos (13-17)
 {: .no_toc }
@@ -218,26 +218,26 @@ Al finalizar este taller, usted podrá describir conjuntos por extensión y por 
 - c. $A - B$
 - d. $B - A$
 
-**14.** Sea $A = \{1, 2, 3, 4, 5\}$ y $B = \{0, 3, 6\}$. Obtenga:
+**14.** Sea $A = \lbrace 1, 2, 3, 4, 5\rbrace $ y $B = \lbrace 0, 3, 6\rbrace $. Obtenga:
 
 - a. $A \cup B$
 - b. $A \cap B$
 - c. $A - B$
 - d. $B - A$
 
-**15.** Sea $A = \{a, b, c, d, e\}$ y $B = \{a, b, c, d, e, f, g, h\}$. Obtenga:
+**15.** Sea $A = \lbrace a, b, c, d, e\rbrace $ y $B = \lbrace a, b, c, d, e, f, g, h\rbrace $. Obtenga:
 
 - a. $A \cup B$
 - b. $A \cap B$
 - c. $A - B$
 - d. $B - A$
 
-**16.** Sea $A$ y $B$ tales que $A - B = \{1, 5, 7, 8\}$, $B - A = \{2, 10\}$ y $A \cap B = \{3, 6, 9\}$.
+**16.** Sea $A$ y $B$ tales que $A - B = \lbrace 1, 5, 7, 8\rbrace $, $B - A = \lbrace 2, 10\rbrace $ y $A \cap B = \lbrace 3, 6, 9\rbrace $.
 
 > El enunciado original no especifica explícitamente qué se pide calcular a partir de estos datos (posible truncamiento en el PDF fuente). Se transcribe tal como aparece.
 {: .note }
 
-**17.** Sea $A = \{0, 2, 4, 6, 8, 10\}$, $B = \{0, 1, 2, 3, 4, 5, 6\}$ y $C = \{4, 5, 6, 7, 8, 9, 10\}$. Encuentre:
+**17.** Sea $A = \lbrace 0, 2, 4, 6, 8, 10\rbrace $, $B = \lbrace 0, 1, 2, 3, 4, 5, 6\rbrace $ y $C = \lbrace 4, 5, 6, 7, 8, 9, 10\rbrace $. Encuentre:
 
 - a. $A \cap B \cap C$
 - b. $A \cup B \cup C$
@@ -276,14 +276,14 @@ Al finalizar este taller, usted podrá describir conjuntos por extensión y por 
 - d. $A \cap B = B \cap A$
 - e. $A - B = B - A$
 
-**22.** Encuentre la diferencia simétrica de $\{1, 3, 5\}$ y $\{1, 2, 3\}$.
+**22.** Encuentre la diferencia simétrica de $\lbrace 1, 3, 5\rbrace $ y $\lbrace 1, 2, 3\rbrace $.
 
 **23.** La similitud de Jaccard $J(A,B)$ de los conjuntos finitos $A$ y $B$ es $J(A,B) = \dfrac{\lvert A \cap B \rvert}{\lvert A \cup B \rvert}$, con $J(\emptyset, \emptyset) = 1$. La distancia de Jaccard $d_J(A,B)$ entre $A$ y $B$ es igual a $d_J(A,B) = 1 - J(A,B)$. Encuentre $J(A,B)$ y $d_J(A,B)$ para los siguientes pares de conjuntos:
 
-- a. $A = \{1, 3, 5\}$, $B = \{2, 4, 6\}$
-- b. $A = \{1, 2, 3, 4\}$, $B = \{3, 4, 5, 6\}$
-- c. $A = \{1, 2, 3, 4, 5, 6\}$, $B = \{1, 2, 3, 4, 5, 6\}$
-- d. $A = \{1\}$, $B = \{1, 2, 3, 4, 5, 6\}$
+- a. $A = \lbrace 1, 3, 5\rbrace $, $B = \lbrace 2, 4, 6\rbrace $
+- b. $A = \lbrace 1, 2, 3, 4\rbrace $, $B = \lbrace 3, 4, 5, 6\rbrace $
+- c. $A = \lbrace 1, 2, 3, 4, 5, 6\rbrace $, $B = \lbrace 1, 2, 3, 4, 5, 6\rbrace $
+- d. $A = \lbrace 1\rbrace $, $B = \lbrace 1, 2, 3, 4, 5, 6\rbrace $
 
 **24.** En una batalla muy reñida, por lo menos el 70 % de los combatientes perdieron un ojo; por lo menos el 75 % una oreja; por lo menos el 80 % un brazo y por lo menos el 85 % una pierna. ¿Cuál es el mínimo de combatientes que perdieron los 4 miembros?
 

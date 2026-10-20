@@ -118,11 +118,11 @@ El número $2$ cumple $P$: es par y primo. Y es el **único**: si $n>2$ es par, 
 > Un error común es declarar $\exists!\ x\ P(x)$ verdadera apenas se encuentra **un** testigo, sin comprobar que sea el único. Encontrar un testigo solo resuelve la mitad del trabajo (la existencia); todavía falta revisar el resto del dominio para descartar un segundo testigo. Basta con que aparezca uno más para que $\exists!$ se vuelva falsa — aunque $\exists$ (sin el símbolo de admiración) siga siendo perfectamente verdadera.
 {: .warning }
 
-> **Compruebe su comprensión.** Sea el dominio $\{1,2,3,4,5\}$ y $Q(x)$: *"x es múltiplo de 3"*. ¿Es verdadera $\exists!\ x\ Q(x)$?
+> **Compruebe su comprensión.** Sea el dominio $\lbrace 1,2,3,4,5\rbrace $ y $Q(x)$: *"x es múltiplo de 3"*. ¿Es verdadera $\exists!\ x\ Q(x)$?
 >
 > <details markdown="1"><summary>Ver respuesta</summary>
 >
-> Sí. El único múltiplo de $3$ en $\{1,2,3,4,5\}$ es $3$ mismo ( $1,2,4,5$ no lo son). Existencia: $Q(3)$ es verdadero. Unicidad: ningún otro elemento del dominio cumple $Q$. Por lo tanto $\exists!\ x\ Q(x)$ es verdadera.
+> Sí. El único múltiplo de $3$ en $\lbrace 1,2,3,4,5\rbrace $ es $3$ mismo ( $1,2,4,5$ no lo son). Existencia: $Q(3)$ es verdadero. Unicidad: ningún otro elemento del dominio cumple $Q$. Por lo tanto $\exists!\ x\ Q(x)$ es verdadera.
 >
 > </details>
 {: .tip }
@@ -139,9 +139,9 @@ Sea el predicado $P(x)$: *"x < 2"*.
 
 | Dominio $U$ | $\exists x\ P(x)$ | $\forall x\ P(x)$ | Explicación |
 |:---|:---:|:---:|:---|
-| $\mathbb{Z}^+ = \{1, 2, 3, \dots\}$ | **V** | **F** | $1<2$ es verdadero (existe al menos uno), pero $2<2$ es falso (no todos) |
-| $\mathbb{Z}^- = \{\dots, -3, -2, -1\}$ | **V** | **V** | Todo entero negativo es menor que $2$: se cumple para al menos uno y para todos a la vez |
-| $\{3, 4, 5\}$ | **F** | **F** | Ningún elemento del dominio es menor que $2$ |
+| $\mathbb{Z}^+ = \lbrace 1, 2, 3, \dots\rbrace $ | **V** | **F** | $1<2$ es verdadero (existe al menos uno), pero $2<2$ es falso (no todos) |
+| $\mathbb{Z}^- = \lbrace \dots, -3, -2, -1\rbrace $ | **V** | **V** | Todo entero negativo es menor que $2$: se cumple para al menos uno y para todos a la vez |
+| $\lbrace 3, 4, 5\rbrace $ | **F** | **F** | Ningún elemento del dominio es menor que $2$ |
 
 La lección: **ni el predicado ni la fórmula cambiaron** — lo único que cambió fue el universo, y eso bastó para mover el valor de verdad de ambos cuantificadores. Por eso, cuando el dominio no se especifica en un ejercicio, la traducción está incompleta.
 
@@ -151,7 +151,7 @@ La lección: **ni el predicado ni la fórmula cambiaron** — lo único que camb
 > |:---:|:---:|:---|
 > | V | V | Sí — como en $\mathbb{Z}^-$ arriba |
 > | F | V | Sí — como en $\mathbb{Z}^+$ arriba |
-> | F | F | Sí — como en $\{3,4,5\}$ arriba |
+> | F | F | Sí — como en $\lbrace 3,4,5\rbrace $ arriba |
 > | V | F | **Nunca**, en un dominio no vacío |
 >
 > Esta implicación —y, de hecho, toda la teoría de cuantificadores que estamos construyendo— **asume que el dominio nunca es vacío**. Es la convención estándar en lógica de primer orden y la que usamos en todo el curso; si el dominio fuera vacío, $\forall x\ P(x)$ sería verdadera por vacuidad (no hay ningún elemento que la contradiga) mientras que $\exists x\ P(x)$ sería falsa (no hay ningún testigo), rompiendo la implicación anterior.
@@ -174,13 +174,13 @@ Ya usamos esta técnica sin nombrarla en la sesión anterior, al mostrar que $\f
 
 Ya sabemos que $\forall x\ P(x)$ exige que $P$ se cumpla para todos, y $\exists x\ P(x)$ exige que se cumpla para al menos uno. Cuando el dominio es **finito**, esta idea se puede escribir sin ningún cuantificador — reemplazándolo por una larga conjunción o disyunción.
 
-> Si el dominio finito es $U=\{x_1, x_2, \dots, x_n\}$, entonces:
+> Si el dominio finito es $U=\lbrace x_1, x_2, \dots, x_n\rbrace $, entonces:
 > $$\forall x\ P(x) \;\equiv\; P(x_1) \land P(x_2) \land \cdots \land P(x_n)$$
 > $$\exists x\ P(x) \;\equiv\; P(x_1) \lor P(x_2) \lor \cdots \lor P(x_n)$$
 > Esta equivalencia **no** se puede aplicar en dominios infinitos dentro de la lógica de primer orden clásica que estudiamos aquí — ahí no existe una fórmula finita que tenga un término por cada elemento del dominio.
 {: .important }
 
-**Ejemplo.** Sea el dominio $U=\{Martin, Nelson, Bart\}$ y el predicado $aprobo(x)$: *"x aprobó"*.
+**Ejemplo.** Sea el dominio $U=\lbrace Martin, Nelson, Bart\rbrace $ y el predicado $aprobo(x)$: *"x aprobó"*.
 
 <img src="{{ '/assets/images/lessons/mod2/clase7/martin-nelson-bart.png' | relative_url }}" alt="Martin, Nelson y Bart, los tres estudiantes que forman el dominio U del ejemplo" width="320" style="display: block; margin: 0 auto;">
 
@@ -209,7 +209,7 @@ $$\begin{aligned}
 
 Estas dos equivalencias se conocen como las **leyes de De Morgan para cuantificadores**, por su parecido con las leyes de De Morgan de lógica proposicional ( $\neg(p\land q)\equiv\neg p\lor\neg q$ ). No hace falta memorizarlas sueltas: se pueden **justificar** con herramientas que ya tenemos.
 
-**Justificación en un dominio finito.** Retomemos la Parte III: en un dominio finito $U=\{x_1,\dots,x_n\}$, $\forall x\ P(x) \equiv P(x_1)\land\cdots\land P(x_n)$. Neguemos ambos lados y apliquemos De Morgan proposicional (ya conocido de Clase 6, aplicado dos términos a la vez tantas veces como haga falta):
+**Justificación en un dominio finito.** Retomemos la Parte III: en un dominio finito $U=\lbrace x_1,\dots,x_n\rbrace $, $\forall x\ P(x) \equiv P(x_1)\land\cdots\land P(x_n)$. Neguemos ambos lados y apliquemos De Morgan proposicional (ya conocido de Clase 6, aplicado dos términos a la vez tantas veces como haga falta):
 
 $$\begin{aligned}
 \neg\bigl(\forall x\ P(x)\bigr) &\equiv \neg\bigl(P(x_1)\land P(x_2)\land\cdots\land P(x_n)\bigr) \\
@@ -247,7 +247,7 @@ Estos son los ejercicios que se resolvieron en clase.
 
 ## Ejercicio 1 — Enunciados universales y existenciales sobre dominios explícitos
 
-**(a)** Sea $D=\{1,2,3,4,5\}$. Demuestre que $\forall x\in D,\ x^2\geq x$ es verdadero.
+**(a)** Sea $D=\lbrace 1,2,3,4,5\rbrace $. Demuestre que $\forall x\in D,\ x^2\geq x$ es verdadero.
 
 **Paso 1 — Reconocer que, en un dominio finito, un universal se verifica caso por caso.** Como $D$ tiene solo cinco elementos, basta con comprobar la desigualdad para cada uno.
 
@@ -282,7 +282,7 @@ Como $x_0^2 < x_0$, la desigualdad falla en $x_0=\tfrac12\in\mathbb{R}$. Por lo 
 
 **Paso 2 — Probar $m=1$.** $1^2 = 1 = m$. Se cumple. Por lo tanto $\exists m\in\mathbb{Z}^+,\ m^2=m$ es **verdadero**, con testigo $m=1$.
 
-**(b)** Sea $E=\{5,6,7,8\}$. Demuestre que $\exists m\in E$ tal que $m^2=m$ es falso.
+**(b)** Sea $E=\lbrace 5,6,7,8\rbrace $. Demuestre que $\exists m\in E$ tal que $m^2=m$ es falso.
 
 **Paso 1 — Para refutar un existencial hace falta revisar todo el dominio finito**, porque hay que garantizar que *ninguno* lo cumple.
 
@@ -480,7 +480,7 @@ Traduzca a lógica de predicados: *"Todos los leones son feroces"*, *"Algunos le
 
 *Este bloque aplica — no explica — los conceptos ya vistos. Toda la teoría quedó atrás; aquí solo se usa.*
 
-Volvamos al ingeniero y a la pregunta de su jefe. Recordemos el vocabulario que ya construimos en la sesión anterior: universo $U=\{P1,\dots,P8\}$ (los ocho pollos robot).
+Volvamos al ingeniero y a la pregunta de su jefe. Recordemos el vocabulario que ya construimos en la sesión anterior: universo $U=\lbrace P1,\dots,P8\rbrace $ (los ocho pollos robot).
 
 ## El líder de sincronización (unicidad)
 
@@ -522,7 +522,7 @@ Resuelva los siguientes ejercicios. Las respuestas finales están en el **Soluci
 
 **P4.** En un sistema de autenticación, sea $A(x)$: *"x es el administrador activo del sistema"*. La política de seguridad exige que $\exists!\ x\ A(x)$. Explique en una frase qué garantiza esta política, y qué cambiaría si en su lugar se hubiera exigido solo $\exists x\ A(x)$.
 
-**P5.** Sea el dominio $U=\{u1,u2,u3\}$ (tres usuarios) y el predicado $activo(x)$. Escriba $\forall x\ activo(x)$ y $\exists x\ activo(x)$ como conjunción y disyunción, respectivamente, sin usar cuantificadores.
+**P5.** Sea el dominio $U=\lbrace u1,u2,u3\rbrace $ (tres usuarios) y el predicado $activo(x)$. Escriba $\forall x\ activo(x)$ y $\exists x\ activo(x)$ como conjunción y disyunción, respectivamente, sin usar cuantificadores.
 
 **P6.** Escriba la negación de *"Todo estudiante entregó la tarea a tiempo"*, simplificada hasta dejarla como un existencial.
 
@@ -605,11 +605,11 @@ Al finalizar este documento, usted debería ser capaz de:
 <summary><b>Presione aquí para ver las respuestas</b></summary>
 <br>
 
-**P1.** Falsa. En $\{1,\dots,19\}$ hay **dos** múltiplos de $7$: el propio $7$ y $14$. La existencia se cumple, pero falla la unicidad — hay más de un testigo, así que $\exists!\ x\ Q(x)$ es falsa. (Si el dominio fuera "menor que $10$ ", el único testigo sería $7$ y la respuesta sí sería verdadera — la unicidad es sensible al tamaño exacto del dominio.)
+**P1.** Falsa. En $\lbrace 1,\dots,19\rbrace $ hay **dos** múltiplos de $7$: el propio $7$ y $14$. La existencia se cumple, pero falla la unicidad — hay más de un testigo, así que $\exists!\ x\ Q(x)$ es falsa. (Si el dominio fuera "menor que $10$ ", el único testigo sería $7$ y la respuesta sí sería verdadera — la unicidad es sensible al tamaño exacto del dominio.)
 
-**P2.** Un ejemplo: universo estipulado explícitamente, $U=\{a,b,c\}$, donde se declara por definición del conjunto que las tres personas hablan inglés (verdadera, por construcción); universo = todos los seres humanos (falsa — la mayoría no habla inglés).
+**P2.** Un ejemplo: universo estipulado explícitamente, $U=\lbrace a,b,c\rbrace $, donde se declara por definición del conjunto que las tres personas hablan inglés (verdadera, por construcción); universo = todos los seres humanos (falsa — la mayoría no habla inglés).
 
-**P3.** Contraejemplo: $x=-2$, pues $(-2)^3=-8$ y $-8\geq -2$ es falso (también sirve $x=0.5$: $0.125\geq 0.5$ es falso). Dominio finito donde sí es verdadera: $\{0,1\}$, pues $0^3=0\geq 0$ y $1^3=1\geq 1$.
+**P3.** Contraejemplo: $x=-2$, pues $(-2)^3=-8$ y $-8\geq -2$ es falso (también sirve $x=0.5$: $0.125\geq 0.5$ es falso). Dominio finito donde sí es verdadera: $\lbrace 0,1\rbrace $, pues $0^3=0\geq 0$ y $1^3=1\geq 1$.
 
 **P4.** $\exists!\ x\ A(x)$ garantiza que hay **exactamente un** administrador activo a la vez — ni cero (el sistema siempre tiene responsable) ni más de uno (no hay conflicto de autoridad simultánea). Con solo $\exists x\ A(x)$, el sistema permitiría que dos o más administradores estuvieran activos al mismo tiempo, sin garantizar que la responsabilidad esté claramente asignada a una sola persona.
 

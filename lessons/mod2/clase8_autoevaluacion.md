@@ -107,7 +107,7 @@ Indique el alcance de $\forall x$ en cada una, y diga cuál de las dos deja una 
 </details>
 
 **Ítem 5**
-Sea $U=\{D1,D2,D3,D4\}$ (cuatro dispositivos IoT) y $sincroniza(x,y)$: "el dispositivo x sincroniza sus datos con el dispositivo y". Según los registros: $D1$ sincroniza con $D2$; $D2$ sincroniza con $D3$; $D3$ sincroniza con $D3$ (consigo mismo); $D4$ sincroniza con $D3$. Evalúe $\forall x\ \exists y\ sincroniza(x,y)$ y $\exists y\ \forall x\ sincroniza(x,y)$.
+Sea $U=\lbrace D1,D2,D3,D4\rbrace $ (cuatro dispositivos IoT) y $sincroniza(x,y)$: "el dispositivo x sincroniza sus datos con el dispositivo y". Según los registros: $D1$ sincroniza con $D2$; $D2$ sincroniza con $D3$; $D3$ sincroniza con $D3$ (consigo mismo); $D4$ sincroniza con $D3$. Evalúe $\forall x\ \exists y\ sincroniza(x,y)$ y $\exists y\ \forall x\ sincroniza(x,y)$.
 
 > ✍️ *Antes de ver la respuesta: resuelva el procedimiento completo a mano y escriba aquí su resultado final, aunque no esté seguro.*
 >
@@ -139,7 +139,7 @@ Error frecuente 2 — invertir el orden sin darse cuenta: la traducción dada di
 </details>
 
 **Ítem 7**
-Sea el dominio $\{-1,2,3\}$, $P(x)$: "x es positivo", $Q(x)$: "x es entero". Verifique, evaluando ambos lados por separado, si $\forall x\ (P(x)\land Q(x)) \equiv \forall x\ P(x) \land \forall x\ Q(x)$ se cumple en este caso.
+Sea el dominio $\lbrace -1,2,3\rbrace $, $P(x)$: "x es positivo", $Q(x)$: "x es entero". Verifique, evaluando ambos lados por separado, si $\forall x\ (P(x)\land Q(x)) \equiv \forall x\ P(x) \land \forall x\ Q(x)$ se cumple en este caso.
 
 > ✍️ *Antes de ver la respuesta: resuelva el procedimiento completo a mano y escriba aquí su resultado final, aunque no esté seguro.*
 >
@@ -166,7 +166,7 @@ Proponga usted mismo(a) un contraejemplo (dominio y predicados propios, distinto
 <details markdown="1">
 <summary>Ver respuesta final</summary>
 
-Respuesta de referencia (otras propuestas válidas también son correctas): dominio $\{6,7\}$, $P(x)$: "x es divisible entre 2", $Q(x)$: "x es divisible entre 7". $P(6)\lor Q(6)=V$, $P(7)\lor Q(7)=V$, así que $\forall x(P(x)\lor Q(x))$ es verdadera. Pero $\forall x\ P(x)$ es falsa (falla en 7) y $\forall x\ Q(x)$ es falsa (falla en 6), así que $\forall xP(x)\lor\forall xQ(x)$ es falsa. Verdadera $\neq$ falsa: no son equivalentes.
+Respuesta de referencia (otras propuestas válidas también son correctas): dominio $\lbrace 6,7\rbrace $, $P(x)$: "x es divisible entre 2", $Q(x)$: "x es divisible entre 7". $P(6)\lor Q(6)=V$, $P(7)\lor Q(7)=V$, así que $\forall x(P(x)\lor Q(x))$ es verdadera. Pero $\forall x\ P(x)$ es falsa (falla en 7) y $\forall x\ Q(x)$ es falsa (falla en 6), así que $\forall xP(x)\lor\forall xQ(x)$ es falsa. Verdadera $\neq$ falsa: no son equivalentes.
 
 </details>
 
@@ -191,7 +191,7 @@ $\forall x\ \Bigl(cliente(x) \rightarrow \exists y\ \bigl(producto(y)\land ofert
 </details>
 
 **Ítem 10**
-Sea $U_{sensor}=\{S1,S2,S3\}$, $U_{servidor}=\{V1,V2\}$, y $reporta(x,y)$: "el sensor x reporta datos al servidor y". Según la tabla de configuración: $S1\to V1$, $S2\to V1$, $S3\to V2$. Evalúe $\forall x\ \exists y\ reporta(x,y)$ y $\exists y\ \forall x\ reporta(x,y)$.
+Sea $U_{sensor}=\lbrace S1,S2,S3\rbrace $, $U_{servidor}=\lbrace V1,V2\rbrace $, y $reporta(x,y)$: "el sensor x reporta datos al servidor y". Según la tabla de configuración: $S1\to V1$, $S2\to V1$, $S3\to V2$. Evalúe $\forall x\ \exists y\ reporta(x,y)$ y $\exists y\ \forall x\ reporta(x,y)$.
 
 > ✍️ *Antes de ver la respuesta: resuelva el procedimiento completo a mano y escriba aquí su resultado final, aunque no esté seguro.*
 >
@@ -277,7 +277,7 @@ Solución 1: $\forall x\ \exists!\ y\ primerContacto(x,y)$. Solución 2: $\foral
 </details>
 
 **Ítem 15**
-Sea $U_{mesa}=\{Mesa1,Mesa2,Mesa3\}$ y $U_{mesero}=\{MeseroA,MeseroB\}$, y $atiende(y,x)$: "el mesero y atendió la mesa x en algún momento del turno". La bitácora del turno (puede haber más de un registro por mesa, no es una asignación fija) muestra: $MeseroA$ atendió $Mesa1$; $MeseroA$ atendió $Mesa2$; $MeseroB$ atendió $Mesa2$; $MeseroA$ atendió $Mesa3$. Evalúe $\forall x\ \exists!\ y\ atiende(y,x)$, verificando existencia y unicidad mesa por mesa.
+Sea $U_{mesa}=\lbrace Mesa1,Mesa2,Mesa3\rbrace $ y $U_{mesero}=\lbrace MeseroA,MeseroB\rbrace $, y $atiende(y,x)$: "el mesero y atendió la mesa x en algún momento del turno". La bitácora del turno (puede haber más de un registro por mesa, no es una asignación fija) muestra: $MeseroA$ atendió $Mesa1$; $MeseroA$ atendió $Mesa2$; $MeseroB$ atendió $Mesa2$; $MeseroA$ atendió $Mesa3$. Evalúe $\forall x\ \exists!\ y\ atiende(y,x)$, verificando existencia y unicidad mesa por mesa.
 
 > ✍️ *Antes de ver la respuesta: resuelva el procedimiento completo a mano y escriba aquí su resultado final, aunque no esté seguro.*
 >
@@ -330,7 +330,7 @@ $\forall x\ \exists y\ \bigl(\neg disponible(x,y)\land\neg enMantenimiento(x,y)\
 
 *Este bloque aplica — no explica — los conceptos ya vistos. La narrativa es solo el envoltorio del enunciado; se resuelve exclusivamente con herramientas formales de `clase8.md`. Es un hilo nuevo, distinto al Expediente Gallinero (que quedó completamente cerrado en esta clase).*
 
-Un domiciliario reparte pedidos en un barrio. Universo de clientes $U_{cliente}=\{C1,C2,C3,C4\}$ y universo de repartidores $U_{repartidor}=\{R1,R2\}$. Predicado $asignado(y,x)$: "el repartidor y tiene asignada la entrega al cliente x".
+Un domiciliario reparte pedidos en un barrio. Universo de clientes $U_{cliente}=\lbrace C1,C2,C3,C4\rbrace $ y universo de repartidores $U_{repartidor}=\lbrace R1,R2\rbrace $. Predicado $asignado(y,x)$: "el repartidor y tiene asignada la entrega al cliente x".
 
 **Ítem 18**
 Formalice y contraste las dos afirmaciones siguientes (sin evaluar todavía ninguna tabla): "cada cliente tiene un repartidor asignado" y "hay un repartidor que cubre a todos los clientes". Explique en una frase la diferencia de significado entre ambas.

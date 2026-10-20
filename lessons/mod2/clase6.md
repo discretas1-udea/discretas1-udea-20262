@@ -174,11 +174,11 @@ Un punto crucial: **el universo lo define quien modela el problema**. No es algo
 
 | Contexto | Universo |
 |:---|:---|
-| Computadores del laboratorio | $\{L1, L2, L3, L4, L5, L6, L7, L8\}$ |
-| Transformers | $\{Megatron, Optimus, \dots\}$ |
+| Computadores del laboratorio | $\lbrace L1, L2, L3, L4, L5, L6, L7, L8\rbrace $ |
+| Transformers | $\lbrace Megatron, Optimus, \dots\rbrace $ |
 | Números reales | $(-\infty, +\infty)$ |
-| Apóstoles | $\{Pedro, Juan, Santiago, \dots\}$ |
-| Números enteros | $\{\dots, -2, -1, 0, 1, 2, \dots\}$ |
+| Apóstoles | $\lbrace Pedro, Juan, Santiago, \dots\rbrace $ |
+| Números enteros | $\lbrace \dots, -2, -1, 0, 1, 2, \dots\rbrace $ |
 
 Elegir bien el universo es la primera decisión de todo modelado: fija de qué objetos se puede hablar y, con ello, qué afirmaciones tienen sentido.
 
@@ -194,11 +194,11 @@ Si el universo es el conjunto de computadores, un objeto es `L6`. Si es el de lo
 
 | Contexto | Universo | Un objeto |
 |:---|:---:|:---:|
-| Computadores del laboratorio | $\{L1, \dots, L8\}$ | $L6$ |
-| Transformers | $\{Megatron, Optimus, \dots\}$ | $Optimus$ |
+| Computadores del laboratorio | $\lbrace L1, \dots, L8\rbrace $ | $L6$ |
+| Transformers | $\lbrace Megatron, Optimus, \dots\rbrace $ | $Optimus$ |
 | Números reales | $(-\infty, +\infty)$ | $\pi$ |
-| Apóstoles | $\{Pedro, Juan, \dots\}$ | $Pedro$ |
-| Números enteros | $\{\dots, -1, 0, 1, \dots\}$ | $4$ |
+| Apóstoles | $\lbrace Pedro, Juan, \dots\rbrace $ | $Pedro$ |
+| Números enteros | $\lbrace \dots, -1, 0, 1, \dots\rbrace $ | $4$ |
 
 ## II.3 Constante
 
@@ -217,7 +217,7 @@ La distinción entre constante y variable es la misma que en programación:
 - $x$ es una **variable**: no sabemos quién es, puede cambiar. Escribimos $persona(x)$: *"x es una persona"*.
 - $homero$ es una **constante**: se refiere a un individuo específico del universo. Escribimos $persona(homero)$: *"Homero es una persona"*.
 
-En símbolos, decir que la variable $x$ toma valores en el universo $U$ se escribe $x \in U$, o de forma más explícita $\{\ x \mid x \in U\ \}$, que se lee *"los x tales que x pertenece a U"*.
+En símbolos, decir que la variable $x$ toma valores en el universo $U$ se escribe $x \in U$, o de forma más explícita $\lbrace \ x \mid x \in U\ \rbrace $, que se lee *"los x tales que x pertenece a U"*.
 
 ## II.5 Predicado
 
@@ -304,7 +304,7 @@ Note el último caso: si fijamos **algunas** variables pero dejamos otras libres
 ## II.7 Conjunto de verdad
 
 > El **conjunto de verdad** de un predicado $P(x)$ es el **subconjunto del dominio** $D$ formado por **todos los elementos para los cuales el predicado es verdadero**. Se escribe:
-> $$\{\ x \in D \mid P(x)\text{ es verdadero}\ \}$$
+> $$\lbrace \ x \in D \mid P(x)\text{ es verdadero}\ \rbrace $$
 {: .important }
 
 Es la forma de responder *"¿para cuáles objetos se cumple esta propiedad?"*. Un ejemplo con los Transformers: sea $D$ el dominio de todos los Transformers (Autobots y Decepticons) y el predicado $autobot(x):\ x$ *es un autobot*. El conjunto de verdad es:
@@ -312,7 +312,7 @@ Es la forma de responder *"¿para cuáles objetos se cumple esta propiedad?"*. U
 <img src="{{ '/assets/images/lessons/mod2/clase6/transformers.png' | relative_url }}" alt="Los Autobots en acción; el conjunto de verdad de autobot(x) reúne a los que cumplen la propiedad" width="320" style="display: block; margin: 0 auto;">
 
 
-$$\{\ x \in D \mid autobot(x)\ \}$$
+$$\lbrace \ x \in D \mid autobot(x)\ \rbrace $$
 
 es decir, el subconjunto de los Transformers que son autobots. Evaluando el predicado en dos objetos concretos:
 
@@ -320,11 +320,11 @@ $$autobot(optimus) = \textbf{Verdadero} \qquad autobot(megatron) = \textbf{Falso
 
 Así, $optimus$ **pertenece** al conjunto de verdad y $megatron$ **no**.
 
-> **Compruebe su comprensión.** Sea el universo $U=\{L1,\dots,L8\}$ (los computadores del laboratorio) y el predicado $tieneVirus(x)$. Suponga que solo `L5` y `L7` están infectados. ¿Cuál es el conjunto de verdad de $tieneVirus(x)$?
+> **Compruebe su comprensión.** Sea el universo $U=\lbrace L1,\dots,L8\rbrace $ (los computadores del laboratorio) y el predicado $tieneVirus(x)$. Suponga que solo `L5` y `L7` están infectados. ¿Cuál es el conjunto de verdad de $tieneVirus(x)$?
 >
 > <details markdown="1"><summary>Ver respuesta</summary>
 >
-> El conjunto de verdad es $\{\ x \in U \mid tieneVirus(x)\ \} = \{L5, L7\}$: exactamente los objetos del universo para los cuales el predicado es verdadero. Todos los demás computadores quedan fuera de ese conjunto.
+> El conjunto de verdad es $\lbrace \ x \in U \mid tieneVirus(x)\ \rbrace  = \lbrace L5, L7\rbrace $: exactamente los objetos del universo para los cuales el predicado es verdadero. Todos los demás computadores quedan fuera de ese conjunto.
 >
 > </details>
 {: .tip }
@@ -567,7 +567,7 @@ Formalice el refrán: *"No todo lo que brilla es oro."*
 
 Este ejercicio enseña una lección profunda: **la formalización correcta depende del universo que uno elija**. Lo resolvemos de dos maneras, ambas correctas.
 
-**Interpretación 1 — Universo restringido: $U = \{\text{cosas que brillan}\}$.**
+**Interpretación 1 — Universo restringido: $U = \lbrace \text{cosas que brillan}\rbrace $.**
 
 **Paso 1 — Fijar el universo y el diccionario.** Si decidimos que el universo son *solo las cosas que brillan* (una estrella, una lámpara…), entonces "brillar" ya está incorporado en el universo y no necesita predicado. Solo necesitamos $oro(x)$: *"x es oro"*.
 
@@ -577,7 +577,7 @@ $$\neg\ \forall x\ oro(x)$$
 
 Por la regla de negación de cuantificadores, esto equivale a $\exists x\ \neg oro(x)$: *"existe algo (que brilla) que no es oro"*.
 
-**Interpretación 2 — Universo amplio: $U = \{\text{todas las cosas}\}$.**
+**Interpretación 2 — Universo amplio: $U = \lbrace \text{todas las cosas}\rbrace $.**
 
 **Paso 1 — Fijar el universo y el diccionario.** Si el universo son *todas las cosas* (estrellas, lámparas, pero también personas, piedras…), entonces "brillar" ya **no** está garantizado, y necesitamos un predicado explícito: $brilla(x)$: *"x brilla"*, además de $oro(x)$.
 
@@ -620,11 +620,11 @@ $$\exists x\ \bigl(\rule[-0.2em]{6em}{0.06em}\bigr)$$
 
 Volvamos al gallinero con el que abrimos la clase. El ingeniero ya no está atado a la lógica proposicional: ahora tiene predicados y cuantificadores. Definamos su modelo formal.
 
-**El universo:** $U = \{P1, P2, P3, P4, P5, P6, P7, P8\}$, los ocho pollos robot del laboratorio.
+**El universo:** $U = \lbrace P1, P2, P3, P4, P5, P6, P7, P8\rbrace $, los ocho pollos robot del laboratorio.
 
 **El diccionario de predicados:**
 
-> **Sobre el universo y el predicado $robot$.** Como el universo $U=\{P1,\dots,P8\}$ ya está restringido de entrada a *"los ocho pollos robot del laboratorio"*, un predicado $robot(x)$ que dijera *"x es un pollo robot"* sería verdadero para **todo** el universo — es decir, redundante: no aportaría información. Por eso el diccionario de este Expediente no lo incluye; las fórmulas hablan directamente de $x$ como pollo robot, sin necesidad de decirlo dos veces.
+> **Sobre el universo y el predicado $robot$.** Como el universo $U=\lbrace P1,\dots,P8\rbrace $ ya está restringido de entrada a *"los ocho pollos robot del laboratorio"*, un predicado $robot(x)$ que dijera *"x es un pollo robot"* sería verdadero para **todo** el universo — es decir, redundante: no aportaría información. Por eso el diccionario de este Expediente no lo incluye; las fórmulas hablan directamente de $x$ como pollo robot, sin necesidad de decirlo dos veces.
 >
 > Este es el mismo principio del **Ejercicio 4** ("brilla y oro"): el universo elegido determina la forma de la fórmula. Aquí, al cerrar el universo a solo pollos robot, la fórmula se simplifica. Más adelante, en los **Ejercicios propuestos**, el universo del laboratorio se amplía para incluir también otros dispositivos — y ahí sí hace falta recuperar $robot(x)$ y el conectivo $\rightarrow$, porque ya no todo el universo es un pollo robot.
 {: .note }
@@ -681,7 +681,7 @@ Resuelva los siguientes ejercicios. Las respuestas finales están en el **Soluci
 
 **P8.** Sea el predicado $R(x, y, z):\ x + y = z$, con universo los enteros. Determine el valor de verdad de: (a) $R(2, 3, 5)$; (b) $R(4, 1, 6)$. Y clasifique: (c) $R(x, 2, z)$ — ¿función proposicional o proposición?
 
-**P9.** Sea el universo los números enteros y el predicado $C(x):\ x^2 \le 4$. Describa por extensión (listando sus elementos) el **conjunto de verdad** $\{\ x \in \mathbb{Z} \mid C(x)\ \}$.
+**P9.** Sea el universo los números enteros y el predicado $C(x):\ x^2 \le 4$. Describa por extensión (listando sus elementos) el **conjunto de verdad** $\lbrace \ x \in \mathbb{Z} \mid C(x)\ \rbrace $.
 
 **P10.** Para la afirmación *"Todos hablan español"* con predicado $H(x):\ x$ *habla español*: proponga **un universo donde sea verdadera** y **un universo donde sea falsa**. (Este ejercicio muestra que el valor de verdad de una proposición cuantificada depende del universo elegido.)
 
@@ -721,14 +721,14 @@ Al finalizar este documento, usted debería ser capaz de:
 
 | Concepto | Qué es | Ejemplo |
 |:---|:---|:---|
-| Universo / Dominio | Conjunto de todos los objetos sobre los que se razona | $\{P1, \dots, P8\}$ |
+| Universo / Dominio | Conjunto de todos los objetos sobre los que se razona | $\lbrace P1, \dots, P8\rbrace $ |
 | Objeto / Individuo | Un miembro concreto del universo | $P3,\ Optimus,\ \pi$ |
 | Constante | Símbolo que nombra un objeto específico | $homero,\ ratchet$ |
 | Variable | Símbolo que representa cualquier objeto del dominio | $x,\ y,\ z$ |
 | Predicado | Propiedad o relación; produce V o F | $funciona(x),\ tecnico(x,y)$ |
 | Función (matemática) | Operación sobre objetos; produce **otro objeto** | $doble(x),\ suma(x,y)$ |
 | Función proposicional | Expresión con variables libres; aún **no** es proposición | $P(x) \land Q(x)$ |
-| Conjunto de verdad | Subconjunto del dominio donde el predicado es verdadero | $\{x \in D \mid autobot(x)\}$ |
+| Conjunto de verdad | Subconjunto del dominio donde el predicado es verdadero | $\lbrace x \in D \mid autobot(x)\rbrace $ |
 | Cuantificador universal | *"Para todo x…"* | $\forall x\ funciona(x)$ |
 | Cuantificador existencial | *"Existe al menos un x…"* | $\exists x\ tieneVirus(x)$ |
 
@@ -791,7 +791,7 @@ Al finalizar este documento, usted debería ser capaz de:
 
 **P8.** (a) $R(2,3,5)$: **verdadera** ( $2+3=5$ ). (b) $R(4,1,6)$: **falsa** ( $4+1=5 \neq 6$ ). (c) $R(x,2,z)$: **función proposicional** (le quedan dos variables libres, $x$ y $z$ ).
 
-**P9.** $\{\ x \in \mathbb{Z} \mid x^2 \le 4\ \} = \{-2, -1, 0, 1, 2\}$. (Son los enteros cuyo cuadrado no pasa de 4; $(\pm 3)^2 = 9 > 4$ quedan fuera.)
+**P9.** $\lbrace \ x \in \mathbb{Z} \mid x^2 \le 4\ \rbrace  = \lbrace -2, -1, 0, 1, 2\rbrace $. (Son los enteros cuyo cuadrado no pasa de 4; $(\pm 3)^2 = 9 > 4$ quedan fuera.)
 
 **P10.** Un ejemplo: la afirmación *"todos hablan español"* es **verdadera** si el universo es *"los habitantes de un pueblo hispanohablante"* (o *"los miembros de una familia colombiana"*), y **falsa** si el universo es *"todos los seres humanos"* (hay millones que no hablan español). La misma fórmula $\forall x\ H(x)$ cambia de valor de verdad según el universo — esa es la lección.
 

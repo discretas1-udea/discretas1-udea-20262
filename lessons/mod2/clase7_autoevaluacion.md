@@ -101,7 +101,7 @@ $\forall$ se comporta como una conjunción ($\land$) gigante; $\exists$ se compo
 ## Serie 1 — Repeticiones básicas
 
 **Ítem 5**
-Sea el dominio $D=\{10,11,12,\dots,20\}$ y $R(x)$: "x es múltiplo de 9". ¿Es verdadera $\exists!\ x\ R(x)$? Justifique verificando existencia y unicidad.
+Sea el dominio $D=\lbrace 10,11,12,\dots,20\rbrace $ y $R(x)$: "x es múltiplo de 9". ¿Es verdadera $\exists!\ x\ R(x)$? Justifique verificando existencia y unicidad.
 
 > ✍️ *Antes de ver la respuesta: resuelva el procedimiento completo a mano y escriba aquí su resultado final, aunque no esté seguro.*
 >
@@ -133,7 +133,7 @@ $x_0=0$ (o cualquier $x<1$): $2(0)=0$ y $0+1=1$; $0\geq 1$ es falso.
 </details>
 
 **Ítem 7**
-Sea el dominio $U=\{S1,S2,S3,S4\}$ (cuatro servidores) y el predicado $disponible(x)$: "x está disponible". Escriba $\forall x\ disponible(x)$ y $\exists x\ disponible(x)$ como conjunción y disyunción, respectivamente, sin usar cuantificadores.
+Sea el dominio $U=\lbrace S1,S2,S3,S4\rbrace $ (cuatro servidores) y el predicado $disponible(x)$: "x está disponible". Escriba $\forall x\ disponible(x)$ y $\exists x\ disponible(x)$ como conjunción y disyunción, respectivamente, sin usar cuantificadores.
 
 > ✍️ *Antes de ver la respuesta: resuelva el procedimiento completo a mano y escriba aquí su resultado final, aunque no esté seguro.*
 >
@@ -185,7 +185,7 @@ $\neg\bigl(\forall x\ bateria(x)\bigr) \equiv \exists x\ \neg bateria(x)$ — "e
 ## Serie 2 — Aplicación combinada
 
 **Ítem 10**
-Sea el dominio $U=\{E1,E2,E3,E4,E5\}$ (cinco estudiantes) y el predicado $perfecto(x)$: "x obtuvo la nota máxima en el examen". La tabla de resultados muestra: $E1$: no, $E2$: sí, $E3$: no, $E4$: no, $E5$: no. Determine si $\exists!\ x\ perfecto(x)$ es verdadera, verificando explícitamente existencia y unicidad.
+Sea el dominio $U=\lbrace E1,E2,E3,E4,E5\rbrace $ (cinco estudiantes) y el predicado $perfecto(x)$: "x obtuvo la nota máxima en el examen". La tabla de resultados muestra: $E1$: no, $E2$: sí, $E3$: no, $E4$: no, $E5$: no. Determine si $\exists!\ x\ perfecto(x)$ es verdadera, verificando explícitamente existencia y unicidad.
 
 > ✍️ *Antes de ver la respuesta: resuelva el procedimiento completo a mano y escriba aquí su resultado final, aunque no esté seguro.*
 >
@@ -217,7 +217,7 @@ Traducción: $\exists x(R(x)\land F(x))$. Negación: $\forall x(R(x)\rightarrow\
 </details>
 
 **Ítem 12**
-Sea $P(x)$: "$x^2 \leq 9$". Determine el valor de verdad de $\forall x\ P(x)$ en el dominio $\{-3,-2,-1,0,1,2,3\}$ y en el dominio $\mathbb{Z}$. Explique el cambio.
+Sea $P(x)$: "$x^2 \leq 9$". Determine el valor de verdad de $\forall x\ P(x)$ en el dominio $\lbrace -3,-2,-1,0,1,2,3\rbrace $ y en el dominio $\mathbb{Z}$. Explique el cambio.
 
 > ✍️ *Antes de ver la respuesta: resuelva el procedimiento completo a mano y escriba aquí su resultado final, aunque no esté seguro.*
 >
@@ -228,12 +228,12 @@ Sea $P(x)$: "$x^2 \leq 9$". Determine el valor de verdad de $\forall x\ P(x)$ en
 <details markdown="1">
 <summary>Ver respuesta final</summary>
 
-En $\{-3,\dots,3\}$: verdadera (los siete elementos cumplen). En $\mathbb{Z}$: falsa (contraejemplo $x=4$: $16\leq 9$ es falso). El predicado no cambió — el dominio infinito reintroduce elementos que el dominio finito había excluido.
+En $\lbrace -3,\dots,3\rbrace $: verdadera (los siete elementos cumplen). En $\mathbb{Z}$: falsa (contraejemplo $x=4$: $16\leq 9$ es falso). El predicado no cambió — el dominio infinito reintroduce elementos que el dominio finito había excluido.
 
 </details>
 
 **Ítem 13**
-Sea el dominio $\{1,2,\dots,15\}$ y $Q(x)$: "x es múltiplo de 4". Determine si $\exists!\ x\ Q(x)$ es verdadera o falsa. Si es falsa, exhiba explícitamente dos testigos distintos que rompan la unicidad.
+Sea el dominio $\lbrace 1,2,\dots,15\rbrace $ y $Q(x)$: "x es múltiplo de 4". Determine si $\exists!\ x\ Q(x)$ es verdadera o falsa. Si es falsa, exhiba explícitamente dos testigos distintos que rompan la unicidad.
 
 > ✍️ *Antes de ver la respuesta: resuelva el procedimiento completo a mano y escriba aquí su resultado final, aunque no esté seguro.*
 >
@@ -249,7 +249,7 @@ Falsa. Hay tres testigos (4, 8, 12); basta exhibir dos, por ejemplo $4$ y $8$, p
 </details>
 
 **Ítem 14**
-Sea el dominio $U=\{a,b\}$ y $R(x)$: "x cumple la política de seguridad". Escriba $\forall x\ R(x)$ como conjunción, niegue esa conjunción aplicando De Morgan proposicional (Clase 6), y verifique que el resultado coincide con $\exists x\ \neg R(x)$.
+Sea el dominio $U=\lbrace a,b\rbrace $ y $R(x)$: "x cumple la política de seguridad". Escriba $\forall x\ R(x)$ como conjunción, niegue esa conjunción aplicando De Morgan proposicional (Clase 6), y verifique que el resultado coincide con $\exists x\ \neg R(x)$.
 
 > ✍️ *Antes de ver la respuesta: resuelva el procedimiento completo a mano y escriba aquí su resultado final, aunque no esté seguro.*
 >
@@ -272,7 +272,7 @@ $\forall x\ R(x)\equiv R(a)\land R(b)$. Negación: $\neg R(a)\lor\neg R(b)$. Est
 {: .note }
 
 **Ítem 15**
-Sea el dominio $U=\{L1,L2,L3\}$ (tres enlaces de red) y el predicado $activo(x)$: "el enlace x está activo". (a) Traduzca "todos los enlaces están activos" a cuantificadores. (b) Exprésela como conjunción sin cuantificadores. (c) Niegue la fórmula original aplicando De Morgan cuantificacional, y verifique que su resultado equivale a negar la conjunción del punto (b) con De Morgan proposicional.
+Sea el dominio $U=\lbrace L1,L2,L3\rbrace $ (tres enlaces de red) y el predicado $activo(x)$: "el enlace x está activo". (a) Traduzca "todos los enlaces están activos" a cuantificadores. (b) Exprésela como conjunción sin cuantificadores. (c) Niegue la fórmula original aplicando De Morgan cuantificacional, y verifique que su resultado equivale a negar la conjunción del punto (b) con De Morgan proposicional.
 
 > ✍️ *Antes de ver la respuesta: resuelva el procedimiento completo a mano y escriba aquí su resultado final, aunque no esté seguro.*
 >
@@ -288,7 +288,7 @@ Sea el dominio $U=\{L1,L2,L3\}$ (tres enlaces de red) y el predicado $activo(x)$
 </details>
 
 **Ítem 16**
-Sea el dominio $\{5,6,7,8,9\}$ y $P(x)$: "x es mayor que 5". Determine el valor de verdad de $\forall x\ P(x)$ y $\exists x\ P(x)$. ¿Su resultado es consistente con que nunca puede darse $\forall$ verdadera y $\exists$ falsa? Adicionalmente, determine si $\exists!\ x\ P(x)$ es verdadera o falsa.
+Sea el dominio $\lbrace 5,6,7,8,9\rbrace $ y $P(x)$: "x es mayor que 5". Determine el valor de verdad de $\forall x\ P(x)$ y $\exists x\ P(x)$. ¿Su resultado es consistente con que nunca puede darse $\forall$ verdadera y $\exists$ falsa? Adicionalmente, determine si $\exists!\ x\ P(x)$ es verdadera o falsa.
 
 > ✍️ *Antes de ver la respuesta: resuelva el procedimiento completo a mano y escriba aquí su resultado final, aunque no esté seguro.*
 >
@@ -331,7 +331,7 @@ Sea $P(x)$: "$x^2 \leq 4$". (a) Encuentre un contraejemplo en $\mathbb{R}$ que r
 <details markdown="1">
 <summary>Ver respuesta final</summary>
 
-(a) $x_0=3$: $9\leq 4$ es falso (sirve cualquier $|x|>2$). (b) Dominio $\{-2,-1,0,1,2\}$: $P(-2)\land P(-1)\land P(0)\land P(1)\land P(2)$, los cinco términos son verdaderos.
+(a) $x_0=3$: $9\leq 4$ es falso (sirve cualquier $|x|>2$). (b) Dominio $\lbrace -2,-1,0,1,2\rbrace $: $P(-2)\land P(-1)\land P(0)\land P(1)\land P(2)$, los cinco términos son verdaderos.
 
 </details>
 
@@ -369,7 +369,7 @@ Proponga dos dominios distintos, cada uno con al menos 3 elementos, y un predica
 <details markdown="1">
 <summary>Ver respuesta final</summary>
 
-Respuesta de referencia (otras propuestas válidas también son correctas, si cumplen las condiciones pedidas): Dominio 1 $=\{2,4,6\}$, $V(x)$: "x es par" — los tres son pares, así que $\forall$ y $\exists$ son ambas V. Dominio 2 $=\{2,3,5\}$, mismo $V(x)$ — solo el 2 es par: $\exists$ es V (testigo 2), pero $\forall$ es F (falla en 3 y 5).
+Respuesta de referencia (otras propuestas válidas también son correctas, si cumplen las condiciones pedidas): Dominio 1 $=\lbrace 2,4,6\rbrace $, $V(x)$: "x es par" — los tres son pares, así que $\forall$ y $\exists$ son ambas V. Dominio 2 $=\lbrace 2,3,5\rbrace $, mismo $V(x)$ — solo el 2 es par: $\exists$ es V (testigo 2), pero $\forall$ es F (falla en 3 y 5).
 
 </details>
 
@@ -395,7 +395,7 @@ $\exists!$ garantiza que exactamente una sala queda reservada por franja: ni cer
 
 *Este bloque aplica — no explica — los conceptos ya vistos. La narrativa es solo el envoltorio del enunciado; se resuelve exclusivamente con herramientas formales de `clase7.md`. No se exige anidar cuantificadores (tema pendiente para la próxima clase).*
 
-El pastorcito gritó "¡Lobo!" dos veces sin que fuera cierto, y los cinco aldeanos del pueblo — $U=\{A1,A2,A3,A4,A5\}$ — corrieron ambas veces a ayudar. A la tercera, el lobo apareció de verdad. Esta vez, la tabla de quién acudió fue distinta:
+El pastorcito gritó "¡Lobo!" dos veces sin que fuera cierto, y los cinco aldeanos del pueblo — $U=\lbrace A1,A2,A3,A4,A5\rbrace $ — corrieron ambas veces a ayudar. A la tercera, el lobo apareció de verdad. Esta vez, la tabla de quién acudió fue distinta:
 
 | Aldeano | ¿Acudió a la alarma real? |
 |:---:|:---:|
@@ -422,7 +422,7 @@ Verdadera. Existencia: A4 acudió. Unicidad: ningún otro aldeano acudió. Testi
 </details>
 
 **Ítem 23**
-*(Dependencia del dominio)* El pueblo se divide en dos barrios: Barrio Alto $=\{A1,A4\}$ y Barrio Bajo $=\{A2,A3,A5\}$. Usando la misma tabla del Ítem 22, evalúe $\exists x\ acudio(x)$ tomando como universo solo el Barrio Alto, y luego solo el Barrio Bajo. ¿Cambia el valor de verdad de la misma fórmula según el barrio? Explique por qué, apoyándose en la Parte II.
+*(Dependencia del dominio)* El pueblo se divide en dos barrios: Barrio Alto $=\lbrace A1,A4\rbrace $ y Barrio Bajo $=\lbrace A2,A3,A5\rbrace $. Usando la misma tabla del Ítem 22, evalúe $\exists x\ acudio(x)$ tomando como universo solo el Barrio Alto, y luego solo el Barrio Bajo. ¿Cambia el valor de verdad de la misma fórmula según el barrio? Explique por qué, apoyándose en la Parte II.
 
 > ✍️ *Antes de ver la respuesta: resuelva el procedimiento completo a mano y escriba aquí su resultado final, aunque no esté seguro.*
 >

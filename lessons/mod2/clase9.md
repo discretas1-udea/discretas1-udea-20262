@@ -145,7 +145,7 @@ Estas reglas ya fueron derivadas y verificadas con tablas de verdad en Clase 5 �
 
 Estas equivalencias ya fueron demostradas por completo — con derivación formal y contraejemplos — en [Clase 8]({{ '/lessons/mod2/clase8/' | relative_url }}), Parte IV. Aquí solo la tabla de referencia; no se repite la demostración.
 
-> **Corrección aplicada.** La fila de distributividad de $\forall$ sobre $\lor$ en un solo sentido va en la dirección $\forall x\ P(x)\lor\forall x\ Q(x)\rightarrow\forall x\ (P(x)\lor Q(x))$ — la dirección inversa **no** es válida (mismo contraejemplo par/impar de la Parte IV.4 de Clase 8: dominio $\{1,2\}$ hace verdadero el antecedente $\forall x(par(x)\lor impar(x))$ pero falso el consecuente $\forall x\ par(x)\lor\forall x\ impar(x)$ ). Este error venía del PDF fuente de esta sesión — verificado que **Clase 8 no lo tiene**: esa página ya refuta correctamente, con $\not\equiv$ y contraejemplo, la versión de equivalencia plena, y nunca afirma una implicación de un solo sentido en la dirección inválida.
+> **Corrección aplicada.** La fila de distributividad de $\forall$ sobre $\lor$ en un solo sentido va en la dirección $\forall x\ P(x)\lor\forall x\ Q(x)\rightarrow\forall x\ (P(x)\lor Q(x))$ — la dirección inversa **no** es válida (mismo contraejemplo par/impar de la Parte IV.4 de Clase 8: dominio $\lbrace 1,2\rbrace $ hace verdadero el antecedente $\forall x(par(x)\lor impar(x))$ pero falso el consecuente $\forall x\ par(x)\lor\forall x\ impar(x)$ ). Este error venía del PDF fuente de esta sesión — verificado que **Clase 8 no lo tiene**: esa página ya refuta correctamente, con $\not\equiv$ y contraejemplo, la versión de equivalencia plena, y nunca afirma una implicación de un solo sentido en la dirección inválida.
 {: .warning }
 
 | Nombre | Equivalencia |
@@ -204,7 +204,7 @@ Y esto responde directamente a la pregunta de Beto en la apertura: contar 15 cas
 > Si algo es cierto para todos, también lo es para uno en particular — sin restricciones adicionales: $c$ puede ser cualquier objeto del dominio, nombrado o no.
 {: .important }
 
-**Ejemplo.** Dominio $U=\{\text{todos los perros}\}$, predicado $C(x)$: *"x es cariñoso"*.
+**Ejemplo.** Dominio $U=\lbrace \text{todos los perros}\rbrace $, predicado $C(x)$: *"x es cariñoso"*.
 
 $$\begin{aligned}&\forall x\ C(x) &&\text{Todos los perros son cariñosos}\\ \hline &\therefore C(\text{Firulais}) &&\text{Por lo tanto, Firulais es cariñoso}\end{aligned}$$
 
@@ -227,7 +227,7 @@ $$\begin{aligned}&\forall x\ C(x) &&\text{Todos los perros son cariñosos}\\ \hl
 > $$\exists x\ P(x)\ \therefore\ P(c)\ \text{para algún}\ c$$
 {: .important }
 
-**Ejemplo.** Dominio $U=\{\text{todos los estudiantes}\}$, predicado $N(x)$: *"x sacó 5.0 en el curso"*.
+**Ejemplo.** Dominio $U=\lbrace \text{todos los estudiantes}\rbrace $, predicado $N(x)$: *"x sacó 5.0 en el curso"*.
 
 $$\begin{aligned}&\exists x\ N(x) &&\text{Hay alguien que sacó 5.0 en el curso}\\ \hline &\therefore N(a)\ \text{para algún}\ a &&\text{Llamemos } a \text{ a ese alguien — por ejemplo, Bart}\end{aligned}$$
 

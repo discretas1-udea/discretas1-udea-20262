@@ -51,7 +51,7 @@ En lógica de predicados sí sería posible: si se modela como $\forall x\,(serv
 
 ---
 
-**Ítem 2.** Sea el universo los procesos activos del sistema, $U = \{proc1, proc2, \dots, proc6\}$, y el predicado $activo(x)$. Clasifique cada elemento: (i) el conjunto $U$; (ii) el símbolo $x$ en $activo(x)$; (iii) $proc3$.
+**Ítem 2.** Sea el universo los procesos activos del sistema, $U = \lbrace proc1, proc2, \dots, proc6\rbrace $, y el predicado $activo(x)$. Clasifique cada elemento: (i) el conjunto $U$; (ii) el símbolo $x$ en $activo(x)$; (iii) $proc3$.
 
 > ✍️ *Antes de ver la respuesta: clasifique (i), (ii) y (iii).*
 >
@@ -123,7 +123,7 @@ Un paso de método por ítem.
 
 ---
 
-**Ítem 6.** Sea el universo $U = \{1, 2, \dots, 10\}$ y el predicado $primo(x)$. Determine por extensión el conjunto de verdad $\{\,x \in U \mid primo(x)\,\}$.
+**Ítem 6.** Sea el universo $U = \lbrace 1, 2, \dots, 10\rbrace $ y el predicado $primo(x)$. Determine por extensión el conjunto de verdad $\lbrace \,x \in U \mid primo(x)\,\rbrace $.
 
 > ✍️ *Antes de ver la respuesta: liste los elementos.*
 >
@@ -134,7 +134,7 @@ Un paso de método por ítem.
 <details markdown="1">
 <summary>Ver respuesta final</summary>
 
-$\{2, 3, 5, 7\}$.
+$\lbrace 2, 3, 5, 7\rbrace $.
 
 </details>
 
@@ -286,7 +286,7 @@ Depende del universo elegido — no tiene un único valor de verdad. Por ejemplo
 
 Un caso aplicado. La historia es solo el envoltorio: se resuelve con las herramientas formales de la clase.
 
-El universo son los miembros del equipo, $U = \{ironman, capitan, thor, viuda, hulk, ojo\}$ — pertenecer a $U$ no implica estar disponible; eso lo decide el predicado $disponible(x)$, según la tabla de hechos. Los predicados son:
+El universo son los miembros del equipo, $U = \lbrace ironman, capitan, thor, viuda, hulk, ojo\rbrace $ — pertenecer a $U$ no implica estar disponible; eso lo decide el predicado $disponible(x)$, según la tabla de hechos. Los predicados son:
 
 | Predicado | Significado |
 |:---|:---|
@@ -337,7 +337,7 @@ Y la siguiente tabla de hechos conocidos:
 <details markdown="1">
 <summary>Ver respuesta final</summary>
 
-(a) F (V ∧ F = F, porque hulk no está disponible). (b) $\{thor, hulk\}$. (c) $\exists x\,\bigl(disponible(x) \land \neg tienePoderes(x)\bigr)$; es **verdadera**, porque $ironman$ cumple $disponible(ironman)=V$ y $tienePoderes(ironman)=F$. (Esto confirma que la afirmación original del Ítem 15(a) es falsa.)
+(a) F (V ∧ F = F, porque hulk no está disponible). (b) $\lbrace thor, hulk\rbrace $. (c) $\exists x\,\bigl(disponible(x) \land \neg tienePoderes(x)\bigr)$; es **verdadera**, porque $ironman$ cumple $disponible(ironman)=V$ y $tienePoderes(ironman)=F$. (Esto confirma que la afirmación original del Ítem 15(a) es falsa.)
 
 </details>
 
@@ -361,12 +361,12 @@ Marque, con honestidad, cómo le fue en cada bloque. Use tanto si acertó como e
 
 | Concepto | Qué es | Ejemplo |
 |:---|:---|:---|
-| Universo / Dominio | Conjunto de todos los objetos sobre los que se razona | $\{proc1, \dots, proc6\}$ |
+| Universo / Dominio | Conjunto de todos los objetos sobre los que se razona | $\lbrace proc1, \dots, proc6\rbrace $ |
 | Constante | Símbolo que nombra un objeto específico | $ironman,\ thor$ |
 | Variable | Símbolo que representa cualquier objeto del dominio | $x,\ y,\ z$ |
 | Predicado | Propiedad o relación; produce V o F | $activo(x),\ tecnico(x,y)$ |
 | Función proposicional | Expresión con variables libres; aún no es proposición | $P(x) \land Q(x)$ |
-| Conjunto de verdad | Subconjunto del dominio donde el predicado es verdadero | $\{x \in D \mid primo(x)\}$ |
+| Conjunto de verdad | Subconjunto del dominio donde el predicado es verdadero | $\lbrace x \in D \mid primo(x)\rbrace $ |
 
 **Verificación de tipos:** los **conectivos** operan sobre proposiciones y producen una proposición; los **predicados** operan sobre objetos y producen una proposición; las **funciones** operan sobre objetos y producen un objeto.
 

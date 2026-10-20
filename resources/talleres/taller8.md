@@ -72,21 +72,21 @@ Un diagrama de Hasse simplifica el grafo dirigido de un orden parcial eliminando
 ### Bloque A — Identificación de órdenes parciales (1-7)
 {: .no_toc }
 
-**1.** ¿Cuáles de estas relaciones en $\{0,1,2,3\}$ son relaciones de orden parcial? Determine las propiedades de una relación de orden parcial que las otras no tienen.
+**1.** ¿Cuáles de estas relaciones en $\lbrace 0,1,2,3\rbrace $ son relaciones de orden parcial? Determine las propiedades de una relación de orden parcial que las otras no tienen.
 
-- a. $\{(0,0), (1,1), (2,2), (3,3)\}$
-- b. $\{(0,0), (1,1), (2,0), (2,2), (2,3), (3,2), (3,3)\}$
-- c. $\{(0,0), (1,1), (1,2), (2,2), (3,3)\}$
-- d. $\{(0,0), (1,1), (1,2), (1,3), (2,2), (2,3), (3,3)\}$
-- e. $\{(0,0), (0,1), (0,2), (1,0), (1,1), (1,2), (2,0), (2,2), (3,3)\}$
+- a. $\lbrace (0,0), (1,1), (2,2), (3,3)\rbrace $
+- b. $\lbrace (0,0), (1,1), (2,0), (2,2), (2,3), (3,2), (3,3)\rbrace $
+- c. $\lbrace (0,0), (1,1), (1,2), (2,2), (3,3)\rbrace $
+- d. $\lbrace (0,0), (1,1), (1,2), (1,3), (2,2), (2,3), (3,3)\rbrace $
+- e. $\lbrace (0,0), (0,1), (0,2), (1,0), (1,1), (1,2), (2,0), (2,2), (3,3)\rbrace $
 
-**2.** ¿Cuáles de estas relaciones en $\{0,1,2,3\}$ son relaciones de orden parcial? Determine las propiedades de una relación de orden parcial que las otras no tienen.
+**2.** ¿Cuáles de estas relaciones en $\lbrace 0,1,2,3\rbrace $ son relaciones de orden parcial? Determine las propiedades de una relación de orden parcial que las otras no tienen.
 
-- a. $\{(0,0), (2,2), (3,3)\}$
-- b. $\{(0,0), (1,1), (2,0), (2,2), (2,3), (3,3)\}$
-- c. $\{(0,0), (1,1), (1,2), (2,2), (3,1), (3,3)\}$
-- d. $\{(0,0), (1,1), (1,2), (1,3), (2,0), (2,2), (2,3), (3,0), (3,3)\}$
-- e. $\{(0,0), (0,1), (0,2), (0,3), (1,0), (1,1), (1,2), (1,3), (2,0), (2,2), (3,3)\}$
+- a. $\lbrace (0,0), (2,2), (3,3)\rbrace $
+- b. $\lbrace (0,0), (1,1), (2,0), (2,2), (2,3), (3,3)\rbrace $
+- c. $\lbrace (0,0), (1,1), (1,2), (2,2), (3,1), (3,3)\rbrace $
+- d. $\lbrace (0,0), (1,1), (1,2), (1,3), (2,0), (2,2), (2,3), (3,0), (3,3)\rbrace $
+- e. $\lbrace (0,0), (0,1), (0,2), (0,3), (1,0), (1,1), (1,2), (1,3), (2,0), (2,2), (3,3)\rbrace $
 
 **3.** ¿Cuáles de las siguientes relaciones $(S, R)$ son relaciones de orden parcial (POSET) si $S$ es el conjunto de todas las personas en el mundo y $(a,b) \in R$, donde $a$ y $b$ son personas?
 
@@ -142,17 +142,17 @@ d. ![Grafo dirigido ejercicio 6d]({{ '/assets/images/talleres/taller8/taller8-ej
 
 **8.** Dibuje el diagrama de Hasse para la divisibilidad en el conjunto.
 
-- a. $\{1, 2, 3, 4, 5, 6\}$
-- b. $\{3, 5, 7, 11, 13, 16, 17\}$
-- c. $\{2, 3, 5, 10, 11, 15, 25\}$
-- d. $\{1, 3, 9, 27, 81, 243\}$
+- a. $\lbrace 1, 2, 3, 4, 5, 6\rbrace $
+- b. $\lbrace 3, 5, 7, 11, 13, 16, 17\rbrace $
+- c. $\lbrace 2, 3, 5, 10, 11, 15, 25\rbrace $
+- d. $\lbrace 1, 3, 9, 27, 81, 243\rbrace $
 
 **9.** Dibuje el diagrama de Hasse para la divisibilidad en el conjunto.
 
-- a. $\{1, 2, 3, 4, 5, 6, 7, 8\}$
-- b. $\{1, 2, 3, 5, 7, 11, 13\}$
-- c. $\{1, 2, 3, 6, 12, 24, 36, 48\}$
-- d. $\{1, 2, 4, 8, 16, 32, 64\}$
+- a. $\lbrace 1, 2, 3, 4, 5, 6, 7, 8\rbrace $
+- b. $\lbrace 1, 2, 3, 5, 7, 11, 13\rbrace $
+- c. $\lbrace 1, 2, 3, 6, 12, 24, 36, 48\rbrace $
+- d. $\lbrace 1, 2, 4, 8, 16, 32, 64\rbrace $
 
 ### Bloque C — Lectura de diagramas de Hasse (10)
 {: .no_toc }
@@ -178,32 +178,32 @@ Responda las siguientes preguntas:
 - b. Hallar los minimales.
 - c. ¿Existe un elemento mayor?
 - d. ¿Existe un elemento menor?
-- e. Hallar todas las cotas superiores de $\{a, b, c\}$.
-- f. Hallar la menor de las cotas superiores de $\{a, b, c\}$, si existe.
-- g. Hallar todas las cotas inferiores de $\{f, g, h\}$.
-- h. Hallar la mayor de las cotas inferiores de $\{f, g, h\}$, si existe.
+- e. Hallar todas las cotas superiores de $\lbrace a, b, c\rbrace $.
+- f. Hallar la menor de las cotas superiores de $\lbrace a, b, c\rbrace $, si existe.
+- g. Hallar todas las cotas inferiores de $\lbrace f, g, h\rbrace $.
+- h. Hallar la mayor de las cotas inferiores de $\lbrace f, g, h\rbrace $, si existe.
 
-**12.** Responda estas preguntas para la relación de orden parcial $(\{3, 5, 9, 15, 24, 45\}, \mid)$.
+**12.** Responda estas preguntas para la relación de orden parcial $(\lbrace 3, 5, 9, 15, 24, 45\rbrace , \mid)$.
 
 - a. Encuentre los elementos maximales.
 - b. Encuentre los elementos minimales.
 - c. ¿Hay un elemento máximo?
 - d. ¿Hay un elemento mínimo?
-- e. Encuentre todas las cotas superiores de $\{3, 5\}$.
-- f. Encuentre la mínima cota superior de $\{3, 5\}$, si existe.
-- g. Encuentre todas las cotas inferiores de $\{15, 45\}$.
-- h. Encuentre la máxima cota inferior de $\{15, 45\}$, si existe.
+- e. Encuentre todas las cotas superiores de $\lbrace 3, 5\rbrace $.
+- f. Encuentre la mínima cota superior de $\lbrace 3, 5\rbrace $, si existe.
+- g. Encuentre todas las cotas inferiores de $\lbrace 15, 45\rbrace $.
+- h. Encuentre la máxima cota inferior de $\lbrace 15, 45\rbrace $, si existe.
 
-**13.** Responda estas preguntas para la relación de orden parcial $(\{\{1\}, \{2\}, \{4\}, \{1,2\}, \{1,4\}, \{2,4\}, \{3,4\}, \{1,3,4\}, \{2,3,4\}\}, \subseteq)$.
+**13.** Responda estas preguntas para la relación de orden parcial $(\lbrace \lbrace 1\rbrace , \lbrace 2\rbrace , \lbrace 4\rbrace , \lbrace 1,2\rbrace , \lbrace 1,4\rbrace , \lbrace 2,4\rbrace , \lbrace 3,4\rbrace , \lbrace 1,3,4\rbrace , \lbrace 2,3,4\rbrace \rbrace , \subseteq)$.
 
 - a. Encuentre los elementos maximales.
 - b. Encuentre los elementos minimales.
 - c. ¿Existe un elemento mayor?
 - d. ¿Existe un elemento menor?
-- e. Encuentre todas las cotas superiores de $\{\{2\}, \{4\}\}$.
-- f. Encuentre la mínima cota superior de $\{\{2\}, \{4\}\}$, si existe.
-- g. Encuentre todas las cotas inferiores de $\{\{1,3,4\}, \{2,3,4\}\}$.
-- h. Encuentre la máxima cota inferior de $\{\{1,3,4\}, \{2,3,4\}\}$, si existe.
+- e. Encuentre todas las cotas superiores de $\lbrace \lbrace 2\rbrace , \lbrace 4\rbrace \rbrace $.
+- f. Encuentre la mínima cota superior de $\lbrace \lbrace 2\rbrace , \lbrace 4\rbrace \rbrace $, si existe.
+- g. Encuentre todas las cotas inferiores de $\lbrace \lbrace 1,3,4\rbrace , \lbrace 2,3,4\rbrace \rbrace $.
+- h. Encuentre la máxima cota inferior de $\lbrace \lbrace 1,3,4\rbrace , \lbrace 2,3,4\rbrace \rbrace $, si existe.
 
 ## ¿Cómo verificar sus propias respuestas?
 

@@ -47,8 +47,8 @@ Al finalizar este taller, usted podrá determinar las propiedades de una relaci�
 
 | Nombre | Definición |
 |---|---|
-| Producto cartesiano | $A \times B = \{(a,b) \mid a \in A \land b \in B\}$ |
-| Relación | $R = \{(x,y) \mid (x \in A) \land (y \in B) \land P(x,y)\}$ |
+| Producto cartesiano | $A \times B = \lbrace (a,b) \mid a \in A \land b \in B\rbrace $ |
+| Relación | $R = \lbrace (x,y) \mid (x \in A) \land (y \in B) \land P(x,y)\rbrace $ |
 | Número total de relaciones de $A$ en $B$ | $\lvert \mathcal{P}(A \times B) \rvert = 2^{\lvert A \times B \rvert} = 2^{\lvert A \rvert \cdot \lvert B \rvert}$ |
 
 > Las operaciones del Bloque B ($\cup$, $\cap$, $-$, $\oplus$) son las mismas operaciones de conjuntos del Taller 6 — aquí se aplican a relaciones, que no son más que conjuntos de pares ordenados.
@@ -59,21 +59,21 @@ Al finalizar este taller, usted podrá determinar las propiedades de una relaci�
 ### Bloque A — Identificación de relaciones y sus propiedades (1-7)
 {: .no_toc }
 
-**1.** Liste los pares ordenados en la relación $R$ de $A = \{0, 1, 2, 3, 4\}$ a $B = \{0, 1, 2, 3\}$, donde $(a,b) \in R$ si y solo si:
+**1.** Liste los pares ordenados en la relación $R$ de $A = \lbrace 0, 1, 2, 3, 4\rbrace $ a $B = \lbrace 0, 1, 2, 3\rbrace $, donde $(a,b) \in R$ si y solo si:
 
 - a. $a = b$
 - b. $a + b = 4$
 - c. $a > b$
 - d. $a \mid b$
 
-**2.** Para cada una de estas relaciones en el conjunto $\{1, 2, 3, 4\}$, determine si es reflexiva, simétrica, antisimétrica y si es transitiva:
+**2.** Para cada una de estas relaciones en el conjunto $\lbrace 1, 2, 3, 4\rbrace $, determine si es reflexiva, simétrica, antisimétrica y si es transitiva:
 
-- a. $\{(2,2), (2,3), (2,4), (3,2), (3,3), (3,4)\}$
-- b. $\{(1,1), (1,2), (2,1), (2,2), (3,3), (4,4)\}$
-- c. $\{(2,4), (4,2)\}$
-- d. $\{(1,2), (2,3), (3,4)\}$
-- e. $\{(1,1), (2,2), (3,3), (4,4)\}$
-- f. $\{(1,3), (1,4), (2,3), (2,4), (3,1), (3,4)\}$
+- a. $\lbrace (2,2), (2,3), (2,4), (3,2), (3,3), (3,4)\rbrace $
+- b. $\lbrace (1,1), (1,2), (2,1), (2,2), (3,3), (4,4)\rbrace $
+- c. $\lbrace (2,4), (4,2)\rbrace $
+- d. $\lbrace (1,2), (2,3), (3,4)\rbrace $
+- e. $\lbrace (1,1), (2,2), (3,3), (4,4)\rbrace $
+- f. $\lbrace (1,3), (1,4), (2,3), (2,4), (3,1), (3,4)\rbrace $
 
 **3.** Determine si la relación $R$ en el conjunto de todas las personas es reflexiva, simétrica, antisimétrica y/o transitiva, donde $(a,b) \in R$ si y solo si:
 
@@ -96,7 +96,7 @@ Al finalizar este taller, usted podrá determinar las propiedades de una relaci�
 ### Bloque B — Operaciones entre relaciones (8-10)
 {: .no_toc }
 
-**8.** Sean $R_1 = \{(1,2), (2,3), (3,4)\}$ y $R_2 = \{(1,1), (1,2), (2,1), (2,2), (2,3), (3,1), (3,2), (3,3), (3,4)\}$ relaciones de $\{1,2,3\}$ a $\{1,2,3,4\}$. Encuentre:
+**8.** Sean $R_1 = \lbrace (1,2), (2,3), (3,4)\rbrace $ y $R_2 = \lbrace (1,1), (1,2), (2,1), (2,2), (2,3), (3,1), (3,2), (3,3), (3,4)\rbrace $ relaciones de $\lbrace 1,2,3\rbrace $ a $\lbrace 1,2,3,4\rbrace $. Encuentre:
 
 - a. $R_1 \cup R_2$
 - b. $R_1 \cap R_2$
@@ -111,7 +111,7 @@ Al finalizar este taller, usted podrá determinar las propiedades de una relaci�
 - d. $R_1 - R_2$
 - e. $R_2 - R_1$
 
-**10.** Sean $R_1$ y $R_2$ las relaciones "congruente módulo 3" y "congruente módulo 4", respectivamente, en el conjunto de los números enteros. Es decir, $R_1 = \{(a,b) \mid a \equiv b \% 3\}$ y $R_2 = \{(a,b) \mid a \equiv b \% 4\}$. Hallar:
+**10.** Sean $R_1$ y $R_2$ las relaciones "congruente módulo 3" y "congruente módulo 4", respectivamente, en el conjunto de los números enteros. Es decir, $R_1 = \lbrace (a,b) \mid a \equiv b \% 3\rbrace $ y $R_2 = \lbrace (a,b) \mid a \equiv b \% 4\rbrace $. Hallar:
 
 - a. $R_1 \cup R_2$
 - b. $R_1 \cap R_2$
@@ -122,21 +122,21 @@ Al finalizar este taller, usted podrá determinar las propiedades de una relaci�
 ### Bloque C — Representación matricial de relaciones (11-18)
 {: .no_toc }
 
-**11.** Represente cada una de estas relaciones en $\{1,2,3\}$ con una matriz (con los elementos de este conjunto listados en orden creciente).
+**11.** Represente cada una de estas relaciones en $\lbrace 1,2,3\rbrace $ con una matriz (con los elementos de este conjunto listados en orden creciente).
 
-- a. $\{(1,1), (1,2), (1,3)\}$
-- b. $\{(1,2), (2,1), (2,2), (3,3)\}$
-- c. $\{(1,1), (1,2), (1,3), (2,2), (2,3), (3,3)\}$
-- d. $\{(1,3), (3,1)\}$
+- a. $\lbrace (1,1), (1,2), (1,3)\rbrace $
+- b. $\lbrace (1,2), (2,1), (2,2), (3,3)\rbrace $
+- c. $\lbrace (1,1), (1,2), (1,3), (2,2), (2,3), (3,3)\rbrace $
+- d. $\lbrace (1,3), (3,1)\rbrace $
 
-**12.** Represente cada una de estas relaciones en $\{1,2,3,4\}$ con una matriz (con los elementos de este conjunto listados en orden creciente).
+**12.** Represente cada una de estas relaciones en $\lbrace 1,2,3,4\rbrace $ con una matriz (con los elementos de este conjunto listados en orden creciente).
 
-- a. $\{(1,2), (1,3), (1,4), (2,3), (2,4), (3,4)\}$
-- b. $\{(1,1), (1,4), (2,2), (3,3), (4,1)\}$
-- c. $\{(1,2), (1,3), (1,4), (2,1), (2,3), (2,4), (3,1), (3,2), (3,4), (4,1), (4,2), (4,3)\}$
-- d. $\{(2,4), (3,1), (3,2), (3,4)\}$
+- a. $\lbrace (1,2), (1,3), (1,4), (2,3), (2,4), (3,4)\rbrace $
+- b. $\lbrace (1,1), (1,4), (2,2), (3,3), (4,1)\rbrace $
+- c. $\lbrace (1,2), (1,3), (1,4), (2,1), (2,3), (2,4), (3,1), (3,2), (3,4), (4,1), (4,2), (4,3)\rbrace $
+- d. $\lbrace (2,4), (3,1), (3,2), (3,4)\rbrace $
 
-**13.** Determine los pares ordenados en las relaciones en $\{1,2,3\}$ correspondientes a estas matrices (donde las filas y columnas corresponden a los enteros listados en orden creciente):
+**13.** Determine los pares ordenados en las relaciones en $\lbrace 1,2,3\rbrace $ correspondientes a estas matrices (donde las filas y columnas corresponden a los enteros listados en orden creciente):
 
 a.
 $$\begin{bmatrix} 1 & 0 & 1 \\ 0 & 1 & 0 \\ 1 & 0 & 1 \end{bmatrix}$$
@@ -147,7 +147,7 @@ $$\begin{bmatrix} 0 & 1 & 0 \\ 0 & 1 & 0 \\ 0 & 1 & 0 \end{bmatrix}$$
 c.
 $$\begin{bmatrix} 1 & 1 & 1 \\ 1 & 0 & 1 \\ 1 & 1 & 1 \end{bmatrix}$$
 
-**14.** Determine los pares ordenados en las relaciones en $\{1,2,3,4\}$ correspondientes a estas matrices (donde las filas y columnas corresponden a los enteros listados en orden creciente):
+**14.** Determine los pares ordenados en las relaciones en $\lbrace 1,2,3,4\rbrace $ correspondientes a estas matrices (donde las filas y columnas corresponden a los enteros listados en orden creciente):
 
 a.
 $$\begin{bmatrix} 1 & 1 & 0 & 1 \\ 1 & 0 & 1 & 0 \\ 0 & 1 & 1 & 1 \\ 1 & 0 & 1 & 1 \end{bmatrix}$$
@@ -165,13 +165,13 @@ $$\begin{bmatrix} 0 & 1 & 0 & 1 \\ 1 & 0 & 1 & 0 \\ 0 & 1 & 0 & 1 \\ 1 & 0 & 1 &
 
 **16.** Determine si las relaciones representadas por las matrices del ejercicio 14 son reflexivas, irreflexivas, simétricas, antisimétricas y/o transitivas.
 
-**17.** ¿Cuántas entradas distintas de cero tiene la matriz que representa la relación $R$ en $A = \{1, 2, 3, \ldots, 100\}$ que consta de los primeros 100 enteros positivos si $R$ es:
+**17.** ¿Cuántas entradas distintas de cero tiene la matriz que representa la relación $R$ en $A = \lbrace 1, 2, 3, \ldots, 100\rbrace $ que consta de los primeros 100 enteros positivos si $R$ es:
 
-- a. $\{(a,b) \mid a > b\}$
-- b. $\{(a,b) \mid a \ne b\}$
-- c. $\{(a,b) \mid a = b + 1\}$
-- d. $\{(a,b) \mid a = 1\}$
-- e. $\{(a,b) \mid ab = 1\}$
+- a. $\lbrace (a,b) \mid a > b\rbrace $
+- b. $\lbrace (a,b) \mid a \ne b\rbrace $
+- c. $\lbrace (a,b) \mid a = b + 1\rbrace $
+- d. $\lbrace (a,b) \mid a = 1\rbrace $
+- e. $\lbrace (a,b) \mid ab = 1\rbrace $
 
 **18.** Sean $R_1$ y $R_2$ relaciones en un conjunto $A$ representadas por las matrices:
 
@@ -188,7 +188,7 @@ $$M_{R_1} = \begin{bmatrix} 0 & 1 & 0 \\ 1 & 1 & 1 \\ 1 & 0 & 0 \end{bmatrix} \q
 
 **20.** Dibuje los grafos dirigidos que representan cada una de las relaciones del ejercicio 12.
 
-**21.** Dibuje el grafo dirigido que representa la relación: $\{(a,a), (a,b), (b,c), (c,b), (c,d), (d,a), (d,b)\}$
+**21.** Dibuje el grafo dirigido que representa la relación: $\lbrace (a,a), (a,b), (b,c), (c,b), (c,d), (d,a), (d,b)\rbrace $
 
 **22.** En los siguientes ejercicios, muestre los pares ordenados en las relaciones representadas por los grafos dirigidos:
 
